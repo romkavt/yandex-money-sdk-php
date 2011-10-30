@@ -362,9 +362,10 @@ class YandexMoney implements IYandexMoney {
 
     private function execCurl($curl) {
         $response = json_decode(curl_exec($curl), TRUE);
+        $error = 'cURL error: ' . curl_error($curl) . '; ';
         curl_close($curl);
         if ($response == NULL) {
-            throw new YandexMoneyException(YandexMoneyException::ERR_MESS_RESPONSE, 1003);
+            throw new YandexMoneyException($error . YandexMoneyException::ERR_MESS_RESPONSE, 1003);
         }
         return $response;
     }
