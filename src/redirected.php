@@ -158,19 +158,29 @@ foreach ($op as $o) {
     		платежу. Возьмем operationId из объекта Operation предыдущего примера и
     		вызовем функцию <i>operationDetail</i>. Листинг кода:
     		<pre class="code">
-$resp = $ym->operationDetail($token, $op[0]->getOperationId());
-print_r('Сообщение: ' . $resp->getMessage() . '&lt;br&gt;');
-print_r('Название операции: ' . $resp->getTitle() . '&lt;br&gt;');
-print_r('Объект OperationDetailResponse целиком: ' . $resp);</pre>
+if (count($op) == 0)
+	print_r('К сожалению с данным счетом никаких операций не обнаружено. 
+		Попробуйте еще раз после запуска тестового перевода в этом примере.');
+else {
+	$resp = $ym->operationDetail($token, $op[0]->getOperationId());
+	print_r('Сообщение: ' . $resp->getMessage() . '&lt;br&gt;');
+	print_r('Название операции: ' . $resp->getTitle() . '&lt;br&gt;');
+	print_r('Объект OperationDetailResponse целиком: ' . $resp);
+}</pre>	
     		Результат выполнения:
     	</p>
 		
 		<p class="output">
 			<?php
-			$resp = $ym->operationDetail($token, $op[0]->getOperationId());
-			print_r('Сообщение: ' . $resp->getMessage() . '<br>');
-			print_r('Название операции: ' . $resp->getTitle() . '<br>');
-			print_r('Объект OperationDetailResponse целиком: ' . $resp);
+			if (count($op) == 0)
+				print_r('К сожалению с данным счетом никаких операций не обнаружено. 
+					Попробуйте еще раз после запуска тестового перевода в этом примере.');
+			else {
+				$resp = $ym->operationDetail($token, $op[0]->getOperationId());
+				print_r('Сообщение: ' . $resp->getMessage() . '<br>');
+				print_r('Название операции: ' . $resp->getTitle() . '<br>');
+				print_r('Объект OperationDetailResponse целиком: ' . $resp);
+			}	
 			?>
 		</p>
 
