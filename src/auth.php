@@ -3,6 +3,7 @@
 require_once 'yamoney/ym.php';
 require_once 'consts.php';
 
+$scope = '';
 $arr = Scope::getScopeArray();
 $co = count($arr);
 for ($i = 0; $i < $co; $i++) {
