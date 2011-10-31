@@ -116,6 +116,7 @@ PHP Yandex.Money API SDK
 `/src/yamoney/ym.crt` - цепочка сертификатов Яндекса
 
 `/src/yamoney/AES.php` - реализация шифрования алгоритмом AES библиотеки phpseclib
+
 `/src/yamoney/Rijndael.php` - реализация шифрования алгоритмом Rijndael
 
 `/src/*` - файлы примеров работы SDK
