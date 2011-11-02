@@ -226,6 +226,7 @@ class YandexMoney implements IYandexMoney {
 
         header('Location: ' . self::URI_YM_AUTH . "?client_id=$clientId" .
                "&response_type=code&scope=$scope&redirect_uri=$redirectUri");
+        die();
     }
 
     public function receiveOAuthToken($code, $redirectUri) {
