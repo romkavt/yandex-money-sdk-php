@@ -4,7 +4,10 @@
 * Использует библиотеки: cUrl, Mcrypt. 
 */
 
-include('AES.php'); // модуль шифрования
+// Шифрование
+if(!class_exists('Crypt_AES')) {
+    require(dirname(__FILE__).'/AES.php');
+} 
 
 /**
  * Интерфейс общения приложения с API Яндекс.Деньги.
