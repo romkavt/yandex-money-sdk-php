@@ -82,9 +82,9 @@ PHP Yandex.Money API SDK
 	$ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);
 	$accountInfoResponse = $ym->accountInfo($token);	
 
-	print_r('Номер счета: ' . $accountInfoResponse->getAccount() . '<br>');
-	print_r('Баланс: ' . $accountInfoResponse->getBalance() . '<br>');
-	print_r('Код валюты: ' . $accountInfoResponse->getCurrency() . '<br>');	
+	echo 'Номер счета: ' . $accountInfoResponse->getAccount() . "\n";
+	echo 'Баланс: ' . $accountInfoResponse->getBalance() . "\n";
+	echo 'Код валюты: ' . $accountInfoResponse->getCurrency() . "\n";	
 
 Информация о счете получена. 
 
@@ -93,7 +93,7 @@ PHP Yandex.Money API SDK
 Для успешного запуска примеров из комплекта следует проделать следующее:
 
 * зарегистрировать приложение, т.е. получить идентификатор клиента (https://sp-money.yandex.ru/myservices/new.xml) и прописать его в константы примеров (consts.php);
-* установить какой-нибудь WAMP (Windows-Apache-MySQL-PHP) или LAMP сервер (http://en.wikipedia.org/wiki/Comparison_of_WAMPs);
+* установить окружение (APACHE + PHP);
 * скопировать файлы примеров и библиотеку в каталог www.
 
 
