@@ -35,9 +35,33 @@ interface IYandexMoney {
 
     /**
      * Статический метод OAuth-аутентификации приложения для получения временного
-     * кода (токена). Он должен отправлять запрос в Яндекс.Деньги на доступ приложения
+     * кода (токена).
+     * @static
+     * @abstract
+     * @param $clientId string идентификатор приложения в системе Яндекс.Деньги
+     * @param $scope string список запрашиваемых приложением прав. В качестве разделителя
+     * элементов списка используется пробел, элементы списка чувствительны к регистру.
+     * Примеры прав можно посмотреть в классе Scope.
+     * Если параметр не задан, то будут запрашиваться следующие права:
+     * account-info operation-history
+     * @param $redirectUri string URI страницы приложения, на который OAuth-сервер
+     * осуществляет передачу события результата авторизации. Значение этого параметра
+     * при посимвольном сравнении должно быть идентично значению redirectUri,
+     * указанному при регистрации приложения. При сравнении не учитываются индивидуальные
+     * параметры приложения, которые могут быть добавлены в конец строки URI.
+     * @return string возвращает URI, по которому нужно переидти для для
+     * инициации аутентификации
+     */
+    public static function authorizeUri($clientId, $scope = NULL, $redirectUri = NULL);
+
+    /**
+     * Статический метод OAuth-аутентификации приложения для получения временного
+     * кода (токена). Он отправляет запрос в Яндекс.Деньги на доступ приложения
      * к эккаунту пользователя и затем сервер Яндекс.Денег сделает редирект на
-     * адрес, указанный в параметрах $redirectUri
+     * адрес, указанный в параметрах $redirectUri. Внимание: делает die в конце.
+     * DON'T RETURNING. DIES!
+     * Если у вас включен output control или вы используете кеширование, то
+     * используйте метод authorizeUri и отправляйте запрос самостоятельно.
      * @static
      * @abstract
      * @param $clientId string идентификатор приложения в системе Яндекс.Деньги
@@ -214,7 +238,7 @@ class YandexMoney implements IYandexMoney {
         return $this->clientId;
     }
 
-    public static function authorize($clientId, $scope = NULL, $redirectUri = NULL) {
+    public static function authorizeUri($clientId, $scope = NULL, $redirectUri = NULL) {
         if (!isset($clientId) || $clientId == '') {
             throw new YandexMoneyException(YandexMoneyException::ERR_MESS_CLIENT_ID, 1001);
         }
@@ -223,9 +247,14 @@ class YandexMoney implements IYandexMoney {
             $scope = YMScope::ACCOUNT_INFO . YMScope::OPERATION_HISTORY;
         }
         $scope = trim($scope);
+        $res = self::URI_YM_AUTH . "?client_id=$clientId" .
+               "&response_type=code&scope=$scope&redirect_uri=$redirectUri";
+        return $res;
+    }
 
-        header('Location: ' . self::URI_YM_AUTH . "?client_id=$clientId" .
-               "&response_type=code&scope=$scope&redirect_uri=$redirectUri");        
+    public static function authorize($clientId, $scope = NULL, $redirectUri = NULL) {
+        header('Location: ' . self::authorizeUri($clientId, $scope, $redirectUri));
+        die();
     }
 
     public function receiveOAuthToken($code, $redirectUri) {

@@ -13,5 +13,6 @@ for ($i = 0; $i < $co; $i++) {
     }
 }
 
-YandexMoney::authorize(Consts::CLIENT_ID, $scope, Consts::REDIRECT_URL);
+$uri = YandexMoney::authorizeUri(Consts::CLIENT_ID, $scope, Consts::REDIRECT_URL);
+header('Location: ' . $uri);
 ?>

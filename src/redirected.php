@@ -13,7 +13,8 @@
 			отправили запрос в файл <i>auth.php</i>. В нем из POST-параметров, 
 			которые мы указали в форме, формируется строка прав <i>$scope</i> и,
 			затем делается главный вызов:
-			<pre class="code">YandexMoney::authorize(Consts::CLIENT_ID, $scope, Consts::REDIRECT_URL);</pre>
+			<pre class="code">$uri = YandexMoney::authorizeUri(Consts::CLIENT_ID, $scope, Consts::REDIRECT_URL);
+header('Location: ' . $uri);</pre>
 			При вызове этого метода мы указываем идентификатор нашего приложения <i>CLIENT_ID</i>, 
 			права доступа <i>$scope</i> и адрес редиректа <i>REDIRECT_URL</i> (адрес на эту страницу 
 			redirected.php).<br>
