@@ -46,7 +46,7 @@ require_once 'yamoney/ym.php';
 
 $ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);
 $token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);
-print_r('Наш токен выглядит так: ' . $token . '&lt;br&gt;');</pre>
+echo 'Наш токен выглядит так: ' . $token . '&lt;br>';</pre>
 			В этом коде мы создаем объект класса <i>YandexMoney</i> и вызываем функцию
 			получения постоянного токена OAuth авторизации <i>receiveOAuthToken</i>, а после
 			выводим результат на экран. <br>
@@ -60,7 +60,7 @@ print_r('Наш токен выглядит так: ' . $token . '&lt;br&gt;');<
 
 			$ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);
 			$token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);
-			print_r('Наш токен выглядит так: ' . $token . '<br>');
+		    echo 'Наш токен выглядит так: ' . $token . '<br>';
 			?>
 		</p>
 
@@ -84,9 +84,9 @@ print_r('Наш токен выглядит так: ' . $token . '&lt;br&gt;');<
     		Покажем как можно сохранить и восстановить токен пользователя
     		с помощью методов storeToken и restoreToken:
     		<pre class="code">
-print "Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich. &lt;br&gt;";
+echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich &lt;br>';
 $ym->storeToken("PolikarpStepanovich", $token);
-print_r("Токен пользователя PolikarpStepanovich: " . $ym->restoreToken("user321") . '&lt;br&gt;');</pre>
+echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreToken('PolikarpStepanovich') . '&lt;br>';</pre>
 			Правда данный код выполнять не будем, 
 			закомментируем. Вероятна ошибка сохранинения файла, но вы можете
 			на свой страх и риск разкомментировать и попробовать. 
@@ -94,9 +94,9 @@ print_r("Токен пользователя PolikarpStepanovich: " . $ym->resto
     	
     	<p class="output">	
 			<?php
-//			print "Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich. <br>";
-//			$ym->storeToken("PolikarpStepanovich", $token);
-//			print_r("Токен пользователя PolikarpStepanovich: " . $ym->restoreToken("PolikarpStepanovich") . '<br>');
+			echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich <br>';
+			$ym->storeToken("PolikarpStepanovich", $token);
+			echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreToken('PolikarpStepanovich') . '<br>';
 			?>	
 		</p>
 
@@ -107,18 +107,18 @@ print_r("Токен пользователя PolikarpStepanovich: " . $ym->resto
 			получили. Для этого вызываем метод <i>accountInfo</i>, листинг кода:
 			<pre class="code">
 $resp = $ym->accountInfo($token);
-print_r('Номер счета: ' . $resp->getAccount() . '&lt;br&gt;');
-print_r('Баланс: ' . $resp->getBalance() . '&lt;br&gt;');
-print_r('Код валюты: ' . $resp->getCurrency() . '&lt;br&gt;');</pre>
+echo 'Номер счета: ' . $resp->getAccount() . '&lt;br>';
+echo 'Баланс: ' . $resp->getBalance() . '&lt;br>';
+echo 'Код валюты: ' . $resp->getCurrency() . '&lt;br>';</pre>
 			Результат выполнения кода:
 		</p>
 
 		<p class="output">
 			<?php
 	    		$resp = $ym->accountInfo($token);			
-				print_r('Номер счета: ' . $resp->getAccount() . '<br>');
-				print_r('Баланс: ' . $resp->getBalance() . '<br>');
-				print_r('Код валюты: ' . $resp->getCurrency() . '<br>');				
+				echo 'Номер счета: ' . $resp->getAccount() . '<br>';
+				echo 'Баланс: ' . $resp->getBalance() . '<br>';
+				echo 'Код валюты: ' . $resp->getCurrency() . '<br>';
 			?>
 		</p>
 
@@ -129,11 +129,14 @@ print_r('Код валюты: ' . $resp->getCurrency() . '&lt;br&gt;');</pre>
     		<i>ym.php</i>. Листинг кода:
     		<pre class="code">
 $resp = $ym->operationHistory($token, 0, 5);
-print_r($resp . "&lt;br&gt;");
-print "Operations (count = " . count($resp->getOperations()) . "): &lt;br&gt;";
+echo 'Error: ' . $resp->getError() . '&lt;br>';
+echo 'Next record: ' . $resp->getNextRecord() . '&lt;br>';
+echo 'Operations count: ' . count($resp->getOperations()) . '&lt;br>';
 $op = $resp->getOperations();
 foreach ($op as $o) {
-	print_r('' . $o . '&lt;br&gt;');
+    print_r($o);
+    echo '&lt;br>';
+}
 }</pre>
 			В этом примере кода мы не выводим все поля полученного в 
 			результате выполнения метода полей, а сразу выводим объект, а затем
@@ -144,11 +147,13 @@ foreach ($op as $o) {
 		<p class="output">
 			<?php
 	        $resp = $ym->operationHistory($token, 0, 5);
-			print_r($resp . "<br>");
-			print "Operations (count = " . count($resp->getOperations()) . "): <br>";
+			echo 'Error: ' . $resp->getError() . '<br>';
+            echo 'Next record: ' . $resp->getNextRecord() . '<br>';
+			echo 'Operations count: ' . count($resp->getOperations()) . '<br>';
 			$op = $resp->getOperations();
 			foreach ($op as $o) {
-	    		print_r('' . $o . '<br>');
+                print_r($o);
+                echo '<br>';
 			}
 			?>
 		</p>
@@ -159,13 +164,14 @@ foreach ($op as $o) {
     		вызовем функцию <i>operationDetail</i>. Листинг кода:
     		<pre class="code">
 if (count($op) == 0)
-	print_r('К сожалению с данным счетом никаких операций не обнаружено. 
-		Попробуйте еще раз после запуска тестового перевода в этом примере.');
+    echo 'К сожалению с данным счетом никаких операций не обнаружено.
+        Попробуйте еще раз после запуска тестового перевода в этом примере.';
 else {
-	$resp = $ym->operationDetail($token, $op[0]->getOperationId());
-	print_r('Сообщение: ' . $resp->getMessage() . '&lt;br&gt;');
-	print_r('Название операции: ' . $resp->getTitle() . '&lt;br&gt;');
-	print_r('Объект OperationDetailResponse целиком: ' . $resp);
+    $resp = $ym->operationDetail($token, $op[0]->getOperationId());
+    echo 'Сообщение: ' . $resp->getMessage() . '&lt;br>';
+    echo 'Название операции: ' . $resp->getTitle() . '&lt;br>';
+    echo 'Объект целиком: ';
+    print_r($resp);
 }</pre>	
     		Результат выполнения:
     	</p>
@@ -173,13 +179,14 @@ else {
 		<p class="output">
 			<?php
 			if (count($op) == 0)
-				print_r('К сожалению с данным счетом никаких операций не обнаружено. 
-					Попробуйте еще раз после запуска тестового перевода в этом примере.');
+				echo 'К сожалению с данным счетом никаких операций не обнаружено.
+					Попробуйте еще раз после запуска тестового перевода в этом примере.';
 			else {
 				$resp = $ym->operationDetail($token, $op[0]->getOperationId());
-				print_r('Сообщение: ' . $resp->getMessage() . '<br>');
-				print_r('Название операции: ' . $resp->getTitle() . '<br>');
-				print_r('Объект OperationDetailResponse целиком: ' . $resp);
+				echo 'Сообщение: ' . $resp->getMessage() . '<br>';
+				echo 'Название операции: ' . $resp->getTitle() . '<br>';
+				echo 'Объект целиком: ';
+                print_r($resp);
 			}	
 			?>
 		</p>
@@ -191,16 +198,18 @@ else {
     		Листинг кода:
     		<pre class="code">
 $request = $ym->requestPaymentP2P($token, '410011161616877', 0.02, 'тестовый перевод', 'сообщение к переводу :)');
-print_r('Статус запроса платежа: ' . $request->getStatus() . '&lt;br&gt;');
-print_r('Объект RequestPaymentResponse целиком: ' . $request);</pre>
+echo 'Статус запроса платежа: ' . $request->getStatus() . '&lt;br>';
+echo 'Объект целиком: ';
+print_r($request);</pre>
     		Результат выполнения:
     	</p>
 		
 		<p class="output">
 			<?php
 			$request = $ym->requestPaymentP2P($token, '410011161616877', 0.02, 'тестовый перевод', 'сообщение к переводу :)');
-			print_r('Статус запроса платежа: ' . $request->getStatus() . '<br>');
-			print_r('Объект RequestPaymentResponse целиком: ' . $request);
+			echo 'Статус запроса платежа: ' . $request->getStatus() . '<br>';
+			echo 'Объект целиком: ';
+            print_r($request);
 			?>
 		</p>
 
@@ -210,20 +219,22 @@ print_r('Объект RequestPaymentResponse целиком: ' . $request);</pre
 			<i>requestPayment</i>. Листинг кода:
 			<pre class="code">
 $process = $ym->processPayment($token, $request->getRequestId());
-print_r('Статут проведения платежа: ' . $process->getStatus() . '&lt;br&gt;');
-print_r('Идентификатор платежа: ' . $process->getPaymentId() . '&lt;br&gt;');
-print_r('Остаток баланса после проведения платежа: ' . $process->getBalance() . '&lt;br&gt;');
-print_r('Объект ProcessPaymentResponse целиком: ' . $process);</pre>
+echo 'Статут проведения платежа: ' . $process->getStatus() . '&lt;br>';
+echo 'Идентификатор платежа: ' . $process->getPaymentId() . '&lt;br>';
+echo 'Остаток баланса после проведения платежа: ' . $process->getBalance() . '&lt;br>';
+echo 'Объект целиком: ';
+print_r($process);</pre>
 			Результат выполнения кода:
 		</p>
 		
 		<p class="output">
 			<?php
 			$process = $ym->processPayment($token, $request->getRequestId());
-			print_r('Статут проведения платежа: ' . $process->getStatus() . '<br>');
-			print_r('Идентификатор платежа: ' . $process->getPaymentId() . '<br>');
-			print_r('Остаток баланса после проведения платежа: ' . $process->getBalance() . '<br>');
-			print_r('Объект ProcessPaymentResponse целиком: ' . $process);
+			echo 'Статут проведения платежа: ' . $process->getStatus() . '<br>';
+			echo 'Идентификатор платежа: ' . $process->getPaymentId() . '<br>';
+			echo 'Остаток баланса после проведения платежа: ' . $process->getBalance() . '<br>';
+			echo 'Объект целиком: ';
+            print_r($process);
 			?>
 		</p>
 

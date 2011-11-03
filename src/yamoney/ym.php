@@ -455,14 +455,6 @@ class AccountInfoResponse {
     public function getCurrency() {
         return $this->currency;
     }
-
-    /**
-     * @return string возвращает содержимое объекта в качестве строки
-     */
-    public function __toString() {
-        return "AccountInfoResponse{account: $this->account, balance:
-                $this->balance, currency: $this->currency}";
-    }
 }
 
 /**
@@ -527,15 +519,6 @@ class OperationHistoryResponse {
      */
     public function getOperations() {
         return $this->operations;
-    }
-
-    /**
-     * @return string возвращает содержимое объекта в качестве строки
-     */
-    public function __toString() {
-        return "OperationHistoryResponse{error: $this->error, nextRecord:
-                $this->nextRecord, Operations count: " . count($this->operations) .
-               "}";
     }
 }
 
@@ -616,16 +599,6 @@ class Operation {
     public function getTitle() {
         return $this->title;
     }
-
-    /**
-     * @return string возвращает содержимое объекта в качестве строки
-     */
-    public function __toString() {
-        return "Operation{operationId: $this->operationId, patternId: $this->patternId,
-                direction: $this->direction, amount: $this->amount, datetime: 
-                $this->datetime, title: $this->title}";
-    }
-
 }
 
 /**
@@ -707,17 +680,6 @@ class OperationDetailResponse extends Operation {
     public function getCodepro() {
         return $this->codepro;
     }
-
-    /**
-     * @return string возвращает содержимое объекта в качестве строки
-     */
-    public function __toString() {
-        $parent = parent::__toString();
-        return "OperationDetailResponse{error: $this->error, details: $this->details,
-                sender: $this->sender, recipient: $this->recipient, message: 
-                $this->message, codepro: $this->codepro}" . $parent;
-    }
-
 }
 
 /**
@@ -807,16 +769,6 @@ class RequestPaymentResponse {
     public function getBalance() {
         return $this->balance;
     }
-
-    /**
-     * @return string возвращает содержимое объекта в качестве строки
-     */
-    public function __toString() {
-        return "RequestPaymentResponse{status: $this->status, error: $this->error,
-                moneySource: $this->moneySource, requestId: $this->requestId, 
-                contract: $this->contract, balance: $this->balance}";
-    }
-
 }
 
 /**
@@ -926,16 +878,6 @@ class ProcessPaymentResponse {
     public function getCreditAmount() {
         return $this->creditAmount;
     }
-
-    /**
-     * @return string возвращает содержимое объекта в качестве строки
-     */
-    public function __toString() {
-        return "ProcessPaymentResponse{status: $this->status, error: $this->error,
-                paymentId: $this->paymentId, balance: $this->balance, payer: $this->payer, 
-                payee: $this->payee, creditAmount: $this->creditAmount}";
-    }
-
 }
 
 /**
