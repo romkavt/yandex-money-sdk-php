@@ -160,7 +160,7 @@ foreach ($op as $o) {
 
 		<p>
 			Можно вытащить детальную информацию по какому-нибудь конкретному
-    		платежу. Возьмем operationId из объекта Operation предыдущего примера и
+    		платежу. Возьмем operationId из объекта YMOperation предыдущего примера и
     		вызовем функцию <i>operationDetail</i>. Листинг кода:
     		<pre class="code">
 if (count($op) == 0)

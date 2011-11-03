@@ -83,7 +83,7 @@ interface IYandexMoney {
      * Требуемые права токена: account-info
      * @abstract
      * @param $accessToken string токен авторизации пользователя
-     * @return AccountInfoResponse возвращает экземпляр класса AccountInfoResponse
+     * @return YMAccountInfoResponse возвращает экземпляр класса AccountInfoResponse
      */
     public function accountInfo($accessToken);
 
@@ -103,7 +103,7 @@ interface IYandexMoney {
      * отсутствует, выводятся все операции. Возможные значения: payment deposition.
      * В качестве разделителя элементов списка используется пробел, элементы списка
      * чувствительны к регистру.
-     * @return OperationHistoryResponse возвращает экземпляр класса
+     * @return YMOperationHistoryResponse возвращает экземпляр класса
      * OperationHistoryResponse
      */
     public function operationHistory($accessToken, $startRecord = NULL, $records = NULL, $type = NULL);
@@ -116,7 +116,7 @@ interface IYandexMoney {
      * либо значению поля operationId ответа метода operationHistory, либо, в
      * случае если запрашивается история счета плательщика, значению поля
      * paymentId ответа метода processPayment.
-     * @return OperationDetailResponse возвращает экземпляр класса
+     * @return YMOperationDetailResponse возвращает экземпляр класса
      * OperationDetailResponse
      */
     public function operationDetail($accessToken, $operationId);
@@ -132,7 +132,7 @@ interface IYandexMoney {
      * @param $comment string название платежа, отображается только в истории платежей
      * отправителя.
      * @param $message string сообщение получателю платежа.
-     * @return OperationDetailResponse возвращает экземпляр класса
+     * @return YMOperationDetailResponse возвращает экземпляр класса
      * OperationDetailResponse
      */
     public function requestPaymentP2P($accessToken, $to, $amount, $comment, $message);
@@ -150,7 +150,7 @@ interface IYandexMoney {
      * @param $csc string Card Security Code, CVV2/CVC2-код привязанной
      * банковской карты пользователя. Параметр требуется указывать только при
      * платеже с привязанной банковской карты (moneySource="card").
-     * @return ProcessPaymentResponse возвращает экземпляр класса
+     * @return YMProcessPaymentResponse возвращает экземпляр класса
      * ProcessPaymentResponse
      */
     public function processPayment($accessToken, $requestId, $moneySource = 'wallet', $csc = NULL);
@@ -167,7 +167,7 @@ interface IYandexMoney {
      * @abstract
      * @param $key string идентификатор пользователя
      * @param $accessToken string токен авторизации пользователя
-     * @return ProcessPaymentResponse возвращает экземпляр класса ProcessPaymentResponse
+     * @return YMProcessPaymentResponse возвращает экземпляр класса ProcessPaymentResponse
      */
     public function storeToken($key, $accessToken);
 
@@ -220,7 +220,7 @@ class YandexMoney implements IYandexMoney {
         }
 
         if (!isset($scope) || $scope == '') {
-            $scope = Scope::ACCOUNT_INFO . Scope::OPERATION_HISTORY;
+            $scope = YMScope::ACCOUNT_INFO . YMScope::OPERATION_HISTORY;
         }
         $scope = trim($scope);
 
@@ -246,7 +246,7 @@ class YandexMoney implements IYandexMoney {
     public function accountInfo($accessToken) {
         $curl = $this->initCurl(self::URI_YM_API . '/account-info', $this->certificateChain, NULL, $accessToken);
         $response = $this->execCurl($curl);
-        $ai = new AccountInfoResponse($response);
+        $ai = new YMAccountInfoResponse($response);
         return $ai;
     }
 
@@ -266,7 +266,7 @@ class YandexMoney implements IYandexMoney {
         $curl = $this->initCurl(self::URI_YM_API . '/operation-history',
                                 $this->certificateChain, $params, $accessToken);
         $response = $this->execCurl($curl);
-        $op = new OperationHistoryResponse($response);
+        $op = new YMOperationHistoryResponse($response);
         return $op;
     }
 
@@ -277,7 +277,7 @@ class YandexMoney implements IYandexMoney {
         $curl = $this->initCurl(self::URI_YM_API . '/operation-details',
                                 $this->certificateChain, $params, $accessToken);
         $response = $this->execCurl($curl);
-        $op = new OperationDetailResponse($response);
+        $op = new YMOperationDetailResponse($response);
         return $op;
     }
 
@@ -291,7 +291,7 @@ class YandexMoney implements IYandexMoney {
 
         $curl = $this->initCurl(self::URI_YM_API . '/request-payment', $this->certificateChain, $params, $accessToken);
         $response = $this->execCurl($curl);
-        $op = new RequestPaymentResponse($response);
+        $op = new YMRequestPaymentResponse($response);
         return $op;
     }
 
@@ -314,7 +314,7 @@ class YandexMoney implements IYandexMoney {
 
         $curl = $this->initCurl(self::URI_YM_API . '/process-payment', $this->certificateChain, $params, $accessToken);
         $response = $this->execCurl($curl);
-        $op = new ProcessPaymentResponse($response);
+        $op = new YMProcessPaymentResponse($response);
         return $op;
     }
 
@@ -389,7 +389,7 @@ class YandexMoney implements IYandexMoney {
  * Класс-перечисление прав приложения на использование эккаунта Яндекс.Денег
  * пользователя.
  */
-class Scope {
+class YMScope {
 
     const ACCOUNT_INFO = ' account-info';
     const OPERATION_HISTORY = ' operation-history';
@@ -420,7 +420,7 @@ class Scope {
  * (возможные значения кода валюты: 643 - российский рубль).
  * @author dvmelnikov
  */
-class AccountInfoResponse {
+class YMAccountInfoResponse {
 
     protected $account;
     protected $balance;
@@ -472,7 +472,7 @@ class AccountInfoResponse {
  * из параметра nextRecord.
  * @author dvmelnikov
  */
-class OperationHistoryResponse {
+class YMOperationHistoryResponse {
 
     protected $error;
     protected $nextRecord;
@@ -486,7 +486,7 @@ class OperationHistoryResponse {
 
         if (isset($operationsArray['operations'])) {
             foreach ($operationsArray['operations'] as $operation) {
-                $this->operations[] = new Operation($operation);
+                $this->operations[] = new YMOperation($operation);
             }
         }
     }
@@ -527,7 +527,7 @@ class OperationHistoryResponse {
  * метода operationHistory. Используется в объекте OperationHistoryResponse
  * @author dvmelnikov
  */
-class Operation {
+class YMOperation {
 
     protected $operationId;
     protected $patternId;
@@ -606,7 +606,7 @@ class Operation {
  * информацию о конкретной операции из списка.
  * @author dvmelnikov
  */
-class OperationDetailResponse extends Operation {
+class YMOperationDetailResponse extends YMOperation {
 
     protected $error;
     protected $sender;
@@ -686,7 +686,7 @@ class OperationDetailResponse extends Operation {
  * Класс для возврата результата метода requestPayment
  * @author dvmelnikov
  */
-class RequestPaymentResponse {
+class YMRequestPaymentResponse {
 
     protected $status;
     protected $error;
@@ -775,7 +775,7 @@ class RequestPaymentResponse {
  * Класс для возврата результата метода processPayment
  * @author dvmelnikov
  */
-class ProcessPaymentResponse {
+class YMProcessPaymentResponse {
 
     protected $status;
     protected $error;
