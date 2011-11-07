@@ -22,7 +22,7 @@ interface IYandexMoney {
 
     // Константы для сохранения/восстановления токенов пользователей    
     const TOKEN_STORAGE_FILE = 'yamoney/tokens.json';
-    const TOKET_STORAGE_SECRET = 'bigsecret';
+    const TOKEN_STORAGE_SECRET = 'bigsecret';
 
     /**
      * Кодировка в которой отправляются запросы на сервер Яндекс.Денег
@@ -349,7 +349,7 @@ class YandexMoney implements IYandexMoney {
 
     public function storeToken($key, $accessToken) {
         $aes = new Crypt_AES();
-        $aes->setKey(self::TOKET_STORAGE_SECRET);
+        $aes->setKey(self::TOKEN_STORAGE_SECRET);
         $encryptedToken = base64_encode($aes->encrypt($accessToken));
 
         if (file_exists(self::TOKEN_STORAGE_FILE))
