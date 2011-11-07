@@ -367,7 +367,7 @@ class YandexMoney implements IYandexMoney {
             $tokenArray = json_decode(file_get_contents(self::TOKEN_STORAGE_FILE), TRUE);
             if (array_key_exists($key, $tokenArray)) {
                 $aes = new Crypt_AES();
-                $aes->setKey(self::TOKET_STORAGE_SECRET);
+                $aes->setKey(self::TOKEN_STORAGE_SECRET);
                 $decryptedToken = $aes->decrypt(base64_decode($tokenArray[$key]));
                 return $decryptedToken;
             } else
