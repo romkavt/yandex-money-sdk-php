@@ -157,7 +157,7 @@ interface IYandexMoney {
      * отправителя.
      * @param $message string сообщение получателю платежа.
      * @return YMOperationDetailResponse возвращает экземпляр класса
-     * OperationDetailResponse
+     * YMRequestPaymentResponse
      */
     public function requestPaymentP2P($accessToken, $to, $amount, $comment, $message);
 
@@ -175,7 +175,7 @@ interface IYandexMoney {
      * банковской карты пользователя. Параметр требуется указывать только при
      * платеже с привязанной банковской карты (moneySource="card").
      * @return YMProcessPaymentResponse возвращает экземпляр класса
-     * ProcessPaymentResponse
+     * YMProcessPaymentResponse
      */
     public function processPayment($accessToken, $requestId, $moneySource = 'wallet', $csc = NULL);
 
