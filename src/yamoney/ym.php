@@ -190,8 +190,7 @@ interface IYandexMoney {
      * поставляются файлы AES.php и Rijndael.php.
      * @abstract
      * @param $key string идентификатор пользователя
-     * @param $accessToken string токен авторизации пользователя
-     * @return YMProcessPaymentResponse возвращает экземпляр класса ProcessPaymentResponse
+     * @param $accessToken string токен авторизации пользователя     
      */
     public function storeToken($key, $accessToken);
 
@@ -199,8 +198,8 @@ interface IYandexMoney {
      * Метод возвращает сохраненный при помощи метода storeToken токен по
      * указанному ключу (идентификатору).
      * @abstract
-     * @param $key string идентификатор пользователя
-     * @return string возвращает токен авторизации пользователя
+     * @param $key string идентификатор пользователя     
+     * @return string возвращает ранее сохраненный токен пользователя
      */
     public function restoreToken($key);
 
