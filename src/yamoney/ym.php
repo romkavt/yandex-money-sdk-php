@@ -425,7 +425,7 @@ class YMScope {
     const PAYMENT = ' payment';
     const PAYMENT_SHOP = ' payment-shop';
     const PAYMENT_P2P = ' payment-p2p';
-    const MONEY_SOURCE = ' money-source(wallet card)';
+    const MONEY_SOURCE = ' money-source("wallet","card")';
 
     private static $scopeArray = Array(self::ACCOUNT_INFO,
         self::OPERATION_HISTORY, self::OPERATION_DETAILS,

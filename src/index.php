@@ -52,7 +52,7 @@
                 <input name="payment" type="checkbox" value=" payment"/>payment<br>
                 <input name="payment-shop" type="checkbox" value=" payment-shop"/>payment-shop<br>-->
                 <input name="payment-p2p" type="checkbox" checked="true" value=" payment-p2p"/>payment-p2p<br>
-                <input name="money-source(wallet card)" type="checkbox" checked="true" value=" money-source(wallet card)"/>money-source<br>
+                <input name="money-source(&quot;wallet&quot;,&quot;card&quot;)" type="checkbox" checked="true" value=" money-source(&quot;wallet&quot;,&quot;card&quot;)"/>money-source<br>
                 <input type="submit" value="Получить токен"/>
             </form>        
             </p>
