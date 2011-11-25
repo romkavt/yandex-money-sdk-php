@@ -246,8 +246,8 @@ class YandexMoney implements IYandexMoney {
             $scope = YMScope::ACCOUNT_INFO . YMScope::OPERATION_HISTORY;
         }
         $scope = trim($scope);
-        $res = self::URI_YM_AUTH . "?client_id=$clientId" .
-               "&response_type=code&scope=$scope&redirect_uri=$redirectUri";
+        $res = self::URI_YM_AUTH . "?client_id=$clientId&response_type=code&scope=" . 
+                urlencode($scope) . "&redirect_uri=" . urlencode($redirectUri);
         return $res;
     }
 
