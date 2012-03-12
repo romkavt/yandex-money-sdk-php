@@ -19,6 +19,7 @@ interface IYandexMoney {
     const URI_YM_API = 'https://money.yandex.ru/api';
     const URI_YM_AUTH = 'https://sp-money.yandex.ru/oauth/authorize';
     const URI_YM_TOKEN = 'https://sp-money.yandex.ru/oauth/token';
+    const YM_USER_AGENT = 'yamolib-php';
 
     // Константы для сохранения/восстановления токенов пользователей    
     const TOKEN_STORAGE_FILE = 'yamoney/tokens.json';
@@ -385,7 +386,8 @@ class YandexMoney implements IYandexMoney {
         if (isset($accessToken))
             $headers[] = 'Authorization: Bearer ' . $accessToken;
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
+        
+        curl_setopt($curl, CURLOPT_USERAGENT, self::YM_USER_AGENT);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($curl, CURLOPT_FORBID_REUSE, TRUE);
 
