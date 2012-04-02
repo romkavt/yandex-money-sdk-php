@@ -108,6 +108,8 @@ interface IYandexMoney {
      * Требуемые права токена: account-info
      * @abstract
      * @param $accessToken string токен авторизации пользователя
+     * @param $redirectUri string URI, на который OAuth-сервер передает результат авторизации
+     * @param $client_secret string cекретное слово для проверки подлинности приложения
      * @return YMAccountInfoResponse возвращает экземпляр класса AccountInfoResponse
      */
     public function accountInfo($accessToken);
@@ -257,11 +259,14 @@ class YandexMoney implements IYandexMoney {
         die();
     }
 
-    public function receiveOAuthToken($code, $redirectUri) {
+    public function receiveOAuthToken($code, $redirectUri, $client_secret = null) {
         $paramArray['grant_type'] = 'authorization_code';
         $paramArray['client_id'] = $this->clientId;
         $paramArray['code'] = $code;
         $paramArray['redirect_uri'] = $redirectUri;
+        if ($client_secret) {
+            $paramArray['client_secret'] = $client_secret;
+        }
         $params = http_build_query($paramArray);
 
         $curl = $this->initCurl(self::URI_YM_TOKEN, $this->certificateChain, $params);
