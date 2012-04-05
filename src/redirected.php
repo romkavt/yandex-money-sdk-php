@@ -56,12 +56,16 @@ echo 'Наш токен выглядит так: ' . $token . '&lt;br>';</pre>
 		
 		<p class="output">    
 			<?php
-	        require_once 'consts.php';
-			require_once 'yamoney/ym.php';
+                        require_once (dirname(__FILE__).'/consts.php');
+                        require_once (dirname(__FILE__).'/yamoney/ym.php');
 
-			$ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);
-			$token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);
-		    echo 'Наш токен выглядит так: ' . $token . '<br>';
+			try {$token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);}
+                        catch (YandexMoneyException $error)
+                            {
+                            echo 'Ошибка: '.  $error->getMessage(). "<br />";
+                            exit();
+                            }                           
+		    	echo 'Наш токен выглядит так: ' . $token . '<br>';
 			?>
 		</p>
 
@@ -96,8 +100,16 @@ echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreT
     	<p class="output">	
 			<?php
 			echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich <br>';
-			$ym->storeToken("PolikarpStepanovich", $token);
-			echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreToken('PolikarpStepanovich') . '<br>';
+			echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich <br>';
+
+                        if(@$ym->storeToken("PolikarpStepanovich", $token))
+                            {
+                            echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreToken('PolikarpStepanovich') . '<br>';
+                            }
+                        else
+	                    {
+	                    echo "ошибка записи токена";
+	                    }
 			?>	
 		</p>
 
@@ -195,7 +207,7 @@ else {
 		<p>
 			Теперь сделаем перевод p2p (peer-to-peer). Для этого нам нужен счет
     		другого пользователя (например, возьмем счет 41001901291751) и сделаем
-    		запрос на перевод ему 20 копеек (это минимальная сумма перевода).
+    		запрос на перевод ему 2 копеек (это минимальная сумма перевода).
     		Листинг кода:
     		<pre class="code">
 $request = $ym->requestPaymentP2P($token, '410011161616877', 0.02, 'тестовый перевод', 'сообщение к переводу :)');

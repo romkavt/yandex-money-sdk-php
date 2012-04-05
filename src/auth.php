@@ -1,7 +1,7 @@
 <?php
 
-require_once 'yamoney/ym.php';
-require_once 'consts.php';
+require_once (dirname(__FILE__).'/consts.php');
+require_once (dirname(__FILE__).'/yamoney/ym.php');
 
 $scope = '';
 $arr = YMScope::getScopeArray();
