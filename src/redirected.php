@@ -56,12 +56,16 @@ echo 'Наш токен выглядит так: ' . $token . '&lt;br>';</pre>
 		
 		<p class="output">    
 			<?php
-	        require_once 'consts.php';
-			require_once 'yamoney/ym.php';
+                        require_once (dirname(__FILE__).'/consts.php');
+                        require_once (dirname(__FILE__).'/yamoney/ym.php');
 
-			$ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);
-			$token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);
-		    echo 'Наш токен выглядит так: ' . $token . '<br>';
+			try {$token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);}
+                        catch (YandexMoneyException $error)
+                            {
+                            echo 'Ошибка: '.  $error->getMessage(). "<br />";
+                            exit();
+                            }                           
+		    	echo 'Наш токен выглядит так: ' . $token . '<br>';
 			?>
 		</p>
 
