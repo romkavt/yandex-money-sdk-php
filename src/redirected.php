@@ -100,8 +100,16 @@ echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreT
     	<p class="output">	
 			<?php
 			echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich <br>';
-			$ym->storeToken("PolikarpStepanovich", $token);
-			echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreToken('PolikarpStepanovich') . '<br>';
+			echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich <br>';
+
+                        if(@$ym->storeToken("PolikarpStepanovich", $token))
+                            {
+                            echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreToken('PolikarpStepanovich') . '<br>';
+                            }
+                        else
+	                    {
+	                    echo "ошибка записи токена";
+	                    }
 			?>	
 		</p>
 
