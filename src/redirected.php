@@ -42,8 +42,8 @@ header('Location: ' . $uri);</pre>
     		дальше при помощи функции <i>recieveAuthToken</i> класса <i>YandexMoney</i>. 
     		Приведем листинг данного кода:    	
 			<pre class="code">
-require_once 'consts.php';
-require_once 'yamoney/ym.php';
+require_once(dirname(__FILE__) . '/consts.php');
+require_once(dirname(__FILE__) . '/yamoney/ym.php');
 
 $ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);
 $token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);
@@ -54,19 +54,15 @@ echo 'Наш токен выглядит так: ' . $token . '&lt;br>';</pre>
 			Приведем результат работы данного кода:
 		</p>
 		
-		<p class="output">    
-			<?php
-                        require_once (dirname(__FILE__).'/consts.php');
-                        require_once (dirname(__FILE__).'/yamoney/ym.php');
+		<p class="output">
+            <?php
+            require_once(dirname(__FILE__) . '/consts.php');
+            require_once(dirname(__FILE__) . '/yamoney/ym.php');
 
-			try {$token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);}
-                        catch (YandexMoneyException $error)
-                            {
-                            echo 'Ошибка: '.  $error->getMessage(). "<br />";
-                            exit();
-                            }                           
-		    	echo 'Наш токен выглядит так: ' . $token . '<br>';
-			?>
+            $ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);
+            $token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);
+            echo 'Наш токен выглядит так: ' . $token . '<br>';
+            ?>
 		</p>
 
 		<p>
@@ -97,20 +93,12 @@ echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreT
 			на свой страх и риск разкомментировать и попробовать. 
     	</p>
     	
-    	<p class="output">	
-			<?php
-			echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich <br>';
-			echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich <br>';
-
-                        if(@$ym->storeToken("PolikarpStepanovich", $token))
-                            {
-                            echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreToken('PolikarpStepanovich') . '<br>';
-                            }
-                        else
-	                    {
-	                    echo "ошибка записи токена";
-	                    }
-			?>	
+    	<p class="output">
+            <?php
+            echo 'Сохраняем полученный токен с идентификатором пользователя PolikarpStepahovich <br>';
+            $ym->storeToken("PolikarpStepanovich", $token);
+            echo 'Токен пользователя PolikarpStepanovich: ' . $ym->restoreToken('PolikarpStepanovich') . '<br>';
+            ?>
 		</p>
 
 		<p>

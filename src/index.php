@@ -9,11 +9,10 @@
             <h3 id="header">Примеры использования Yandex.Money API</h3>
             <p>
                 <?php
-                if (!file_exists(dirname(__FILE__).'/yamoney/ym.php'))
-                    {
+                if (!file_exists(dirname(__FILE__) . '/yamoney/ym.php')) {
                     echo '<div class="error">Необходимо проверить доступность файла "/yamoney/ym.php" или назначить каталогу "yamoney" права на чтение</div></p></div></body></html>';
                     exit();
-                    }
+                }
                 ?>
                 Попробуем сделать несколько вызовов, показывающих как можно работать
                 с Yandex.Money Api. Для простоты описания будем считать, что вы работаете
