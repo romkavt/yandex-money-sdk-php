@@ -77,18 +77,22 @@ Rest of requests you can use the same way. After this example we won't show you 
 #### Operation history and details
 
 ```php
-$resp = $ym->operationHistory($token, 0, 5); // second param is first record record set, third param is record count
+$resp = $ym->operationHistory($token, 0, 5); 
+// second param is first record record from set, third param is record count
 
-$resp = $ym->operationDetail($token, $requestId); // second param is requestId from payment method or one from operation hisory
+$resp = $ym->operationDetail($token, $requestId); 
+// second param is requestId from payment method or one from operation hisory
 ```
 
 #### p2p transfer
 
 ```php
-$resp = $ym->requestPaymentP2P($token, "410011161616877", "0.02", "comment to sender", "message to recepient");
+$resp = $ym->requestPaymentP2P($token, "410011161616877", "0.02", 
+        "comment to sender", "message to recepient");
 
 $requestId = $resp->getRequestId();
-$resp = $ym->processPaymentByWallet($token, $requestId); // payment by user's Yandex.Money wallet
+// payment by user's Yandex.Money wallet
+$resp = $ym->processPaymentByWallet($token, $requestId); 
 ```
 
 #### Payment to shop by credit card
