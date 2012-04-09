@@ -1,120 +1,118 @@
-PHP Yandex.Money API SDK
-========================
+##PHP Yandex.Money API SDK
 
-Библиотека работы с API Яндекс.Денег.
+- - -
 
-В ней реализованы вызовы следующих функций API Яндекс.Денег: информация о счете, история операций, детальная информация по операциям, переводы денег другим пользователям. 
-Плюсы и возможности: 
+As an experiment we decided to make manual in English.
 
-* OAuth-авторизация пользователя;
-* безопасность работы (поддерживается проверка цепочки сертификатов);
-* удобство работы (response'ы сервера представлены в виде объектов) и быстрый старт;
-* относительно безопасное и простое решение хранения токенов пользователей с использованием шифрования и без использования БД. Реализацию этого решения вы сможете легко переписать под свои хранилища.
+### Getting started
 
-Сама библиотека представляет собой файл цепочки сертификатов ym.crt и файл ym.php, который содержит:
+#### Workflow
 
-* программный интерфейс IYandexMoney; 
-* главный класс YandexMoney (реализация интерфейса);
-* класс-перечисление с правами доступа (scope);
-* вспомогательные классы (response-объекты вывода результатов запросов к API).
+Your app asks user to give permissions to manage operations with user's Yandex.Money account. This process is known as
+OAuth authorization. As a result of OAuth your app receives access token from Yandex.Money servers. Then, with this
+token your app can make requests to our servers and make operations with user's account, sometimes even without
+his activity.
 
-В комплект библиотеки приложены 2 файла, которые реализуют шифрование: Rijndael.php и AES.php. Данные файлы взяты из библиотеки phpseclib (http://phpseclib.sourceforge.net/). Они нужны на случай, если вы будете использовать методы сохранения и восстановления токенов. 
+#### OAuth and token receiving
 
-*Внимание:* использует PHP версии 5, а также стандартную библиотеку cUrl для http-запросов.
+First of all, we should get token. This is very simple. We take special uri which we'll sent user to ask permissions.
 
-Структура объекта YandexMoney
-----------------------------
+```php
+require_once(dirname(__FILE__) . '/../lib/YandexMoney.php');
 
-* `authorizeUri` — статический метод для получения URI, по которому нужно переидти для инициации OAuth-авторизации.
-На вход принимает идентификатор приложения, список прав доступа и URI редиректа после авторизации.
-Возвращает URI OAuth-авторизации
+$scope = "account-info operation-history operation-details "; // this is scope of permissions
+$authUri = YandexMoneyNew::authorizeUri(YOUR_APP_CLIENT_ID, YOUR_APP_REDIRECT_URI, $scope);
+header('Location: ' . $authUri);
 
-* `authorize` — статический метод для инициации OAuth-авторизации.
-На вход принимает идентификатор приложения, список прав доступа и URI редиректа после авторизации.
-Отправляет запрос на сервер Яндекс.Денег и запрашивает временный код. Внимание: делает die в конце. Если у вас включен output control или вы используете кеширование, то используйте метод authorizeUri и отправляйте запрос самостоятельно.
+```
 
-* `__construct` — конструктор класса. 
-На вход принимает идентификатор приложения и путь к файлу ym.crt цепочки сертификатов (приложен к библиотеке).
+To find more information about permissions scrope you can [here](http://api.yandex.com/money/doc/dg/concepts/protocol-rights.xml).
+YOUR_APP_CLIENT_ID and YOUR_APP_REDIRECT_URI are parameters that you get when [register](https://sp-money.yandex.ru/myservices/new.xml) your app in Yandex.Money API.
 
-* `receiveOAuthToken` — метод завершения OAuth-аутентификации. Обменивает временный код на постоянный токен пользователя.
-На вход принимает код и URI для редиректа (должно совпадать с указанным при регистрации приложения)
-Возвращает токен пользователя.
+Then Yandex.Money redirect user back to your app. At this redirect uri we shoul change temporary code parameter from
+GET redirect request. This is even more simple.
 
-* `storeToken` — метод сохраняет полученный токен в json-файл с шифрованием по ключу. Ключ зашит в код и представляет собой константу.
-На вход принимает идентификатор пользователя и токен.
+```php
+$ym = new YandexMoney(YOUR_APP_CLIENT_ID);
+$receiveTokenResp = $ym->receiveOAuthToken($code, YOUR_APP_REDIRECT_URI, YOUR_APP_CLIENT_SECRET);
 
-* `restoreToken` — метод восстановливает сохраненный ранее токен.
-На вход принмает идентификатор пользователя.
-Возвращает токен пользователя.
+if ($receiveTokenResp->isSuccess()) {
+    $token = $receiveTokenResp->getAccessToken();
+    ... // Here you can store received token to your app's storage
+} else {
+    print "Error: " . $receiveTokenResp->getError();
+    ...
+}
+```
 
-* `accountInfo` — метод для получения информации о счете пользователя.
-На вход принимает токен пользователя.
-Возвращает экземпляр класса AccountInfoResponse, который содержит поля: номер счета, баланс, валюта счета.
+#### Account info request
 
-* `operationHistory` — метод для получения истории операций пользователя. 
-На вход принимает токен пользователя, номер первой записи (постраничный вывод), количество операций и тип операций (депозит или оплата).
-Возвращает экземпляр класса operationHistoryResponse, который содержит код ошибки, если таковая произошла, номер записи следующей страницы, если таковая есть (постраничный вывод) и массив операций. Операции представляют собой объект Operation (сумма, время, и комментарии к операции).
+```php
+$ym = new YandexMoney(YOUR_APP_CLIENT_ID);
+$receiveTokenResp = $ym->receiveOAuthToken($code, YOUR_APP_REDIRECT_URI, YOUR_APP_CLIENT_SECRET);
 
-* `operationDetail` — метод для получения детальной информации по операции из истории или платежей.
-На вход принимает токен пользователя и идентификатор операции.
-Возвращает экземпляр класса OperationDetailResponse, который унаследован от объекта Operation и предоставляет расширенную информацию по платежу/зачислению.
+if ($receiveTokenResp->isSuccess()) {
+    $token = $receiveTokenResp->getAccessToken();
+    ... // Here you can store received token to your app's storage
+} else {
+    print "Error: " . $receiveTokenResp->getError();
+    ...
+}
+```
 
-* `requestPaymentP2P` — метод перевода средств на счет другого пользователя. 
-На вход принимает токен пользователя, номер счета (или привязанного телефона) назначения, сумму и комментарий.
-Возврашает экземпляр класса RequestPaymentResponse, который содержит ошибку, если таковая произошла, информацию о статусе операции, идентификатор операции, контракт и баланс.
+```php
+$resp = $ym->accountInfo($token);
+if ($resp->isSuccess()) {
+    print $resp->getBalance();
+    print $resp->getAccount();
+    ...
+} else {
+    print "Error: " . $resp->getError();
+    die();
+}
+```
 
-* `processPayment` — метод для подтверждения перевода, полученного при вызове requestPaymentP2P. 
-На вход принимает идентификатор запроса.
-Возвращает экземпляр класса ProcessPaymentResponse, который содержит информацию о статусе платежа, балнесе после проведения операции и идентификатор платежа.
+Rest of requests you can use the same way. After this example we won't show you check on request success
 
+#### Operation history and details
 
-Примеры использования
----------------------
+```php
+$resp = $ym->operationHistory($token, 0, 5); // second param is first record record set, third param is record count
 
-Для начала работы с API следует прочитать описание выше или ознакомиться с самой библиотекой `ym.php`. Для тех, кто не будет устанавливать и смотреть подробные примеры, покажем пару вызовов. 
-Для выполнения операций со счетом через API необходимо получить разрешение пользователя, то есть токен. Его можно получить следующими вызовами (к примеру, с доступом на просмотр информации о счете и истории операций):
+$resp = $ym->operationDetail($token, $requestId); // second param is requestId from payment method or one from operation hisory
+```
 
-	$uri = YandexMoney::authorizeUri(Consts::CLIENT_ID, $scope, Consts::REDIRECT_URL);
-	header('Location: ' . $uri);
+#### p2p transfer
 
-	// затем на странице редиректа инициировать создание объекта и получение токена
-	$ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);	
-	$token = $ym->receiveOAuthToken($_GET['code'], Consts::REDIRECT_URL);
+```php
+$resp = $ym->requestPaymentP2P($token, "410011161616877", "0.02", "comment to sender", "message to recepient");
 
-При создании объекта `$ym` ему передается идентификатор приложения и абсолютный путь на сервере к цепочке сертификатов (файл ym.crt). И то, и другое обычно прописывается в константах в каком-нибудь модуле (consts.php в наших примерах). 
-Ну и покажем, как получить информацию о счете пользователя. Таким же образом создаем объект и затем вызываем метод, передав ему токен пользователя:
+$requestId = $resp->getRequestId();
+$resp = $ym->processPaymentByWallet($token, $requestId); // payment by user's Yandex.Money wallet
+```
 
-	$ym = new YandexMoney(Consts::CLIENT_ID, Consts::CERTIFICATE_CHAIN_PATH);
-	$accountInfoResponse = $ym->accountInfo($token);	
+#### Payment to shop by credit card
 
-	echo 'Номер счета: ' . $accountInfoResponse->getAccount() . "\n";
-	echo 'Баланс: ' . $accountInfoResponse->getBalance() . "\n";
-	echo 'Код валюты: ' . $accountInfoResponse->getCurrency() . "\n";	
+We'll show it on example of payment to Megafon.
 
-Информация о счете получена. 
+```php
+$params["pattern_id"] = "337"; // pattern_id - is id of shop in Yandex.Money.
+$params["PROPERTY1"] = "921"; // preffix number
+$params["PROPERTY2"] = "3020052"; // phone number
+$params["sum"] = "1.00"; // amount
+$resp = $ym->requestPaymentShop($token, $params);
 
-Примерно так же обстоят дела и с другими вызовами.
+$requestId = $resp->getRequestId();
+$resp = $ym->processPaymentByCard($token, $requestId, "375"); // third param is cvc of user's credit card
+```
 
-Для успешного запуска примеров из комплекта следует проделать следующее:
+### Changelog
 
-* зарегистрировать приложение, т.е. получить идентификатор клиента (https://sp-money.yandex.ru/myservices/new.xml) и прописать его в константы примеров (consts.php);
-* установить окружение (Apache + PHP);
-* скопировать файлы примеров и библиотеку в корнейвой каталог сайта.
+**09.04.2012 ym-php 1.1.0**
 
+* source code refactoring
+* credit card payments to shops
 
-Файлы
-------
+**28.10.2012 ym-php 1.0.0**
 
-`/doc/Description.txt` - описание библиотеки
-
-`/doc/ExamplesInstructions.txt` - подробная инструкция по запуску примеров использования
-
-`/src/yamoney/ym.php` - библиотека
-
-`/src/yamoney/ym.crt` - цепочка сертификатов Яндекса
-
-`/src/yamoney/AES.php` - реализация шифрования алгоритмом AES библиотеки phpseclib
-
-`/src/yamoney/Rijndael.php` - реализация шифрования алгоритмом Rijndael библиотеки phpseclib
-
-`/src/*` - файлы примеров работы SDK
+* php-lib release
