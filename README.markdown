@@ -23,7 +23,6 @@ require_once(dirname(__FILE__) . '/../lib/YandexMoney.php');
 $scope = "account-info operation-history operation-details "; // this is scope of permissions
 $authUri = YandexMoneyNew::authorizeUri(YOUR_APP_CLIENT_ID, YOUR_APP_REDIRECT_URI, $scope);
 header('Location: ' . $authUri);
-
 ```
 
 To find more information about permissions scrope you can [here](http://api.yandex.com/money/doc/dg/concepts/protocol-rights.xml).
@@ -46,19 +45,6 @@ if ($receiveTokenResp->isSuccess()) {
 ```
 
 #### Account info request
-
-```php
-$ym = new YandexMoney(YOUR_APP_CLIENT_ID);
-$receiveTokenResp = $ym->receiveOAuthToken($code, YOUR_APP_REDIRECT_URI, YOUR_APP_CLIENT_SECRET);
-
-if ($receiveTokenResp->isSuccess()) {
-    $token = $receiveTokenResp->getAccessToken();
-    ... // Here you can store received token to your app's storage
-} else {
-    print "Error: " . $receiveTokenResp->getError();
-    ...
-}
-```
 
 ```php
 $resp = $ym->accountInfo($token);
