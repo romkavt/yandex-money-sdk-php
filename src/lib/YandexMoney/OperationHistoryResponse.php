@@ -4,7 +4,7 @@ class YM_OperationHistoryResponse {
 
     protected $error;
     protected $nextRecord;
-    protected $operations;
+    protected $operations = array();
 
     public function __construct($operationsArray) {
         if (isset($operationsArray['error']))
