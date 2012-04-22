@@ -15,7 +15,7 @@ his activity.
 
 #### OAuth and token receiving
 
-First of all, we should get token. This is very simple. We take special uri which we'll sent user to ask permissions.
+First of all, we should get token. It's very simple. We take special uri which we'll sent user to ask permissions.
 
 ```php
 require_once(dirname(__FILE__) . '/../lib/YandexMoney.php');
@@ -25,10 +25,11 @@ $authUri = YandexMoneyNew::authorizeUri(YOUR_APP_CLIENT_ID, YOUR_APP_REDIRECT_UR
 header('Location: ' . $authUri);
 ```
 
-To find more information about permissions scrope you can [here](http://api.yandex.com/money/doc/dg/concepts/protocol-rights.xml).
-YOUR_APP_CLIENT_ID and YOUR_APP_REDIRECT_URI are parameters that you get when [register](https://sp-money.yandex.ru/myservices/new.xml) your app in Yandex.Money API.
+To get more information about permissions scope please visit Yandex.Money [API docs](http://api.yandex.com/money/doc/dg/concepts/protocol-rights.xml).
 
-Then Yandex.Money redirect user back to your app. At this redirect uri we shoul change temporary code parameter from
+`YOUR_APP_CLIENT_ID` and `YOUR_APP_REDIRECT_URI` are parameters that you get when [register](https://sp-money.yandex.ru/myservices/new.xml) your app in Yandex.Money API.
+
+Then Yandex.Money redirect user back to your app. At this redirect uri we should change temporary code parameter from
 GET redirect request. This is even more simple.
 
 ```php
@@ -58,7 +59,7 @@ if ($resp->isSuccess()) {
 }
 ```
 
-Rest of requests you can use the same way. After this example we won't show you check on request success
+Rest of requests you can use the same way. After this example we won't show you check on request success.
 
 #### Operation history and details
 
