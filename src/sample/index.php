@@ -1,3 +1,24 @@
+<?php
+
+ini_set('display_errors', 1);
+
+require_once(dirname(__FILE__) . '/../lib/YandexMoney.php');
+require_once(dirname(__FILE__) . '/consts.php');
+
+$code = $_GET['code'];
+if (!isset($code)) { // If we are just begginig OAuth
+    $scope = "account-info " .
+        "operation-history " .
+        "operation-details " .
+        "payment.to-account(\"410011161616877\",\"account\").limit(30,10) " .
+        "payment.to-pattern(\"337\").limit(30,10) " .
+        "money-source(\"wallet\",\"card\") ";
+    $authUri = YandexMoneyNew::authorizeUri(CLIENT_ID, REDIRECT_URI, $scope);
+    header('Location: ' . $authUri);
+
+} else { // when we recieved a temporary code on redirect
+    ?>
+
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,23 +31,6 @@
 
     <?php
 
-    ini_set('display_errors', 1);
-
-    require_once(dirname(__FILE__) . '/../lib/YandexMoney.php');
-    require_once(dirname(__FILE__) . '/consts.php');
-
-    $code = $_GET['code'];
-    if (!isset($code)) { // If we are just begginig OAuth
-        $scope = "account-info " .
-                "operation-history " .
-                "operation-details " .
-                "payment.to-account(\"410011161616877\",\"account\").limit(30,10) " .
-                "payment.to-pattern(\"337\").limit(30,10) " .
-                "money-source(\"wallet\",\"card\") ";
-        $authUri = YandexMoneyNew::authorizeUri(CLIENT_ID, REDIRECT_URI, $scope);
-        header('Location: ' . $authUri);
-
-    } else { // when we recieved a temporary code on redirect
 
         $ym = new YandexMoneyNew(CLIENT_ID);
         $receiveTokenResp = $ym->receiveOAuthToken($code, REDIRECT_URI, CLIENT_SECRET);
