@@ -57,6 +57,12 @@ class YandexMoneyNew {
         return new YM_ReceiveTokenResponse($resp);
     }
 
+    public function revokeOAuthToken($accessToken) {
+        $requestor = new YM_ApiRequestor($accessToken);
+        $resp = $requestor->request(self::YM_URI_API . '/revoke');
+        return true;
+    }
+
     public function accountInfo($accessToken) {
         $requestor = new YM_ApiRequestor($accessToken);
         $resp = $requestor->request(self::YM_URI_API . '/account-info');

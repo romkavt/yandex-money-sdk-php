@@ -125,6 +125,10 @@ if (!isset($code)) { // If we are just begginig OAuth
             die();
         }
         print "</p>";
+
+        if ($ym->revokeOAuthToken($token)) {
+            print "<p>Token was successfully revoked</p>";
+        }
     }
 
     ?>
