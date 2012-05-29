@@ -99,6 +99,10 @@ $resp = $ym->processPaymentByCard($token, $requestId, "375"); // third param is 
 
 ### Changelog
 
+**29.05.2012 ym-php 1.2.0**
+
+* revoke token method added
+
 **09.04.2012 ym-php 1.1.0**
 
 * source code refactoring
