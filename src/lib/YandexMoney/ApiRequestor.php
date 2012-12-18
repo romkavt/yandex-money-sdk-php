@@ -58,6 +58,10 @@ class YM_ApiRequestor {
             throw new YM_ApiError("Invalid response body from API: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
         }    
 
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new YM_ApiError("Json parsing error with json_last_error code = " . json_last_error(), $rcode, $rbody)
+        }
+
         if ($resp === null) {
             throw new YM_ApiError("Server response body is null: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
         }
