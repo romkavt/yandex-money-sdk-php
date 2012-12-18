@@ -48,15 +48,20 @@ class YM_ApiRequestor {
     }
 
     private function _interpretResponse($rbody, $rcode) {
-        try {
-            $resp = json_decode($rbody, true);
-        } catch (Exception $e) {
-            throw new YM_ApiError("Invalid response body from API: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
-        }
-
         if ($rcode < 200 || $rcode >= 300) {
             $this->_handleApiError($rbody, $rcode, $resp);
         }
+
+        try {
+            $resp = json_decode($rbody, true);            
+        } catch (Exception $e) {
+            throw new YM_ApiError("Invalid response body from API: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
+        }    
+
+        if ($resp === null) {
+            throw new YM_ApiError("Server response body is null: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
+        }
+        
         return $resp;
     }
 
