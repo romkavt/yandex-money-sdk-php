@@ -59,7 +59,7 @@ class YM_ApiRequestor {
         }    
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new YM_ApiError("Json parsing error with json_last_error code = " . json_last_error(), $rcode, $rbody)
+            throw new YM_ApiError("Json parsing error with json_last_error code = " . json_last_error(), $rcode, $rbody);
         }
 
         if ($resp === null) {
