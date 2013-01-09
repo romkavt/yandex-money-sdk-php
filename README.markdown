@@ -103,6 +103,7 @@ We recommend you to log request to Yandex.Money system. It's easy, you should on
 
 ```php
 $ym = new YandexMoney(YOUR_APP_CLIENT_ID, './path/to/logfile/ym.log');
+```
 
 ### Changelog
 
