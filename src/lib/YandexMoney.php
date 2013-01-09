@@ -10,7 +10,7 @@ if (!function_exists('json_decode')) {
   throw new Exception('Yandex.Money API SDK needs the JSON PHP extension.');
 }
 
-class YandexMoneyNew {
+class YandexMoney {
 
     const VERSION = '1.2.1';
 

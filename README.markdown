@@ -21,7 +21,7 @@ First of all, we should get token. It's very simple. We take special uri which w
 require_once(dirname(__FILE__) . '/../lib/YandexMoney.php');
 
 $scope = "account-info operation-history operation-details "; // this is scope of permissions
-$authUri = YandexMoneyNew::authorizeUri(YOUR_APP_CLIENT_ID, YOUR_APP_REDIRECT_URI, $scope);
+$authUri = YandexMoney::authorizeUri(YOUR_APP_CLIENT_ID, YOUR_APP_REDIRECT_URI, $scope);
 header('Location: ' . $authUri);
 ```
 

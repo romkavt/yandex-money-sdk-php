@@ -13,7 +13,7 @@ if (!isset($code)) { // If we are just begginig OAuth
         "payment.to-account(\"410011161616877\",\"account\").limit(30,10) " .
         "payment.to-pattern(\"337\").limit(30,10) " .
         "money-source(\"wallet\",\"card\") ";
-    $authUri = YandexMoneyNew::authorizeUri(CLIENT_ID, REDIRECT_URI, $scope);
+    $authUri = YandexMoney::authorizeUri(CLIENT_ID, REDIRECT_URI, $scope);
     header('Location: ' . $authUri);
 
 } else { // when we recieved a temporary code on redirect
@@ -32,7 +32,7 @@ if (!isset($code)) { // If we are just begginig OAuth
     <?php
 
 
-        $ym = new YandexMoneyNew(CLIENT_ID, './ym.log');
+        $ym = new YandexMoney(CLIENT_ID, './ym.log');
         $receiveTokenResp = $ym->receiveOAuthToken($code, REDIRECT_URI, CLIENT_SECRET);
 
         print "<p class=\"output\">";
