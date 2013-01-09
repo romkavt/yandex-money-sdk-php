@@ -12,17 +12,19 @@ if (!function_exists('json_decode')) {
 
 class YandexMoneyNew {
 
-    const VERSION = '1.2.0';
+    const VERSION = '1.2.1';
 
     private $clientId;
+    private $logFile;
 
     const YM_URI_API = 'https://money.yandex.ru/api';
     const YM_URI_AUTH = 'https://sp-money.yandex.ru/oauth/authorize';
     const YM_URI_TOKEN = 'https://sp-money.yandex.ru/oauth/token';
 
-    public function __construct($clientId) {
+    public function __construct($clientId, $logFile = null) {
         self::_validateClientId($clientId);
         $this->clientId = $clientId;
+        $this->logFile = $logFile;
     }
 
     public function getClientId() {
@@ -58,13 +60,13 @@ class YandexMoneyNew {
     }
 
     public function revokeOAuthToken($accessToken) {
-        $requestor = new YM_ApiRequestor($accessToken);
+        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
         $resp = $requestor->request(self::YM_URI_API . '/revoke');
         return true;
     }
 
     public function accountInfo($accessToken) {
-        $requestor = new YM_ApiRequestor($accessToken);
+        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
         $resp = $requestor->request(self::YM_URI_API . '/account-info');
         return new YM_AccountInfoResponse($resp);
     }
@@ -82,7 +84,7 @@ class YandexMoneyNew {
         else
             $params = '';
 
-        $requestor = new YM_ApiRequestor($accessToken);
+        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
         $resp = $requestor->request(self::YM_URI_API . '/operation-history', $params);
         return new YM_OperationHistoryResponse($resp);
     }
@@ -91,7 +93,7 @@ class YandexMoneyNew {
         $paramArray['operation_id'] = $operationId;
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor($accessToken);
+        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
         $resp = $requestor->request(self::YM_URI_API . '/operation-details', $params);
         return new YM_OperationDetail($resp);
     }
@@ -104,7 +106,7 @@ class YandexMoneyNew {
         $paramArray['message'] = $message;
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor($accessToken);
+        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
         $resp = $requestor->request(self::YM_URI_API . '/request-payment', $params);
         return new YM_RequestPaymentResponse($resp);
     }
@@ -114,7 +116,7 @@ class YandexMoneyNew {
         $paramArray['money_source'] = 'wallet';
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor($accessToken);
+        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
         $resp = $requestor->request(self::YM_URI_API . '/process-payment', $params);
         return new YM_ProcessPaymentResponse($resp);
     }
@@ -122,7 +124,7 @@ class YandexMoneyNew {
     public function requestPaymentShop($accessToken, $shopParams) {
         $params = http_build_query($shopParams);
 
-        $requestor = new YM_ApiRequestor($accessToken);
+        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
         $resp = $requestor->request(self::YM_URI_API . '/request-payment', $params);
         return new YM_RequestPaymentResponse($resp);
     }
@@ -134,7 +136,7 @@ class YandexMoneyNew {
         $paramArray['csc'] = $csc;
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor($accessToken);
+        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
         $resp = $requestor->request(self::YM_URI_API . '/process-payment', $params);
         return new YM_ProcessPaymentResponse($resp);
     }

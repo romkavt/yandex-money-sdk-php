@@ -32,7 +32,7 @@ if (!isset($code)) { // If we are just begginig OAuth
     <?php
 
 
-        $ym = new YandexMoneyNew(CLIENT_ID);
+        $ym = new YandexMoneyNew(CLIENT_ID, './ym.log');
         $receiveTokenResp = $ym->receiveOAuthToken($code, REDIRECT_URI, CLIENT_SECRET);
 
         print "<p class=\"output\">";
