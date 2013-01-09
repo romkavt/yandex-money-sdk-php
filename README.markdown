@@ -97,6 +97,13 @@ $requestId = $resp->getRequestId();
 $resp = $ym->processPaymentByCard($token, $requestId, "375"); // third param is cvc of user's credit card
 ```
 
+#### Logging
+
+We recommend you to log request to Yandex.Money system. It's easy, you should only create a log file and set it name and relative path to YandexMoney class constructor.
+
+```php
+$ym = new YandexMoney(YOUR_APP_CLIENT_ID, './path/to/logfile/ym.log');
+
 ### Changelog
 
 **29.05.2012 ym-php 1.2.0**
