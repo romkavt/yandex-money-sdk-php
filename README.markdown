@@ -99,7 +99,7 @@ $resp = $ym->processPaymentByCard($token, $requestId, "375"); // third param is 
 
 #### Logs
 
-We recommend you to log request to Yandex.Money system. It's easy, you should only create a log file and set it name and relative path to YandexMoney class constructor.
+We recommend you to log request to Yandex.Money system. It's easy, you should only create a log file and set its name and path relatively to your current script.
 
 ```php
 $ym = new YandexMoney(YOUR_APP_CLIENT_ID, './path/to/logfile/ym.log');
