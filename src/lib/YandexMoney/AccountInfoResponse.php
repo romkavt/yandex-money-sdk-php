@@ -5,6 +5,8 @@ class YM_AccountInfoResponse {
     protected $account;
     protected $balance;
     protected $currency;
+    protected $identified;
+    protected $accountType;
 
     public function __construct($accountInfoArray) {
         if (isset($accountInfoArray['account']))
@@ -13,6 +15,10 @@ class YM_AccountInfoResponse {
             $this->balance = $accountInfoArray['balance'];
         if (isset($accountInfoArray['currency']))
             $this->currency = $accountInfoArray['currency'];
+        if (isset($accountInfoArray['identified']))
+            $this->identified = (bool)$accountInfoArray['identified'];
+        if (isset($accountInfoArray['account_type']))
+            $this->accountType = $accountInfoArray['account_type'];
     }
 
     /**
@@ -34,6 +40,20 @@ class YM_AccountInfoResponse {
      */
     public function getCurrency() {
         return $this->currency;
+    }
+
+    /**
+     * @return boolean возвращает, идентифицирован ли пользователь в системе
+     */
+    public function getIdentified() {
+        return $this->identified;
+    }
+
+    /**
+     * @return boolean возвращает тип счета пользователя
+     */
+    public function getAccountType() {
+        return $this->accountType;
     }
 
     public function isSuccess() {
