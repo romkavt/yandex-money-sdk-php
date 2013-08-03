@@ -109,6 +109,10 @@ $ym = new YandexMoney(YOUR_APP_CLIENT_ID, './path/to/logfile/ym.log');
 
 ### Changelog
 
+**03.08.2013 ym-php 1.2.2**
+
+* revokeOAuthToken exception fixed
+
 **09.01.2013 ym-php 1.2.1**
 
 * request logs added

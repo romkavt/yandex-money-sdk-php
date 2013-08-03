@@ -11,7 +11,7 @@ if (!function_exists('json_decode')) {
 }
 
 class YandexMoney {
-
+    
     const VERSION = '1.2.1';
 
     private $clientId;
@@ -61,7 +61,7 @@ class YandexMoney {
 
     public function revokeOAuthToken($accessToken) {
         $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/revoke');
+        $resp = $requestor->request(self::YM_URI_API . '/revoke', null, false);
         return true;
     }
 

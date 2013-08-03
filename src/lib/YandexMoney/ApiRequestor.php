@@ -12,9 +12,9 @@ class YM_ApiRequestor {
         $this->logFile = $logFile;
     }
 
-    public function request($uri, $params = null) {
+    public function request($uri, $params = null, $expectResponseBody = true) {
         list($rbody, $rcode) = $this->_curlRequest($uri, $params);
-        return $this->_interpretResponse($rbody, $rcode);
+        return $this->_interpretResponse($rbody, $rcode, $expectResponseBody);
     }
 
     private function _curlRequest($uri, $params) {
@@ -54,7 +54,7 @@ class YM_ApiRequestor {
         return array($rbody, $rcode);
     }
 
-    private function _interpretResponse($rbody, $rcode) {
+    private function _interpretResponse($rbody, $rcode, $expectResponseBody) {
         if ($rcode < 200 || $rcode >= 300) {
             $this->_handleApiError($rbody, $rcode, $resp);
         }
@@ -70,7 +70,7 @@ class YM_ApiRequestor {
         //     throw new YM_ApiError("Json parsing error with json_last_error code = " . json_last_error(), $rcode, $rbody);
         // }
 
-        if ($resp === null) {
+        if ($resp === null && $expectResponseBody) {
             throw new YM_ApiError("Server response body is null: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
         }
         
