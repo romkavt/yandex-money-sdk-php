@@ -69,16 +69,21 @@ if (!isset($code)) { // If we are just begginig OAuth
         print "</p>";
 
         $operations = $resp->getOperations();
-        $requestId = $operations[0]->getOperationId();
-        $resp = $ym->operationDetail($token, $requestId);
-        print "<p class=\"output\">";
-        if ($resp->isSuccess()) {
-            var_dump($resp);
+        if (count($operations) > 0) {
+            $requestId = $operations[0]->getOperationId();
+            $resp = $ym->operationDetail($token, $requestId);
+            print "<p class=\"output\">";
+            if ($resp->isSuccess()) {
+                var_dump($resp);
+            } else {
+                print "Error: " . $resp->getError();
+                die();
+            }
+            print "</p>";    
         } else {
-            print "Error: " . $resp->getError();
-            die();
+            print "<p>You have no any history records at your account to request details.</p>";
         }
-        print "</p>";
+        
 
         $resp = $ym->requestPaymentP2P($token, "410011161616877", "0.02");
         print "<p class=\"output\">";
