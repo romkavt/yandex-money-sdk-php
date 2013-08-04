@@ -90,7 +90,7 @@ We'll show it on example of payment to Megafon.
 $params["pattern_id"] = "337"; // pattern_id - is id of shop in Yandex.Money.
 $params["PROPERTY1"] = "921"; // preffix number
 $params["PROPERTY2"] = "3020052"; // phone number
-$params["sum"] = "1.00"; // amount
+$params["sum"] = "2.00"; // amount
 $resp = $ym->requestPaymentShop($token, $params);
 
 $requestId = $resp->getRequestId();
