@@ -118,12 +118,12 @@ class YM_ApiRequestor {
     private function _log($message) {
         $f = $this->logFile;
         if ($f !== null) {
-            if (!file_exists($f))
-                throw new YM_Error("log file $f not found");
-            if (!is_file($f))
-                throw new YM_Error("log file $f is not a file");
-            if (!is_writable($f)) 
-                throw new YM_Error("log file $f is not writable");
+            if (file_exists($f)) {
+                if (!is_file($f))
+                    throw new YM_Error("log file $f is not a file");
+                if (!is_writable($f))
+                    throw new YM_Error("log file $f is not writable");
+            }
                 
             if (!$handle = fopen($f, 'a'))
                 throw new YM_Error("couldn't open log file $f for appending");
