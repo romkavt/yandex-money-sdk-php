@@ -54,7 +54,7 @@ class YandexMoney {
         }
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor();
+        $requestor = new YM_ApiRequestor(null, $this->logFile);
         $resp = $requestor->request(self::YM_URI_TOKEN, $params);
         return new YM_ReceiveTokenResponse($resp);
     }
