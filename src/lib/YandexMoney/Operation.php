@@ -77,14 +77,6 @@ class YM_Operation {
     }
     
     /**
-     * @return string возвращает краткое описание операции (название
-     * магазина или источник пополнения).
-     */
-    public function getTitle() {
-        return $this->title;
-    }
-    
-    /**
      * @return string возвращает статус платежа (перевода).
      */
     public function getStatus() {
