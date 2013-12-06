@@ -8,6 +8,7 @@ class YM_Operation {
     protected $amount;
     protected $datetime;
     protected $title;
+    protected $status;
 
     public function __construct($operation) {
         if (isset($operation['operation_id']))
@@ -22,6 +23,8 @@ class YM_Operation {
             $this->amount = $operation['amount'];
         if (isset($operation['datetime']))
             $this->datetime = strtotime($operation['datetime']);
+        if (isset($operation['status']))
+            $this->status = $operation['status'];
     }
 
     /**
@@ -71,5 +74,12 @@ class YM_Operation {
      */
     public function getTitle() {
         return $this->title;
+    }
+    
+    /**
+     * @return string возвращает статус платежа (перевода).
+     */
+    public function getStatus() {
+        return $this->status;
     }
 }
