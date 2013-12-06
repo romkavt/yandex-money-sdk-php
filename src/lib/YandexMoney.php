@@ -71,7 +71,7 @@ class YandexMoney {
         return new YM_AccountInfoResponse($resp);
     }
 
-    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null) {
+    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $from = null, $till = null) {
         $paramArray = Array();
         if (isset($type))
             $paramArray['type'] = $type;
@@ -79,6 +79,10 @@ class YandexMoney {
             $paramArray['start_record'] = $startRecord;
         if (isset($records))
             $paramArray['records'] = $records;
+        if (isset($from))
+            $paramArray['from'] = $from;
+        if (isset($till))
+            $paramArray['till'] = $till;
         if (count($paramArray) > 0)
             $params = http_build_query($paramArray);
         else
