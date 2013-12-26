@@ -71,7 +71,7 @@ class YandexMoney {
         return new YM_AccountInfoResponse($resp);
     }
 
-    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $from = null, $till = null) {
+    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $label = null, $from = null, $till = null) {
         $paramArray = Array();
         if (isset($type))
             $paramArray['type'] = $type;
@@ -79,6 +79,8 @@ class YandexMoney {
             $paramArray['start_record'] = $startRecord;
         if (isset($records))
             $paramArray['records'] = $records;
+        if (isset($label))
+            $paramArray['label'] = $label;
         if (isset($from))
             $paramArray['from'] = $from;
         if (isset($till))
@@ -102,12 +104,13 @@ class YandexMoney {
         return new YM_OperationDetail($resp);
     }
 
-    public function requestPaymentP2P($accessToken, $to, $amount, $comment = null, $message = null) {
+    public function requestPaymentP2P($accessToken, $to, $amount, $comment = null, $message = null, $label = null) {
         $paramArray['pattern_id'] = 'p2p';
         $paramArray['to'] = $to;
         $paramArray['amount'] = $amount;
         $paramArray['comment'] = $comment;
         $paramArray['message'] = $message;
+        $paramArray['label'] = $label;
         $params = http_build_query($paramArray);
 
         $requestor = new YM_ApiRequestor($accessToken, $this->logFile);

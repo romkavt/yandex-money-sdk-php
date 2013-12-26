@@ -43,7 +43,7 @@ class YM_OperationHistoryResponse {
     }
 
     /**
-     * @return Array возвращает массив объектов Operation
+     * @return YM_Operation[] возвращает массив объектов Operation
      */
     public function getOperations() {
         return $this->operations;
