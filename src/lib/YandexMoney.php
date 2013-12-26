@@ -71,7 +71,7 @@ class YandexMoney {
         return new YM_AccountInfoResponse($resp);
     }
 
-    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $label = null, $from = null, $till = null) {
+    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $from = null, $till = null, $label = null) {
         $paramArray = Array();
         if (isset($type))
             $paramArray['type'] = $type;
