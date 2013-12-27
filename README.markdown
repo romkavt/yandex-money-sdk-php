@@ -113,6 +113,10 @@ $ym = new YandexMoney(YOUR_APP_CLIENT_ID, './path/to/logfile/ym.log');
 
 * certificate chain updated
 
+**28.10.2013 ym-php 1.2.4**
+
+* fixed undefined variable $resp at ApiRequestor
+
 **15.08.2013 ym-php 1.2.3**
 
 * create log file instead of exception throwing

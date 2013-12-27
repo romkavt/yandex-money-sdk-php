@@ -56,7 +56,7 @@ class YM_ApiRequestor {
 
     private function _interpretResponse($rbody, $rcode, $expectResponseBody) {
         if ($rcode < 200 || $rcode >= 300) {
-            $this->_handleApiError($rbody, $rcode, $resp);
+            $this->_handleApiError($rbody, $rcode, $expectResponseBody);
         }
 
         try {
