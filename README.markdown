@@ -109,7 +109,7 @@ $ym = new YandexMoney(YOUR_APP_CLIENT_ID, './path/to/logfile/ym.log');
 
 ### Changelog
 
-**27.12.2013 ym-php 1.2.4**
+**27.12.2013 ym-php 1.2.5**
 
 * certificate chain updated
 
