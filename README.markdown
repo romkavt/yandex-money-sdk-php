@@ -109,6 +109,10 @@ $ym = new YandexMoney(YOUR_APP_CLIENT_ID, './path/to/logfile/ym.log');
 
 ### Changelog
 
+**27.12.2013 ym-php 1.2.4**
+
+* certificate chain updated
+
 **15.08.2013 ym-php 1.2.3**
 
 * create log file instead of exception throwing

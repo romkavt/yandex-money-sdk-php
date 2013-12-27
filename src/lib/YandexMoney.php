@@ -12,7 +12,7 @@ if (!function_exists('json_decode')) {
 
 class YandexMoney {
     
-    const VERSION = '1.2.3';
+    const VERSION = '1.2.4';
 
     private $clientId;
     private $logFile;
