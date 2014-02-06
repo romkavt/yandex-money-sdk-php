@@ -1,30 +1,73 @@
 <?php
 
-class YM_ProcessPaymentResponse {
+namespace Yandex\YandexMoney\Response;
 
+/**
+ * 
+ */
+class ProcessPaymentResponse implements ResponseInterface
+{
+    /**
+     * @var string
+     */
     protected $status;
+
+    /**
+     * @var string
+     */
     protected $error;
+
+    /**
+     * @var string
+     */
     protected $paymentId;
+
+    /**
+     * @var string
+     */
     protected $balance;
+
+    /**
+     * @var string
+     */
     protected $payer;
+
+    /**
+     * @var string
+     */
     protected $payee;
+
+    /**
+     * @var string
+     */
     protected $creditAmount;
 
-    public function __construct($responseArray) {
-        if (isset($responseArray['status']))
-            $this->status = $responseArray['status'];
-        if (isset($responseArray['error']))
-            $this->error = $responseArray['error'];
-        if (isset($responseArray['payment_id']))
-            $this->paymentId = $responseArray['payment_id'];
-        if (isset($responseArray['balance']))
-            $this->balance = $responseArray['balance'];
-        if (isset($responseArray['payer']))
-            $this->payer = $responseArray['payer'];
-        if (isset($responseArray['payee']))
-            $this->payee = $responseArray['payee'];
-        if (isset($responseArray['credit_amount']))
-            $this->creditAmount = $responseArray['credit_amount'];
+    /**
+     * @param array $response
+     */
+    public function __construct(array $response)
+    {
+        if (isset($response['status'])) {
+            $this->status = $response['status'];
+        }
+        if (isset($response['error'])) {
+            $this->error = $response['error'];
+        }
+        if (isset($response['payment_id'])) {
+            $this->paymentId = $response['payment_id'];
+        }
+        if (isset($response['balance'])) {
+            $this->balance = $response['balance'];
+        }
+        if (isset($response['payer'])) {
+            $this->payer = $response['payer'];
+        }
+        if (isset($response['payee'])) {
+            $this->payee = $response['payee'];
+        }
+        if (isset($response['credit_amount'])) {
+            $this->creditAmount = $response['credit_amount'];
+        }
     }
 
     /**
@@ -38,7 +81,8 @@ class YM_ProcessPaymentResponse {
      * все прочие значения - состояние платежа неизвестно. Приложению
      * следует повторить запрос с теми же параметрами спустя некоторое время.
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
@@ -59,7 +103,8 @@ class YM_ProcessPaymentResponse {
      * карты, либо банк-эмитент отклонил транзакцию по карте,
      * либо превышен лимит платежной системы для данного пользователя.
      */
-    public function getError() {
+    public function getError()
+    {
         return $this->error;
     }
 
@@ -67,7 +112,8 @@ class YM_ProcessPaymentResponse {
      * @return string возвращает идентификатор проведенного платежа.
      * Присутствует только при успешном выполнении метода.
      */
-    public function getPaymentId() {
+    public function getPaymentId()
+    {
         return $this->paymentId;
     }
 
@@ -75,7 +121,8 @@ class YM_ProcessPaymentResponse {
      * @return string возвращает остаток на счете пользователя после
      * проведения платежа. Присутствует только при успешном выполнении метода.
      */
-    public function getBalance() {
+    public function getBalance()
+    {
         return $this->balance;
     }
 
@@ -83,7 +130,8 @@ class YM_ProcessPaymentResponse {
      * @return string возвращает номер счета плательщика. Присутствует
      * только при успешном выполнении метода.
      */
-    public function getPayer() {
+    public function getPayer()
+    {
         return $this->payer;
     }
 
@@ -91,7 +139,8 @@ class YM_ProcessPaymentResponse {
      * @return string возвращает номер счета получателя. Присутствует
      * только при успешном выполнении метода.
      */
-    public function getPayee() {
+    public function getPayee()
+    {
         return $this->payee;
     }
 
@@ -100,11 +149,16 @@ class YM_ProcessPaymentResponse {
      * Присутствует при успешном переводе средств на счет другого
      * пользователя системы.
      */
-    public function getCreditAmount() {
+    public function getCreditAmount()
+    {
         return $this->creditAmount;
     }
 
-    public function isSuccess() {
+    /**
+     * {@inheritDoc}
+     */
+    public function isSuccess()
+    {
         return $this->error === null;
     }
 }

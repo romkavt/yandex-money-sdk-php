@@ -1,20 +1,47 @@
 <?php
 
-class YM_OperationHistoryResponse {
+namespace Yandex\YandexMoney\Response;
 
+use Yandex\YandexMoney\Operation\Operation;
+
+/**
+ * 
+ */
+class OperationHistoryResponse implements ResponseInterface
+{
+    /**
+     * @var string
+     */
     protected $error;
+
+    /**
+     * @param int
+     */
     protected $nextRecord;
-    protected $operations = array();
+    
+    /**
+     * @var array
+     */
+    protected $operations;
 
-    public function __construct($operationsArray) {
-        if (isset($operationsArray['error']))
-            $this->error = $operationsArray['error'];
-        if (isset($operationsArray['next_record']))
-            $this->nextRecord = $operationsArray['next_record'];
+    /**
+     * @param array $operations
+     */
+    public function __construct(array $operations)
+    {
+        $this->operations = array();
 
-        if (isset($operationsArray['operations'])) {
-            foreach ($operationsArray['operations'] as $operation) {
-                $this->operations[] = new YM_Operation($operation);
+        if (isset($operations['error'])) {
+            $this->error = $operations['error'];
+        }
+
+        if (isset($operations['next_record'])) {
+            $this->nextRecord = $operations['next_record'];
+        }
+
+        if (isset($operations['operations'])) {
+            foreach ($operations['operations'] as $operation) {
+                $this->operations[] = new Operation($operation);
             }
         }
     }
@@ -29,7 +56,8 @@ class YM_OperationHistoryResponse {
      * illegal_param_records ― неверное значение параметра records;
      * Все прочие значения: техническая ошибка, повторите вызов операции позднее.
      */
-    public function getError() {
+    public function getError() 
+    {
         return $this->error;
     }
 
@@ -38,18 +66,24 @@ class YM_OperationHistoryResponse {
      * странице истории операций. Присутствует, только если следующая
      * страница существует.
      */
-    public function getNextRecord() {
+    public function getNextRecord()
+    {
         return $this->nextRecord;
     }
 
     /**
-     * @return YM_Operation[] возвращает массив объектов Operation
+     * @return array возвращает массив объектов Operation
      */
-    public function getOperations() {
+    public function getOperations()
+    {
         return $this->operations;
     }
 
-    public function isSuccess() {
+    /**
+     * {@inheritDoc}
+     */
+    public function isSuccess()
+    {
         return $this->error === null;
     }
 }

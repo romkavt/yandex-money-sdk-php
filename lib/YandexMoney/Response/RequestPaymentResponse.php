@@ -1,27 +1,65 @@
 <?php
 
-class YM_RequestPaymentResponse {
+namespace Yandex\YandexMoney\Response;
 
+/**
+ * 
+ */
+class RequestPaymentResponse implements ResponseInterface
+{
+    /**
+     * @var string
+     */
     protected $status;
+
+    /**
+     * @var string
+     */
     protected $error;
+
+    /**
+     * @var string
+     */
     protected $moneySource;
+
+    /**
+     * @var string
+     */
     protected $requestId;
+
+    /**
+     * @var string
+     */
     protected $contract;
+
+    /**
+     * @var string
+     */
     protected $balance;
 
-    public function __construct($responseArray) {
-        if (isset($responseArray['status']))
-            $this->status = $responseArray['status'];
-        if (isset($responseArray['error']))
-            $this->error = $responseArray['error'];
-        if (isset($responseArray['money_source']))
-            $this->moneySource = $responseArray['money_source'];
-        if (isset($responseArray['request_id']))
-            $this->requestId = $responseArray['request_id'];
-        if (isset($responseArray['contract']))
-            $this->contract = $responseArray['contract'];
-        if (isset($responseArray['balance']))
-            $this->balance = $responseArray['balance'];
+    /**
+     * @param array $responseArray
+     */
+    public function __construct(array $response)
+    {
+        if (isset($response['status'])) {
+            $this->status = $response['status'];
+        }
+        if (isset($response['error'])) {
+            $this->error = $response['error'];
+        }
+        if (isset($response['money_source'])) {
+            $this->moneySource = $response['money_source'];
+        }
+        if (isset($response['request_id'])) {
+            $this->requestId = $response['request_id'];
+        }
+        if (isset($response['contract'])) {
+            $this->contract = $response['contract'];
+        }
+        if (isset($response['balance'])) {
+            $this->balance = $response['balance'];
+        }
     }
 
     /**
@@ -31,7 +69,8 @@ class YM_RequestPaymentResponse {
      * refused - отказ в проведении платежа, объяснение причины отказа
      * содержится в поле error. Это конечное состояние платежа.
      */
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
@@ -46,7 +85,8 @@ class YM_RequestPaymentResponse {
      * Все прочие значения: техническая ошибка, повторите платеж
      * через несколько минут.
      */
-    public function getError() {
+    public function getError()
+    {
         return $this->error;
     }
 
@@ -55,7 +95,8 @@ class YM_RequestPaymentResponse {
      * проведения платежа (wallet или card). Присутствует только при
      * успешном выполнении метода requestPayment.
      */
-    public function getMoneySource() {
+    public function getMoneySource()
+    {
         return $this->moneySource;
     }
 
@@ -64,7 +105,8 @@ class YM_RequestPaymentResponse {
      * сгенерированный системой. Присутствует только при успешном
      * выполнении метода requestPayment.
      */
-    public function getRequestId() {
+    public function getRequestId()
+    {
         return $this->requestId;
     }
 
@@ -72,7 +114,8 @@ class YM_RequestPaymentResponse {
      * @return string возвращает текст описания платежа (контракт).
      * Присутствует только при успешном выполнении метода requestPayment.
      */
-    public function getContract() {
+    public function getContract()
+    {
         return $this->contract;
     }
 
@@ -80,11 +123,16 @@ class YM_RequestPaymentResponse {
      * @return string возвращает текущий остаток на счете пользователя.
      * Присутствует только при успешном выполнении метода requestPayment.
      */
-    public function getBalance() {
+    public function getBalance()
+    {
         return $this->balance;
     }
 
-    public function isSuccess() {
+    /**
+     * {@inheritDoc}
+     */
+    public function isSuccess()
+    {
         return $this->error === null;
     }
 }

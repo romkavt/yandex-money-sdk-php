@@ -1,27 +1,57 @@
 <?php
 
-class YM_ReceiveTokenResponse {
+namespace Yandex\YandexMoney\Response;
 
+/**
+ * 
+ */
+class ReceiveTokenResponse implements ResponseInterface
+{
+    /**
+     * @var string
+     */
     protected $accessToken;
+
+    /**
+     * @var string
+     */
     protected $error;
 
-    public function __construct($response) {
-        if (isset($response["access_token"]))
-            $this->accessToken = $response["access_token"] ;
+    /**
+     * @param array $response
+     */
+    public function __construct(array $response)
+    {
+        if (isset($response['access_token'])) {
+            $this->accessToken = $response['access_token'] ;
+        }
 
-        if (isset($response["error"]))
-            $this->error = $response["error"];
+        if (isset($response['error'])) {
+            $this->error = $response['error'];
+        }
     }
 
-    public function getAccessToken() {
+    /**
+     * @return string
+     */
+    public function getAccessToken()
+    {
         return $this->accessToken;
     }
 
-    public function getError() {
+    /**
+     * {@inheritDoc}
+     */
+    public function getError()
+    {
         return $this->error;
     }
 
-    public function isSuccess() {
+    /**
+     * {@inheritDoc}
+     */
+    public function isSuccess()
+    {
         return $this->error === null;
     }
 }
