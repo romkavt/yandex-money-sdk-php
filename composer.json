@@ -43,10 +43,6 @@
     },
 
     "autoload": {
-        "psr-0": {
-            "Yandex": "lib"
-        }
-    },
-
-    "target-dir": "Yandex"
+        "psr-0": { "YandexMoney\\": "lib/" },
+    }
 }
