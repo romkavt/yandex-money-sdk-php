@@ -1,5 +1,10 @@
 <?php
 
-class YM_InternalServerError extends YM_Error {
+namespace Yandex\YandexMoney\Exception;
 
+/**
+ * 
+ */
+class InternalServerErrorException extends Exception
+{
 }

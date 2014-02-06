@@ -1,5 +1,10 @@
 <?php
 
-class YM_InvalidTokenError extends YM_Error {
+namespace Yandex\YandexMoney\Exception;
 
+/**
+ * 
+ */
+class InvalidTokenException extends Exception
+{
 }

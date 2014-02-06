@@ -1,24 +1,48 @@
 <?php
 
-class YM_Error extends Exception {
-    public function __construct($message=null, $http_status=null, $http_body=null, $json_body=null) {
+namespace Yandex\YandexMoney\Exception;
+
+/**
+ * 
+ */
+class Exception extends \Exception
+{
+    /**
+     * @param string $message
+     * @param int $httpStatus
+     * @param string $httpBody
+     * @param string $jsonBody
+     */
+    public function __construct($message = null, $httpStatus = null, $httpBody = null, $jsonBody = null)
+    {
         parent::__construct($message);
-        $this->http_status = $http_status;
-        $this->json_body = $json_body;
-        $this->http_body = $http_body;
+
+        $this->httpStatus = $httpStatus;
+        $this->httpBody = $httpBody;
+        $this->jsonBody = $jsonBody;
     }
 
-    public function getHttpBody() {
-        return $this->http_body;
+    /**
+     * @return string
+     */
+    public function getHttpBody()
+    {
+        return $this->httpBody;
     }
 
-    public function getHttpStatus() {
-        return $this->http_status;
+    /**
+     * @return int
+     */
+    public function getHttpStatus()
+    {
+        return $this->httpStatus;
     }
 
-    public function getJsonBody() {
-        return $this->json_body;
+    /**
+     * @return string
+     */
+    public function getJsonBody()
+    {
+        return $this->jsonBody;
     }
-
-
 }
