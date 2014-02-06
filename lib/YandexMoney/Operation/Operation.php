@@ -1,36 +1,80 @@
 <?php
 
-class YM_Operation {
+namespace Yandex\YandexMoney\Operation;
 
+/**
+ * 
+ */
+class Operation
+{
+    /**
+     * @var string
+     */
     protected $operationId;
+
+    /**
+     * @var string
+     */
     protected $patternId;
+
+    /**
+     * @var string
+     */
     protected $direction;
+
+    /**
+     * @var string
+     */
     protected $amount;
+
+    /**
+     * @var integer
+     */
     protected $datetime;
+
+    /**
+     * @var string
+     */
     protected $title;
+
+    /**
+     * @var string
+     */
     protected $status;
 
-    public function __construct($operation) {
-        if (isset($operation['operation_id']))
+    /**
+     * @param array $operation
+     */
+    public function __construct(array $operation)
+    {
+        if (isset($operation['operation_id'])) {
             $this->operationId = $operation['operation_id'];
-        if (isset($operation['pattern_id']))
+        }
+        if (isset($operation['pattern_id'])) {
             $this->patternId = $operation['pattern_id'];
-        if (isset($operation['title']))
+        }
+        if (isset($operation['title'])) {
             $this->title = $operation['title'];
-        if (isset($operation['direction']))
+        }
+        if (isset($operation['direction'])) {
             $this->direction = $operation['direction'];
-        if (isset($operation['amount']))
+        }
+        if (isset($operation['amount'])) {
             $this->amount = $operation['amount'];
-        if (isset($operation['datetime']))
+        }
+        if (isset($operation['datetime'])) {
             $this->datetime = strtotime($operation['datetime']);
-        if (isset($operation['status']))
+        }
+        if (isset($operation['status'])) {
             $this->status = $operation['status'];
+        }
     }
 
     /**
      * @return string возвращает идентификатор операции
      */
-    public function getOperationId() {
+    public function getOperationId()
+    {
         return $this->operationId;
     }
 
@@ -40,7 +84,8 @@ class YM_Operation {
      * Для перевода между счетами пользователей значение: p2p.
      * В остальных случая это операции с магазинами.
      */
-    public function getPatternId() {
+    public function getPatternId()
+    {
         return $this->patternId;
     }
 
@@ -50,21 +95,24 @@ class YM_Operation {
      * in (приход);
      * out (расход).
      */
-    public function getDirection() {
+    public function getDirection()
+    {
         return $this->direction;
     }
 
     /**
      * @return string возвращает сумму операции
      */
-    public function getAmount() {
+    public function getAmount()
+    {
         return $this->amount;
     }
 
     /**
      * @return integer возвращает дату и время совершения операции.
      */
-    public function getDatetime() {
+    public function getDatetime()
+    {
         return $this->datetime;
     }
 
@@ -72,14 +120,16 @@ class YM_Operation {
      * @return string возвращает краткое описание операции (название
      * магазина или источник пополнения).
      */
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->title;
     }
     
     /**
      * @return string возвращает статус платежа (перевода).
      */
-    public function getStatus() {
+    public function getStatus() 
+    {
         return $this->status;
     }
 }

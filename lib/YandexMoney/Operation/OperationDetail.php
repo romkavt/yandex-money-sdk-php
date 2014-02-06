@@ -1,27 +1,69 @@
 <?php
 
-class YM_OperationDetail extends YM_Operation {
+namespace Yandex\YandexMoney\Operation;
+
+use Yandex\YandexMoney\Response\ResponseInterface;
+
+/**
+ * 
+ */
+class OperationDetail extends Operation implements ResponseInterface
+{
+    /**
+     * @var string
+     */
     protected $error;
+
+    /**
+     * @var string
+     */
     protected $sender;
+
+    /**
+     * @var string
+     */
     protected $recipient;
+
+    /**
+     * @var string
+     */
     protected $message;
+
+    /**
+     * @var string
+     */
     protected $codepro;
+
+    /**
+     * @var string
+     */
     protected $details;
 
-    public function __construct($operation) {
+    /**
+     * @param array $operation
+     */
+    public function __construct(array $operation)
+    {
         parent::__construct($operation);
-        if (isset($operation['error']))
+
+        if (isset($operation['error'])) {
             $this->error = $operation['error'];
-        if (isset($operation['sender']))
+        }
+        if (isset($operation['sender'])) {
             $this->sender = $operation['sender'];
-        if (isset($operation['recipient']))
+        }
+        if (isset($operation['recipient'])) {
             $this->recipient = $operation['recipient'];
-        if (isset($operation['message']))
+        }
+        if (isset($operation['message'])) {
             $this->message = $operation['message'];
-        if (isset($operation['codepro']))
+        }
+        if (isset($operation['codepro'])) {
             $this->codepro = $operation['codepro'];
-        if (isset($operation['details']))
+        }
+        if (isset($operation['details'])) {
             $this->details = $operation['details'];
+        }
     }
 
     /**
@@ -29,7 +71,8 @@ class YM_OperationDetail extends YM_Operation {
      * Строка произвольного формата, может содержать любые символы и
      * переводы строк.
      */
-    public function getDetails() {
+    public function getDetails()
+    {
         return $this->details;
     }
 
@@ -38,7 +81,8 @@ class YM_OperationDetail extends YM_Operation {
      * Возможные значения: illegal_param_operation_id  неверное значение
      * параметра operation_id.
      */
-    public function getError() {
+    public function getError()
+    {
         return $this->error;
     }
 
@@ -46,7 +90,8 @@ class YM_OperationDetail extends YM_Operation {
      * @return string возвращает номер счета отправителя перевода. Присутствует для
      * входящих переводов от других пользователей.
      */
-    public function getSender() {
+    public function getSender()
+    {
         return $this->sender;
     }
 
@@ -54,7 +99,8 @@ class YM_OperationDetail extends YM_Operation {
      * @return string возвращает номер счета отправителя перевода. Присутствует для
      * входящих переводов от других пользователей.
      */
-    public function getRecipient() {
+    public function getRecipient()
+    {
         return $this->recipient;
     }
 
@@ -62,7 +108,8 @@ class YM_OperationDetail extends YM_Operation {
      * @return string возвращает комментарий к переводу. Присутствует для
      * переводов другим пользователям.
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 
@@ -70,11 +117,16 @@ class YM_OperationDetail extends YM_Operation {
      * @return string возвращает перевод защищен кодом протекции.
      * Присутствует для переводов другим пользователям.
      */
-    public function getCodepro() {
+    public function getCodepro()
+    {
         return $this->codepro;
     }
 
-    public function isSuccess() {
+    /**
+     * {@inheritDoc}
+     */
+    public function isSuccess()
+    {
         return $this->error === null;
     }
 }
