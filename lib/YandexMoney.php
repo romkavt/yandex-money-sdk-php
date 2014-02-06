@@ -1,37 +1,73 @@
 <?php
 
-// Tested on PHP 5.2, 5.3
+namespace Yandex;
 
-// This is what we exactly need to make requests to API
-if (!function_exists('curl_init')) {
-  throw new Exception('Yandex.Money API SDK needs the CURL PHP extension.');
-}
-if (!function_exists('json_decode')) {
-  throw new Exception('Yandex.Money API SDK needs the JSON PHP extension.');
-}
+use YandexMoney\ApiRequestor;
+use YandexMoney\Operation\OperationDetail;
+use YandexMoney\Exception as Exceptions;
+use YandexMoney\Response as Responses;
 
-class YandexMoney {
-    
-    const VERSION = '1.2.5';
+/**
+ * 
+ */
+class YandexMoney
+{
+    /**
+     * 
+     */
+    const VERSION = '1.2.1';
 
+    /**
+     * 
+     */
+    const URI_API = 'https://money.yandex.ru/api';
+
+    /**
+     * 
+     */
+    const URI_AUTH = 'https://sp-money.yandex.ru/oauth/authorize';
+
+    /**
+     * 
+     */
+    const URI_TOKEN = 'https://sp-money.yandex.ru/oauth/token';
+
+    /**
+     * @var string
+     */
     private $clientId;
+
+    /**
+     * @var string
+     */
     private $logFile;
 
-    const YM_URI_API = 'https://money.yandex.ru/api';
-    const YM_URI_AUTH = 'https://sp-money.yandex.ru/oauth/authorize';
-    const YM_URI_TOKEN = 'https://sp-money.yandex.ru/oauth/token';
-
-    public function __construct($clientId, $logFile = null) {
+    /**
+     * @param string $clientId
+     * @param string $logFile
+     */
+    public function __construct($clientId, $logFile = null)
+    {
         self::_validateClientId($clientId);
         $this->clientId = $clientId;
         $this->logFile = $logFile;
     }
 
-    public function getClientId() {
+    /**
+     * @return string
+     */
+    public function getClientId()
+    {
         return $this->clientId;
     }
 
-    public static function authorizeUri($clientId, $redirectUri, $scope = null) {
+    /**
+     * @param string $clientId
+     * @param string $redirectUri
+     * @param string $scope=
+     */
+    public static function authorizeUri($clientId, $redirectUri, $scope = null)
+    {
         self::_validateClientId($clientId);
 
         if (!isset($scope) || $scope === '') {
@@ -39,72 +75,128 @@ class YandexMoney {
         }
         $scope = trim(strtolower($scope));
 
-        $res = self::YM_URI_AUTH . "?client_id=$clientId&response_type=code&scope=" .
+        $res = self::URI_AUTH . "?client_id=$clientId&response_type=code&scope=" .
                 urlencode($scope) . "&redirect_uri=" . urlencode($redirectUri);
+
         return $res;
     }
 
-    public function receiveOAuthToken($code, $redirectUri, $client_secret = null) {
+    /**
+     * @param string $code
+     * @param string $redirectUri
+     * @param string $clientSecret
+     * @return \Yandex\YandexMoney\Response\ReceiveTokenResponse
+     */
+    public function receiveOAuthToken($code, $redirectUri, $clientSecret = null)
+    {
         $paramArray['grant_type'] = 'authorization_code';
         $paramArray['client_id'] = $this->clientId;
         $paramArray['code'] = $code;
         $paramArray['redirect_uri'] = $redirectUri;
         if ($client_secret) {
-            $paramArray['client_secret'] = $client_secret;
+            $paramArray['client_secret'] = $clientSecret;
         }
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor(null, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_TOKEN, $params);
-        return new YM_ReceiveTokenResponse($resp);
+        $requestor = new ApiRequestor();
+        $resp = $requestor->request(self::URI_TOKEN, $params);
+
+        return new Responses\ReceiveTokenResponse($resp);
     }
 
-    public function revokeOAuthToken($accessToken) {
-        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/revoke', null, false);
+    /**
+     * @param string $accessToken
+     * @return boolean
+     */
+    public function revokeOAuthToken($accessToken)
+    {
+        $requestor = new ApiRequestor($accessToken, $this->logFile);
+        $resp = $requestor->request(self::URI_API . '/revoke');
+
         return true;
     }
 
-    public function accountInfo($accessToken) {
-        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/account-info');
-        return new YM_AccountInfoResponse($resp);
+    /**
+     * @param string $accessToken
+     * @return \Yandex\YandexMoney\Response\AccountInfoResponse
+     */
+    public function accountInfo($accessToken)
+    {
+        $requestor = new ApiRequestor($accessToken, $this->logFile);
+        $resp = $requestor->request(self::URI_API . '/account-info');
+
+        return new Responses\AccountInfoResponse($resp);
     }
 
-    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $from = null, $till = null, $label = null) {
-        $paramArray = Array();
-        if (isset($type))
+    /**
+     * @param string $accessToken
+     * @param int $startRecord
+     * @param int $records
+     * @param string $type
+     * @return \Yandex\YandexMoney\Response\OperationHistoryResponse
+     */
+    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $from = null, $till = null, $label = null)
+    {
+        $paramArray = array();
+        if (isset($type)) {
             $paramArray['type'] = $type;
-        if (isset($startRecord))
+        }
+        if (isset($startRecord)) {
             $paramArray['start_record'] = $startRecord;
-        if (isset($records))
+        }
+        if (isset($records)) {
             $paramArray['records'] = $records;
-        if (isset($label))
-            $paramArray['label'] = $label;
-        if (isset($from))
-            $paramArray['from'] = $from;
-        if (isset($till))
-            $paramArray['till'] = $till;
-        if (count($paramArray) > 0)
-            $params = http_build_query($paramArray);
-        else
-            $params = '';
+        }
 
-        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/operation-history', $params);
-        return new YM_OperationHistoryResponse($resp);
+        if (isset($label)) {
+            $paramArray['label'] = $label;
+        }
+
+        if (isset($from)) {
+            $paramArray['from'] = $from;
+        }
+
+        if (isset($till)) {
+            $paramArray['till'] = $till;
+        }
+
+        if (count($paramArray) > 0) {
+            $params = http_build_query($paramArray);
+        } else {
+            $params = '';
+        }
+
+        $requestor = new ApiRequestor($accessToken, $this->logFile);
+        $resp = $requestor->request(self::URI_API . '/operation-history', $params);
+
+        return new Responses\OperationHistoryResponse($resp);
     }
 
-    public function operationDetail($accessToken, $operationId) {
+    /**
+     * @param string $accessToken
+     * @param string $operationId
+     */
+    public function operationDetail($accessToken, $operationId)
+    {
         $paramArray['operation_id'] = $operationId;
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/operation-details', $params);
-        return new YM_OperationDetail($resp);
+        $requestor = new ApiRequestor($accessToken, $this->logFile);
+        $resp = $requestor->request(self::URI_API . '/operation-details', $params);
+
+        return new OperationDetail($resp);
     }
 
-    public function requestPaymentP2P($accessToken, $to, $amount, $comment = null, $message = null, $label = null) {
+    /**
+     * @param string $accessToken
+     * @param string $to
+     * @param float $amount
+     * @param string $comment
+     * @param string $message
+     * @return \Yandex\YandexMoney\Response\RequestPaymentResponse
+     */
+    public function requestPaymentP2P($accessToken, $to, $amount, $comment = null, $message = null, $label = null)
+    {
         $paramArray['pattern_id'] = 'p2p';
         $paramArray['to'] = $to;
         $paramArray['amount'] = $amount;
@@ -113,64 +205,72 @@ class YandexMoney {
         $paramArray['label'] = $label;
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/request-payment', $params);
-        return new YM_RequestPaymentResponse($resp);
+        $requestor = new ApiRequestor($accessToken, $this->logFile);
+        $resp = $requestor->request(self::URI_API . '/request-payment', $params);
+
+        return new Responses\RequestPaymentResponse($resp);
     }
 
-    public function processPaymentByWallet($accessToken, $requestId) {
+    /**
+     * @param string $accessToken
+     * @param string $requestId
+     * @return \Yandex\YandexMoney\Response\ProcessPaymentResponse
+     */
+    public function processPaymentByWallet($accessToken, $requestId) 
+    {
         $paramArray['request_id'] = $requestId;
         $paramArray['money_source'] = 'wallet';
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/process-payment', $params);
-        return new YM_ProcessPaymentResponse($resp);
+        $requestor = new ApiRequestor($accessToken, $this->logFile);
+        $resp = $requestor->request(self::URI_API . '/process-payment', $params);
+
+        return new Responses\ProcessPaymentResponse($resp);
     }
 
-    public function requestPaymentShop($accessToken, $shopParams) {
+    /**
+     * @param string $accessToken
+     * @param string $shopParams
+     * @return \Yandex\YandexMoney\Response\RequestPaymentResponse
+     */
+    public function requestPaymentShop($accessToken, $shopParams)
+    {
         $params = http_build_query($shopParams);
 
-        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/request-payment', $params);
-        return new YM_RequestPaymentResponse($resp);
+        $requestor = new ApiRequestor($accessToken, $this->logFile);
+        $resp = $requestor->request(self::URI_API . '/request-payment', $params);
+
+        return new Response\RequestPaymentResponse($resp);
     }
 
 
-    public function processPaymentByCard($accessToken, $requestId, $csc) {
+    /**
+     * @param string $accessToken
+     * @param string $requestId
+     * @param string $csc
+     * @return \Yandex\YandexMoney\Response\ProcessPaymentResponse
+     */
+    public function processPaymentByCard($accessToken, $requestId, $csc)
+    {
         $paramArray['request_id'] = $requestId;
         $paramArray['money_source'] = 'card';
         $paramArray['csc'] = $csc;
         $params = http_build_query($paramArray);
 
-        $requestor = new YM_ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::YM_URI_API . '/process-payment', $params);
-        return new YM_ProcessPaymentResponse($resp);
+        $requestor = new ApiRequestor($accessToken, $this->logFile);
+        $resp = $requestor->request(self::URI_API . '/process-payment', $params);
+        
+        return new Responses\ProcessPaymentResponse($resp);
     }
 
-    private static function _validateClientId($clientId) {
+    /**
+     * @param string $clientId
+     * @throws \Yandex\YandexMoney\Exception\Exception
+     */
+    private static function _validateClientId($clientId)
+    {
         if (($clientId == null) || ($clientId === '')) {
-            throw new YM_Error("You must pass a valid application client_id");
+            throw new Exceptions\Exception('You must pass a valid application client_id');
         }
     }
 }
-
-// Errors
-require(dirname(__FILE__) . '/YandexMoney/Error.php');
-require(dirname(__FILE__) . '/YandexMoney/ApiConnectionError.php');
-require(dirname(__FILE__) . '/YandexMoney/ApiError.php');
-require(dirname(__FILE__) . '/YandexMoney/InsufficientScopeError.php');
-require(dirname(__FILE__) . '/YandexMoney/InternalServerError.php');
-require(dirname(__FILE__) . '/YandexMoney/InvalidTokenError.php');
-
-// Plumbing
-require(dirname(__FILE__) . '/YandexMoney/ApiRequestor.php');
-
-// Yandex.Money API Resources
-require(dirname(__FILE__) . '/YandexMoney/ReceiveTokenResponse.php');
-require(dirname(__FILE__) . '/YandexMoney/AccountInfoResponse.php');
-require(dirname(__FILE__) . '/YandexMoney/OperationHistoryResponse.php');
-require(dirname(__FILE__) . '/YandexMoney/Operation.php');
-require(dirname(__FILE__) . '/YandexMoney/OperationDetail.php');
-require(dirname(__FILE__) . '/YandexMoney/RequestPaymentResponse.php');
-require(dirname(__FILE__) . '/YandexMoney/ProcessPaymentResponse.php');

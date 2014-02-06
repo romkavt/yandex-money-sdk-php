@@ -44,9 +44,9 @@
 
     "autoload": {
         "psr-0": {
-            "YandexMoney": ""
+            "Yandex": ""
         }
     },
 
-    "target-dir": "YandexMoney"
+    "target-dir": "Yandex"
 }
