@@ -1,8 +1,8 @@
 <?php
 
-namespace Yandex\YandexMoney\Response;
+namespace YandexMoney\Response;
 
-use Yandex\YandexMoney\Operation\Operation;
+use YandexMoney\Operation\Operation;
 
 /**
  * 

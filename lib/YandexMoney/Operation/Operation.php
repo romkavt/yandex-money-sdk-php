@@ -1,6 +1,6 @@
 <?php
 
-namespace Yandex\YandexMoney\Operation;
+namespace YandexMoney\Operation;
 
 /**
  * 

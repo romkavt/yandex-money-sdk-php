@@ -1,6 +1,6 @@
 <?php
 
-namespace Yandex\YandexMoney\Response;
+namespace YandexMoney\Response;
 
 /**
  * 
