@@ -1,0 +1,52 @@
+{
+    "name": "acin91/yandex-money-php-sdk",
+    "description": "PHP 5.3+ yandex money API implementation.",
+    "keywords": ["yandex","money", "php", "sdk", "payment"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "melnikovdv",
+            "email": "melnikovdv@gmail.com"
+        },
+        {
+            "name": "pashager"
+        },
+        {
+            "name": "Andrei Baibaratsky",
+            "email": "andrei@baibaratsky.com"
+        },
+        {
+            "name": "kugaevsky",
+            "email": "nick@kugaevsky.ru"
+        },
+        {
+            "name": "Ivan Lemeshev",
+            "email": "johnroyzreit@gmail.com"
+        },
+        {
+            "name": "Levin-Andrey",
+            "email": "lennytmp@gmail.com"
+        },
+        {
+            "name": "tevtushok"
+        },
+        {
+            "name": "Zmicier Aliakseyeu",
+            "email": "z.aliakseyeu@gmail.com"
+        }
+    ],
+     
+    "require": {
+        "php": ">=5.3.3",
+        "ext-curl": "*", 
+        "ext-json": "*"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "YandexMoney": ""
+        }
+    },
+
+    "target-dir": "YandexMoney"
+}
