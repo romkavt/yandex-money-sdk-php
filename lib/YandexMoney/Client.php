@@ -1,6 +1,6 @@
 <?php
 
-namespace Yandex;
+namespace YandexMoney;
 
 use YandexMoney\ApiRequestor;
 use YandexMoney\Operation\OperationDetail;
@@ -10,7 +10,7 @@ use YandexMoney\Response as Responses;
 /**
  * 
  */
-class YandexMoney
+class Client
 {
     /**
      * 
