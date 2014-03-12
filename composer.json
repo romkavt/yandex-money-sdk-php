@@ -1,5 +1,5 @@
 {
-    "name": "acin91/yandex-money-php-sdk",
+    "name": "yandex-money/yandex-money-sdk-php",
     "description": "PHP 5.3+ yandex money API implementation.",
     "keywords": ["yandex","money", "php", "sdk", "payment"],
     "license": "MIT",
