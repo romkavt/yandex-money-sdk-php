@@ -1,17 +1,16 @@
-##PHP Yandex.Money API SDK
+#PHP Yandex.Money API SDK
 
-- - -
+## Getting started
 
-As an experiment we decided to make manual in English.
-
-### Getting started
-
-#### Workflow
+### Workflow
 
 Your app asks user to give permissions to manage operations with user's Yandex.Money account. This process is known as
-OAuth authorization. As a result of OAuth your app receives access token from Yandex.Money servers. Then, with this
-token your app can make requests to our servers and make operations with user's account, sometimes even without
-his activity.
+OAuth authorization. As a result of OAuth your app receives access token from Yandex.Money servers.  
+
+Then, with this token your app can make requests to our servers and make operations with user's account, sometimes even without
+his actual activity.
+
+### Code samples
 
 #### OAuth and token receiving
 
