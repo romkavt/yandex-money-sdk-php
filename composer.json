@@ -1,43 +1,19 @@
 {
     "name": "yandex-money/yandex-money-sdk-php",
-    "description": "PHP 5.3+ yandex money API implementation.",
-    "keywords": ["yandex","money", "php", "sdk", "payment"],
+    "description": "Yandex.Money API SDK for PHP",
+    "keywords": ["yandex", "money", "php", "sdk", "payment", "yandex.money"],
+    "type": "library",
+    "homepage": "https://github.com/yandex-money/yandex-money-sdk-php",
     "license": "MIT",
     "authors": [
         {
-            "name": "melnikovdv",
-            "email": "melnikovdv@gmail.com"
-        },
-        {
-            "name": "pashager"
-        },
-        {
-            "name": "Andrei Baibaratsky",
-            "email": "andrei@baibaratsky.com"
-        },
-        {
-            "name": "kugaevsky",
-            "email": "nick@kugaevsky.ru"
-        },
-        {
-            "name": "Ivan Lemeshev",
-            "email": "johnroyzreit@gmail.com"
-        },
-        {
-            "name": "Levin-Andrey",
-            "email": "lennytmp@gmail.com"
-        },
-        {
-            "name": "tevtushok"
-        },
-        {
-            "name": "Zmicier Aliakseyeu",
-            "email": "z.aliakseyeu@gmail.com"
+            "name": "Yandex.Money",
+            "homepage": "https://github.com/yandex-money/yandex-money-sdk-php/graphs/contributors"
         }
     ],
      
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.3.0",
         "ext-curl": "*", 
         "ext-json": "*"
     },
