@@ -2,7 +2,6 @@
 
 namespace YandexMoney;
 
-use YandexMoney\ApiRequestor;
 use YandexMoney\Operation\OperationDetail;
 use YandexMoney\Exception as Exceptions;
 use YandexMoney\Response as Responses;
@@ -111,7 +110,7 @@ class Client
     public function revokeOAuthToken($accessToken)
     {
         $requestor = new ApiRequestor($accessToken, $this->logFile);
-        $resp = $requestor->request(self::URI_API . '/revoke');
+        $requestor->request(self::URI_API . '/revoke');
 
         return true;
     }
