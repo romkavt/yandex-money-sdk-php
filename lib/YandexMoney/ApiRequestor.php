@@ -72,7 +72,7 @@ class ApiRequestor
         curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
         //        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, true);
-        curl_setopt($curl, CURLOPT_CAINFO, dirname(__FILE__) . self::CERTIFICATE_PATH);
+        curl_setopt($curl, CURLOPT_CAINFO, __DIR__ . self::CERTIFICATE_PATH);
                                     
         $this->_log($this->_makeRequestLogMessage($uri, $params));  
 
@@ -97,7 +97,7 @@ class ApiRequestor
      * @param int $rcode
      * @return array $response
      * 
-     * @throws \Yandex\YandexMoney\Exception\ApiException
+     * @throws \YandexMoney\Exception\ApiException
      */
     private function _interpretResponse($rbody, $rcode, $expectResponseBody)
     {
@@ -127,7 +127,7 @@ class ApiRequestor
      * @param int $errno
      * @param string $message
      * 
-     * @throws \Yandex\YandexMoney\Exception\ApiConnectionException
+     * @throws \YandexMoney\Exception\ApiConnectionException
      */
     private function _handleCurlError($errno, $message)
     {
@@ -155,10 +155,10 @@ class ApiRequestor
      * @param string $rcode
      * @param string $resp
      * 
-     * @throws \Yandex\YandexMoney\Exception\ApiException
-     * @throws \Yandex\YandexMoney\Exception\InvalidTokenException
-     * @throws \Yandex\YandexMoney\Exception\InsufficientScopeException
-     * @throws \Yandex\YandexMoney\Exception\InternalServerErrorException
+     * @throws \YandexMoney\Exception\ApiException
+     * @throws \YandexMoney\Exception\InvalidTokenException
+     * @throws \YandexMoney\Exception\InsufficientScopeException
+     * @throws \YandexMoney\Exception\InternalServerErrorException
      */
     private function _handleApiError($rbody, $rcode, $resp)
     {
@@ -183,7 +183,7 @@ class ApiRequestor
     /**
      * @param string $message
      * 
-     * @throws \Yandex\YandexMoney\Exception\Exception
+     * @throws \YandexMoney\Exception\Exception
      */
     private function _log($message)
     {
