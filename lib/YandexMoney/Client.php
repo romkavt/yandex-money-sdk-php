@@ -85,7 +85,7 @@ class Client
      * @param string $code
      * @param string $redirectUri
      * @param string $clientSecret
-     * @return \Yandex\YandexMoney\Response\ReceiveTokenResponse
+     * @return \YandexMoney\Response\ReceiveTokenResponse
      */
     public function receiveOAuthToken($code, $redirectUri, $clientSecret = null)
     {
@@ -93,7 +93,7 @@ class Client
         $paramArray['client_id'] = $this->clientId;
         $paramArray['code'] = $code;
         $paramArray['redirect_uri'] = $redirectUri;
-        if ($client_secret) {
+        if (isset($client_secret)) {
             $paramArray['client_secret'] = $clientSecret;
         }
         $params = http_build_query($paramArray);
@@ -118,7 +118,7 @@ class Client
 
     /**
      * @param string $accessToken
-     * @return \Yandex\YandexMoney\Response\AccountInfoResponse
+     * @return \YandexMoney\Response\AccountInfoResponse
      */
     public function accountInfo($accessToken)
     {
@@ -133,7 +133,7 @@ class Client
      * @param int $startRecord
      * @param int $records
      * @param string $type
-     * @return \Yandex\YandexMoney\Response\OperationHistoryResponse
+     * @return \YandexMoney\Response\OperationHistoryResponse
      */
     public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $from = null, $till = null, $label = null)
     {
@@ -193,7 +193,7 @@ class Client
      * @param float $amount
      * @param string $comment
      * @param string $message
-     * @return \Yandex\YandexMoney\Response\RequestPaymentResponse
+     * @return \YandexMoney\Response\RequestPaymentResponse
      */
     public function requestPaymentP2P($accessToken, $to, $amount, $comment = null, $message = null, $label = null)
     {
@@ -214,7 +214,7 @@ class Client
     /**
      * @param string $accessToken
      * @param string $requestId
-     * @return \Yandex\YandexMoney\Response\ProcessPaymentResponse
+     * @return \YandexMoney\Response\ProcessPaymentResponse
      */
     public function processPaymentByWallet($accessToken, $requestId) 
     {
@@ -231,7 +231,7 @@ class Client
     /**
      * @param string $accessToken
      * @param string $shopParams
-     * @return \Yandex\YandexMoney\Response\RequestPaymentResponse
+     * @return \YandexMoney\Response\RequestPaymentResponse
      */
     public function requestPaymentShop($accessToken, $shopParams)
     {
@@ -248,7 +248,7 @@ class Client
      * @param string $accessToken
      * @param string $requestId
      * @param string $csc
-     * @return \Yandex\YandexMoney\Response\ProcessPaymentResponse
+     * @return \YandexMoney\Response\ProcessPaymentResponse
      */
     public function processPaymentByCard($accessToken, $requestId, $csc)
     {
@@ -265,7 +265,7 @@ class Client
 
     /**
      * @param string $clientId
-     * @throws \Yandex\YandexMoney\Exception\Exception
+     * @throws \YandexMoney\Exception\Exception
      */
     private static function _validateClientId($clientId)
     {
