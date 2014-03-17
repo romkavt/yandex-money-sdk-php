@@ -92,7 +92,7 @@ class Client
         $paramArray['client_id'] = $this->clientId;
         $paramArray['code'] = $code;
         $paramArray['redirect_uri'] = $redirectUri;
-        if (isset($client_secret)) {
+        if (isset($clientSecret)) {
             $paramArray['client_secret'] = $clientSecret;
         }
         $params = http_build_query($paramArray);
