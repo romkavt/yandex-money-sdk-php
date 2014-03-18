@@ -7,7 +7,7 @@
 Your app asks user to give permissions to manage operations with user's Yandex.Money account. This process is known as
 OAuth authorization. As a result of OAuth your app receives access token from Yandex.Money servers.  
 
-Then, with this token your app can make requests to our servers and make operations with user's account, sometimes even without
+Then, with this token your app can make requests to our servers and perform operations with user's account, sometimes even without
 his actual activity.
 
 ### Code samples
@@ -17,8 +17,6 @@ his actual activity.
 First of all, we should get token. It's very simple. We take special uri which we'll sent user to ask permissions.
 
 ```php
-require_once(dirname(__FILE__) . '/../lib/YandexMoney.php');
-
 $scope = "account-info operation-history operation-details "; // this is scope of permissions
 $authUri = YandexMoney::authorizeUri(YOUR_APP_CLIENT_ID, YOUR_APP_REDIRECT_URI, $scope);
 header('Location: ' . $authUri);
