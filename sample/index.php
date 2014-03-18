@@ -2,8 +2,17 @@
 
 ini_set('display_errors', 1);
 
-require_once(dirname(__FILE__) . '/../lib/YandexMoney.php');
-require_once(dirname(__FILE__) . '/consts.php');
+// Include the composer autoloader
+if(!file_exists(__DIR__ .'/../vendor/autoload.php')) {
+    echo "folder: " . __DIR__ . "\r\n";
+    echo "The 'vendor' folder is missing. You must run 'composer update' to resolve application dependencies.\nPlease see the README for more information.\n";
+    exit(1);
+}
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/consts.php';
+
+use YandexMoney\Client;
 
 $code = $_GET['code'];
 if (!isset($code)) { // If we are just begginig OAuth
@@ -13,7 +22,7 @@ if (!isset($code)) { // If we are just begginig OAuth
         "payment.to-account(\"410011161616877\",\"account\").limit(30,10) " .
         "payment.to-pattern(\"337\").limit(30,10) " .
         "money-source(\"wallet\",\"card\") ";
-    $authUri = YandexMoney::authorizeUri(CLIENT_ID, REDIRECT_URI, $scope);
+    $authUri = Client::authorizeUri(CLIENT_ID, REDIRECT_URI, $scope);
     header('Location: ' . $authUri);
 
 } else { // when we recieved a temporary code on redirect
@@ -30,9 +39,7 @@ if (!isset($code)) { // If we are just begginig OAuth
     <h3 id="header">Yandex.Money PHP SDK sample app</h3>
 
     <?php
-
-
-        $ym = new YandexMoney(CLIENT_ID, './ym.log');
+        $ym = new Client(CLIENT_ID, __DIR__ . '/ym.log');
         $receiveTokenResp = $ym->receiveOAuthToken($code, REDIRECT_URI, CLIENT_SECRET);
 
         print "<p class=\"output\">";
