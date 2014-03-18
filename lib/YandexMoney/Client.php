@@ -134,7 +134,8 @@ class Client
      * @param string $type
      * @return \YandexMoney\Response\OperationHistoryResponse
      */
-    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $from = null, $till = null, $label = null)
+    public function operationHistory($accessToken, $startRecord = null, $records = null, $type = null, $from = null,
+                                     $till = null, $label = null, $details = null)
     {
         $paramArray = array();
         if (isset($type)) {
@@ -157,6 +158,10 @@ class Client
 
         if (isset($till)) {
             $paramArray['till'] = $till;
+        }
+
+        if (isset($details)) {
+            $paramArray['details'] = $details;
         }
 
         if (count($paramArray) > 0) {
