@@ -10,6 +10,18 @@ OAuth authorization. As a result of OAuth your app receives access token from Ya
 Then, with this token your app can make requests to our servers and perform operations with user's account, sometimes even without
 his actual activity.
 
+### Prerequisites
+
+* PHP 5.3 or above
+* curl, json & openssl extensions must be enabled
+* composer for fetching dependencies (See http://getcomposer.org)
+
+### Links
+
+* Yandex.Money API page: [Ru](http://api.yandex.ru/money/), [En](http://api.yandex.com/money/).
+* [changelog](https://github.com/yandex-money/yandex-money-sdk-php/blob/master/CHANGELOG.md)
+* [sample app](https://github.com/yandex-money/yandex-money-sdk-php/tree/master/sample)
+
 ### Code samples
 
 #### OAuth and token receiving
