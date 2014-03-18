@@ -1,6 +1,12 @@
-Warning
--------
+# yandex-money-sdk-php sample app
 
-Don't forget to update info in consts.php file. It is essential for working sample.
+This project is a simple app that can help you to understand what the payment APIs can do for you.
 
-Also, if you want to make payment for mobile phone from connected to Yandex.Money bank card you shoul enter right pin in index.php at processPaymentByCard execution.
+**To try out the sample:**
+
+* [register](https://sp-money.yandex.ru/myservices/new.xml) an app
+* update info in consts.php file (```CLIENT_ID```, ```REDIRECT_URI```, ```CLIENT_SECRET```)
+* run ```composer update --no-dev``` from the sample folder
+* deploy to a server and run
+
+Also, if you want to make payments from bank card you should enter right pin in ```index.php``` at processPaymentByCard execution.
