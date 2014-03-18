@@ -128,7 +128,7 @@ if (!isset($code)) { // If we are just begginig OAuth
         print "</p>";
 
         $requestId = $resp->getRequestId();
-        $resp = $ym->processPaymentByCard($token, $requestId, "111");
+        $resp = $ym->processPaymentByCard($token, $requestId, "313");
         print "<p class=\"output\">";
         if ($resp->isSuccess()) {
             var_dump($resp);
