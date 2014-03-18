@@ -109,10 +109,9 @@ class ApiRequestor
             throw new Exception\ApiException("Invalid response body from API: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
         }    
 
-        // Only for PHP 5 >= 5.3.0
-        // if (json_last_error() !== JSON_ERROR_NONE) {
-        //     throw new YM_ApiError("Json parsing error with json_last_error code = " . json_last_error(), $rcode, $rbody);
-        // }
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new YM_ApiError("Json parsing error with json_last_error code = " . json_last_error(), $rcode, $rbody);
+        }
 
         if ($resp === null && $expectResponseBody) {
             throw new Exception\ApiException("Server response body is null: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
