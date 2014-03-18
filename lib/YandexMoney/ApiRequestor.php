@@ -10,7 +10,7 @@ class ApiRequestor
     /**
      * 
      */
-    const USER_AGENT = 'yamolib-php';
+    const USER_AGENT = 'yandex-money-sdk-php';
 
     /**
      * 
@@ -65,13 +65,11 @@ class ApiRequestor
 
         curl_setopt($curl, CURLOPT_USERAGENT, self::USER_AGENT);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        //        curl_setopt($curl, CURLOPT_FORBID_REUSE, true);
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($curl, CURLOPT_TIMEOUT, 80);
         curl_setopt($curl, CURLOPT_POST, true);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true);
-        //        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, true);
         curl_setopt($curl, CURLOPT_CAINFO, __DIR__ . self::CERTIFICATE_PATH);
                                     
         $this->_log($this->_makeRequestLogMessage($uri, $params));  
