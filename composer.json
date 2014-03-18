@@ -19,8 +19,8 @@
     },
 
     "autoload": {
-        "psr-4": {
-            "YandexMoney\\": ["lib/YandexMoney/"]
+        "psr-0": {
+            "YandexMoney\\": ["lib/"]
         }
     }
 }
