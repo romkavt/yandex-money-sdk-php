@@ -3,6 +3,6 @@
     "description": "sample app for yandex-money-sdk-php",
     "homepage": "https://github.com/yandex-money/yandex-money-sdk-php",
     "require": {
-    	"yandex-money/yandex-money-sdk-php": "1.2.*"
+    	"yandex-money/yandex-money-sdk-php": "1.3.*"
     }
 }
