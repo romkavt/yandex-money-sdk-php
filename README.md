@@ -105,38 +105,3 @@ Notice that if you want to log details of responses you should do it yourself.
 ```php
 $ym = new YandexMoney(YOUR_APP_CLIENT_ID, './path/to/logfile/ym.log');
 ```
-
-### Changelog
-
-**27.12.2013 ym-php 1.2.5**
-
-* certificate chain updated
-
-**28.10.2013 ym-php 1.2.4**
-
-* fixed undefined variable $resp at ApiRequestor
-
-**15.08.2013 ym-php 1.2.3**
-
-* create log file instead of exception throwing
-
-**03.08.2013 ym-php 1.2.2**
-
-* revokeOAuthToken exception fixed
-
-**09.01.2013 ym-php 1.2.1**
-
-* request logs added
-
-**29.05.2012 ym-php 1.2.0**
-
-* revoke token method added
-
-**09.04.2012 ym-php 1.1.0**
-
-* source code refactoring
-* credit card payments to shops
-
-**28.10.2012 ym-php 1.0.0**
-
-* php-lib release
