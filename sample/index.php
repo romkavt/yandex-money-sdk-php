@@ -3,13 +3,13 @@
 ini_set('display_errors', 1);
 
 // Include the composer autoloader
-if(!file_exists(__DIR__ .'/../vendor/autoload.php')) {
+if(!file_exists(__DIR__ .'/vendor/autoload.php')) {
     echo "folder: " . __DIR__ . "\r\n";
     echo "The 'vendor' folder is missing. You must run 'composer update' to resolve application dependencies.\nPlease see the README for more information.\n";
     exit(1);
 }
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/consts.php';
 
 use YandexMoney\Client;
