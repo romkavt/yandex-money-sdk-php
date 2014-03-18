@@ -15,7 +15,7 @@ class ApiRequestor
     /**
      * 
      */
-    const CERTIFICATE_PATH = '../data/ca-certificate.crt';
+    const CERTIFICATE_PATH = '/../data/ca-certificate.crt';
 
     /**
      * @var string
