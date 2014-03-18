@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 (18.03.2014)
+
+* composer support
+* php >= 5.3.0 requirement
+* details flag added in operation-history method
+* several minor docs and code changes
+* sample project improved
+
 ## 1.2.5 (27.12.2013)
 
 * certificate chain updated
