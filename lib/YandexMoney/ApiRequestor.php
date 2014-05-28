@@ -2,6 +2,8 @@
 
 namespace YandexMoney;
 
+use YandexMoney\Exception as Exceptions;
+
 /**
  * 
  */
@@ -106,7 +108,7 @@ class ApiRequestor
         try {
             $resp = json_decode($rbody, true);            
         } catch (Exception $e) {
-            throw new Exception\ApiException("Invalid response body from API: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
+            throw new Exceptions\ApiException("Invalid response body from API: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
         }    
 
         if (json_last_error() !== JSON_ERROR_NONE) {
@@ -114,7 +116,7 @@ class ApiRequestor
         }
 
         if ($resp === null && $expectResponseBody) {
-            throw new Exception\ApiException("Server response body is null: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
+            throw new Exceptions\ApiException("Server response body is null: $rbody (HTTP response code was $rcode)", $rcode, $rbody);
         }
         
         return $resp;
@@ -144,7 +146,7 @@ class ApiRequestor
 
         $msg .= "\n\n(Network error: $message)";
 
-        throw new Exception\ApiConnectionException($msg);
+        throw new Exceptions\ApiConnectionException($msg);
     }
 
     /**
@@ -161,18 +163,18 @@ class ApiRequestor
     {
         switch ($rcode) {
             case 400:
-                throw new Exception\ApiException('Invalid request error', $rcode, $rbody, $resp);
+                throw new Exceptions\ApiException('Invalid request error', $rcode, $rbody, $resp);
             case 401:
-                throw new Exception\InvalidTokenException('Nonexistent, expired, or revoked token specified.', $rcode, $rbody, $resp);
+                throw new Exceptions\InvalidTokenException('Nonexistent, expired, or revoked token specified.', $rcode, $rbody, $resp);
             case 403:
-                throw new Exception\InsufficientScopeException('The token does not have permissions for the requested operation.',
+                throw new Exceptions\InsufficientScopeException('The token does not have permissions for the requested operation.',
                     $rcode, $rbody, $resp);
             case 500:
-                throw new Exception\InternalServerErrorException('It is a technical error occurs, the server responds with the HTTP code
+                throw new Exceptions\InternalServerErrorException('It is a technical error occurs, the server responds with the HTTP code
                     500 Internal Server Error. The application should repeat the request with the same parameters later.',
                     $rcode, $rbody, $resp);
             default:
-                throw new Exception\ApiException('Unknown API response error. You should inform your software developer.',
+                throw new Exceptions\ApiException('Unknown API response error. You should inform your software developer.',
                     $rcode, $rbody, $resp);
         }
     }
@@ -188,20 +190,20 @@ class ApiRequestor
         if ($f !== null) {
             if (file_exists($f)) {
                 if (!is_file($f)) {
-                    throw new Exception\Exception("log file $f is not a file");
+                    throw new Exceptions\Exception("log file $f is not a file");
                 }
                 if (!is_writable($f)) {
-                    throw new Exception\Exception("log file $f is not writable");
+                    throw new Exceptions\Exception("log file $f is not writable");
                 }
             }
                 
             if (!$handle = fopen($f, 'a')) {
-                throw new Exception\Exception("couldn't open log file $f for appending");
+                throw new Exceptions\Exception("couldn't open log file $f for appending");
             }
             
             $time = '[' . date("Y-m-d H:i:s") . '] ';
             if (fwrite($handle, $time . $message . "\r\n") === false) {
-                throw new Exception\Exception("couldn't fwrite message log to $f"); 
+                throw new Exceptions\Exception("couldn't fwrite message log to $f"); 
             }
             
             fclose($handle);                                
