@@ -3,32 +3,19 @@
 namespace YandexMoney\Response;
 
 /**
- * 
+ *
  */
-class ReceiveTokenResponse implements ResponseInterface
+class ReceiveTokenResponse extends BaseResponse
 {
-    /**
-     * @var string
-     */
-    protected $accessToken;
-
-    /**
-     * @var string
-     */
-    protected $error;
+    const ACCESS_TOKEN = 'access_token';
 
     /**
      * @param array $response
      */
+    // TODO Won't work, should be refactored
     public function __construct(array $response)
     {
-        if (isset($response['access_token'])) {
-            $this->accessToken = $response['access_token'] ;
-        }
-
-        if (isset($response['error'])) {
-            $this->error = $response['error'];
-        }
+        $this->params = $response;
     }
 
     /**
@@ -36,22 +23,7 @@ class ReceiveTokenResponse implements ResponseInterface
      */
     public function getAccessToken()
     {
-        return $this->accessToken;
+        return $this->checkAndReturn(self::ACCESS_TOKEN);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getError()
-    {
-        return $this->error;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isSuccess()
-    {
-        return $this->error === null;
-    }
 }

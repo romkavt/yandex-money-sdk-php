@@ -1,89 +1,53 @@
 <?php
 
+/**
+ * Created by PhpStorm.
+ * User: eugene
+ * Date: 5/17/14
+ * Time: 1:06 PM
+ */
 namespace YandexMoney\Response;
 
-use YandexMoney\Operation\OperationDetail;
+use YandexMoney\Domain\OperationDetails;
 
 /**
- * 
+ * Class OperationHistoryResponse {@link http://api.yandex.ru/money/doc/dg/reference/operation-history.xml}
+ * @package YandexMoney\Response
+ *
  */
-class OperationHistoryResponse implements ResponseInterface
+class OperationHistoryResponse extends BaseResponse implements ResponseInterface
 {
-    /**
-     * @var string
-     */
-    protected $error;
-
-    /**
-     * @param int
-     */
-    protected $nextRecord;
-    
-    /**
-     * @var array
-     */
-    protected $operations;
+    const NEXT_RECORD = 'next_record';
+    const OPERATIONS = 'operations';
 
     /**
      * @param array $operations
      */
     public function __construct(array $operations)
     {
-        $this->operations = array();
-
-        if (isset($operations['error'])) {
-            $this->error = $operations['error'];
-        }
-
-        if (isset($operations['next_record'])) {
-            $this->nextRecord = $operations['next_record'];
-        }
-
-        if (isset($operations['operations'])) {
-            foreach ($operations['operations'] as $operation) {
-                $this->operations[] = new OperationDetail($operation);
-            }
-        }
+        $this->params = $operations;
     }
 
     /**
-     * @return string возвращает код ошибки
-     * Возможные значения:
-     * illegal_param_type - неверное значение параметра type метода
-     * operationHistory;
-     * illegal_param_start_record - неверное значение параметра startRecord
-     * метода operationHistory;
-     * illegal_param_records ― неверное значение параметра records;
-     * Все прочие значения: техническая ошибка, повторите вызов операции позднее.
-     */
-    public function getError() 
-    {
-        return $this->error;
-    }
-
-    /**
-     * @return integer возвращает порядковый номер первой записи на следующей
-     * странице истории операций. Присутствует, только если следующая
-     * страница существует.
+     * @return integer|null
      */
     public function getNextRecord()
     {
-        return $this->nextRecord;
+        return $this->checkAndReturn(self::NEXT_RECORD);
     }
 
     /**
-     * @return array возвращает массив объектов Operation
+     * @return array OperationDetails
      */
     public function getOperations()
     {
-        return $this->operations;
+        $operationsArrayResponse = array();
+        if ($this->checkAndReturn(self::OPERATIONS) != null && count($this->params[self::OPERATIONS]) > 0) {
+            foreach ($this->params[self::OPERATIONS] as $operation) {
+                array_push($operationsArrayResponse, new OperationDetails($operation));
+            }
+        }
+        return $operationsArrayResponse;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function isSuccess()
-    {
-        return $this->error === null;
-    }
 }
