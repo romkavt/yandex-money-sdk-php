@@ -1,7 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../sample/consts.php';
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../sample/consts.php';
+require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Silex\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ class RoutesTest extends WebTestCase
 
     public function createApplication()
     {
-        return require __DIR__ . '/../sample/index.php';
+        return require __DIR__ . '/../../sample/index.php';
     }
 
     public function _testAuthorizeApplicationRedirect()
