@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 5/17/14
- * Time: 1:50 PM
- */
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 

@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: eugene
- * Date: 5/17/14
- * Time: 11:58 AM
- */
+
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use YandexMoney\YandexMoney;

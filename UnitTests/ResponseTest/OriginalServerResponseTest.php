@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Response\OriginalServerResponse;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/6/14
- * Time: 9:09 PM
- */
 class OriginalServerResponseTest extends PHPUnit_Framework_TestCase
 {
 

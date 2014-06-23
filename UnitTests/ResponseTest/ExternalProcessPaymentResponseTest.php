@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Response\ExternalProcessPaymentResponse;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/2/14
- * Time: 8:56 PM
- */
 class ExternalProcessPaymentResponseTest extends PHPUnit_Framework_TestCase
 {
 

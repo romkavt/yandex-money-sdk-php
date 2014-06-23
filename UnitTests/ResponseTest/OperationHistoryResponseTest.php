@@ -2,12 +2,6 @@
 use YandexMoney\Domain\OperationDetails;
 use YandexMoney\Response\OperationHistoryResponse;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/5/14
- * Time: 10:02 PM
- */
 class OperationHistoryResponseTest extends PHPUnit_Framework_TestCase
 {
 

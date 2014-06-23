@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Response\ReceiveTokenResponse;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/6/14
- * Time: 8:50 PM
- */
 class ReceiveTokenResponseTest extends PHPUnit_Framework_TestCase
 {
 

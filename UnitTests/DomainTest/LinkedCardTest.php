@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Domain\LinkedCard;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/1/14
- * Time: 11:10 AM
- */
 class LinkedCardTest extends PHPUnit_Framework_TestCase
 {
 

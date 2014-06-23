@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Domain\Notification;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/1/14
- * Time: 11:23 AM
- */
 class NotificationTest extends PHPUnit_Framework_TestCase
 {
 

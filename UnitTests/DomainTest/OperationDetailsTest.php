@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Domain\OperationDetails;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/1/14
- * Time: 1:58 PM
- */
 class OperationDetailsTest extends PHPUnit_Framework_TestCase
 {
 

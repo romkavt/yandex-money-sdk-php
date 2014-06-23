@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Response\IncomingTransferAcceptResponse;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/5/14
- * Time: 9:27 PM
- */
 class IncomingTransferAcceptResponseTest extends PHPUnit_Framework_TestCase
 {
 

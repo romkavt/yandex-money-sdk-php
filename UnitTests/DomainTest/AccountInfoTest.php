@@ -4,12 +4,6 @@ use YandexMoney\Domain\Avatar;
 use YandexMoney\Domain\BalanceDetails;
 use YandexMoney\Domain\LinkedCard;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 5/31/14
- * Time: 3:06 PM
- */
 class AccountInfoTest extends PHPUnit_Framework_TestCase
 {
 

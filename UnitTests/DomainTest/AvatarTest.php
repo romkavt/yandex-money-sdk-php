@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Domain\Avatar;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/1/14
- * Time: 10:04 AM
- */
 class AvatarTest extends PHPUnit_Framework_TestCase
 {
 

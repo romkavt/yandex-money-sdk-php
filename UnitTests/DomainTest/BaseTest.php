@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Domain\Base;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/1/14
- * Time: 10:30 AM
- */
 class BaseTest extends PHPUnit_Framework_TestCase
 {
 

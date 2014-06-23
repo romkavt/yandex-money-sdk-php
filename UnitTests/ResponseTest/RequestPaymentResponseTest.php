@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Response\RequestPaymentResponse;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/1/14
- * Time: 9:02 PM
- */
 class RequestPaymentResponseTest extends PHPUnit_Framework_TestCase
 {
 

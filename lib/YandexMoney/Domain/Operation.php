@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 5/26/14
- * Time: 11:11 PM
- */
 
 namespace YandexMoney\Domain;
 

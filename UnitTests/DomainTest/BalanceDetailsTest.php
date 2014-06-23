@@ -1,12 +1,6 @@
 <?php
 use YandexMoney\Domain\BalanceDetails;
 
-/**
- * Created by PhpStorm.
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/1/14
- * Time: 10:14 AM
- */
 class BalanceDetailsTest extends PHPUnit_Framework_TestCase
 {
 

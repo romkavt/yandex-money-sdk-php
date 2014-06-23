@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: eugene
- * Date: 5/17/14
- * Time: 1:06 PM
- */
 namespace YandexMoney\Response;
 
 use YandexMoney\Domain\OperationDetails;
