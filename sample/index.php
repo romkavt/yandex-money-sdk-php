@@ -1,9 +1,4 @@
 <?php
-/**
- * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
- * Date: 6/2/14
- * Time: 9:12 PM
- */
 
 ini_set('display_errors', 1);
 
