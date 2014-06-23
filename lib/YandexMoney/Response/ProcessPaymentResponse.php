@@ -3,162 +3,125 @@
 namespace YandexMoney\Response;
 
 /**
- * 
+ * Class ProcessPaymentResponse {@link http://api.yandex.ru/money/doc/dg/reference/process-payment.xml}
+ * @package YandexMoney\Response
  */
-class ProcessPaymentResponse implements ResponseInterface
+class ProcessPaymentResponse extends BaseResponse
 {
-    /**
-     * @var string
-     */
-    protected $status;
+    const PAYMENT_ID = 'payment_id';
+    const INVOICE_ID = 'invoice_id';
+    const PAYER = 'payer';
+    const PAYEE = 'payee';
+    const CREDIT_AMOUNT = 'credit_amount';
+    const ACCOUNT_UNBLOCK_URI = 'account_unblock_uri';
+    const HOLD_FOR_PICKUP_LINK = 'hold_for_pickup_link';
+    const ACS_URI = 'acs_uri';
+    const ACS_PARAMS = 'acs_params';
+    const NEXT_RETRY = 'next_retry';
+    const DIGITAL_GOODS = 'digital_goods';
 
     /**
-     * @var string
+     * @param array $responseParams
      */
-    protected $error;
-
-    /**
-     * @var string
-     */
-    protected $paymentId;
-
-    /**
-     * @var string
-     */
-    protected $balance;
-
-    /**
-     * @var string
-     */
-    protected $payer;
-
-    /**
-     * @var string
-     */
-    protected $payee;
-
-    /**
-     * @var string
-     */
-    protected $creditAmount;
-
-    /**
-     * @param array $response
-     */
-    public function __construct(array $response)
+    public function __construct(array $responseParams)
     {
-        if (isset($response['status'])) {
-            $this->status = $response['status'];
-        }
-        if (isset($response['error'])) {
-            $this->error = $response['error'];
-        }
-        if (isset($response['payment_id'])) {
-            $this->paymentId = $response['payment_id'];
-        }
-        if (isset($response['balance'])) {
-            $this->balance = $response['balance'];
-        }
-        if (isset($response['payer'])) {
-            $this->payer = $response['payer'];
-        }
-        if (isset($response['payee'])) {
-            $this->payee = $response['payee'];
-        }
-        if (isset($response['credit_amount'])) {
-            $this->creditAmount = $response['credit_amount'];
-        }
+        $this->params = $responseParams;
     }
 
     /**
-     * @return string возвращает код результата выполнения операции.
-     * Возможные значения:
-     * success - успешное выполнение (платеж проведен). Это конечное состояние платежа;
-     * refused - отказ в проведении платежа, объяснение причины отказа
-     * содержится в поле error. Это конечное состояние платежа;
-     * in_progress - авторизация платежа находится в процессе выполнения.
-     * Приложению следует повторить запрос с теми же параметрами спустя некоторое время;
-     * все прочие значения - состояние платежа неизвестно. Приложению
-     * следует повторить запрос с теми же параметрами спустя некоторое время.
+     * @return string|null
      */
-    public function getStatus()
+    public function getInvoiceId()
     {
-        return $this->status;
+        return $this->checkAndReturn(self::INVOICE_ID);
     }
 
     /**
-     * @return string возвращает код ошибки при проведении
-     * платежа (пояснение к полю status). Присутствует только при ошибках.
-     * Возможные значения:
-     * contract_not_found - отсутствует выставленный контракт с заданным requestId;
-     * not_enough_funds - недостаточно средств на счете плательщика;
-     * limit_exceeded - превышен лимит на сумму операции или сумму операций за
-     * период времени для выданного токена авторизации. Приложение должно
-     * отобразить соответствующее диалоговое окно.
-     * money_source_not_available - запрошенный метод платежа (money_source)
-     * недоступен для данного платежа.
-     * illegal_param_csc - отсутствует или указано недопустимое значение параметра csc;
-     * payment_refused - магазин по какой-либо причине отказал в приеме платежа;
-     * authorization_reject - в авторизации платежа отказано. Истек срок действия
-     * карты, либо банк-эмитент отклонил транзакцию по карте,
-     * либо превышен лимит платежной системы для данного пользователя.
+     * @return string|null
      */
-    public function getError()
+    public function getAccountUnblockUri()
     {
-        return $this->error;
+        return $this->checkAndReturn(self::ACCOUNT_UNBLOCK_URI);
     }
 
     /**
-     * @return string возвращает идентификатор проведенного платежа.
-     * Присутствует только при успешном выполнении метода.
+     * @return string|null
+     */
+    public function getHoldForPickupLink()
+    {
+        return $this->checkAndReturn(self::HOLD_FOR_PICKUP_LINK);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAcsUri()
+    {
+        return $this->checkAndReturn(self::ACS_URI);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getAcsParams()
+    {
+        return $this->checkAndReturn(self::ACS_PARAMS);
+    }
+
+    /**
+     * @return integer|null
+     */
+    public function getNextRetry()
+    {
+        return $this->checkAndReturn(self::NEXT_RETRY);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getDigitalGoods()
+    {
+        return $this->checkAndReturn(self::DIGITAL_GOODS);
+    }
+
+    /**
+     * @return string|null
      */
     public function getPaymentId()
     {
-        return $this->paymentId;
+        return $this->checkAndReturn(self::PAYMENT_ID);
     }
 
     /**
-     * @return string возвращает остаток на счете пользователя после
-     * проведения платежа. Присутствует только при успешном выполнении метода.
+     * @return string|null
      */
     public function getBalance()
     {
-        return $this->balance;
+        return $this->checkAndReturn(self::BALANCE);
     }
 
     /**
-     * @return string возвращает номер счета плательщика. Присутствует
-     * только при успешном выполнении метода.
+     * @return string|null
      */
     public function getPayer()
     {
-        return $this->payer;
+        return $this->checkAndReturn(self::PAYER);
     }
 
     /**
-     * @return string возвращает номер счета получателя. Присутствует
-     * только при успешном выполнении метода.
+     * @return string|null
      */
     public function getPayee()
     {
-        return $this->payee;
+        return $this->checkAndReturn(self::PAYEE);
     }
 
     /**
-     * @return string возвращает сумму, полученную на счет получателем.
-     * Присутствует при успешном переводе средств на счет другого
-     * пользователя системы.
+     * @return float|null
      */
     public function getCreditAmount()
     {
-        return $this->creditAmount;
+        return $this->checkAndReturn(self::CREDIT_AMOUNT);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function isSuccess()
-    {
-        return $this->error === null;
-    }
 }

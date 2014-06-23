@@ -2,92 +2,31 @@
 
 namespace YandexMoney\Response;
 
+use YandexMoney\Domain\ProcessPaymentMoneySource;
+
 /**
- * 
+ * Class RequestPaymentResponse {@link http://api.yandex.ru/money/doc/dg/reference/request-payment.xml}
+ * @package YandexMoney\Response
  */
-class RequestPaymentResponse implements ResponseInterface
+class RequestPaymentResponse extends BaseResponse
 {
-    /**
-     * @var string
-     */
-    protected $status;
+    const EXT_ACTION_URI = 'ext_action_uri';
+    const ACCOUNT_UNBLOCK_URI = 'account_unblock_uri';
+    const PROTECTION_CODE = 'protection_code';
+    const RECIPIENT_ACCOUNT_TYPE = 'recipient_account_type';
+    const RECIPIENT_ACCOUNT_STATUS = 'recipient_account_status';
+    const RECIPIENT_IDENTIFIED = 'recipient_identified';
+    const CONTRACT_AMOUNT = 'contract_amount';
+    const CONTRACT = 'contract';
+
 
     /**
-     * @var string
-     */
-    protected $error;
-
-    /**
-     * @var string
-     */
-    protected $moneySource;
-
-    /**
-     * @var string
-     */
-    protected $requestId;
-
-    /**
-     * @var string
-     */
-    protected $contract;
-
-    /**
-     * @var string
-     */
-    protected $balance;
-
-    /**
-     * @param array $responseArray
+     * @param array $response
+     * @internal param array $responseArray
      */
     public function __construct(array $response)
     {
-        if (isset($response['status'])) {
-            $this->status = $response['status'];
-        }
-        if (isset($response['error'])) {
-            $this->error = $response['error'];
-        }
-        if (isset($response['money_source'])) {
-            $this->moneySource = $response['money_source'];
-        }
-        if (isset($response['request_id'])) {
-            $this->requestId = $response['request_id'];
-        }
-        if (isset($response['contract'])) {
-            $this->contract = $response['contract'];
-        }
-        if (isset($response['balance'])) {
-            $this->balance = $response['balance'];
-        }
-    }
-
-    /**
-     * @return string возвращает код результата выполнения операции.
-     * Возможные значения:
-     * success - успешное выполнение;
-     * refused - отказ в проведении платежа, объяснение причины отказа
-     * содержится в поле error. Это конечное состояние платежа.
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    /**
-     * @return string возвращает код ошибки при проведении платежа
-     * (пояснение к полю status). Присутствует только при ошибках.
-     * Возможные значения:
-     * illegal_params ― отсутствуют или имеют недопустимые значения
-     * обязательные параметры платежа;
-     * payment_refused ― магазин отказал в приеме платежа (например
-     * пользователь попробовал заплатить за товар, которого нет в магазине).
-     * Все прочие значения: техническая ошибка, повторите платеж
-     * через несколько минут.
-     */
-    public function getError()
-    {
-        return $this->error;
+        $this->params = $response;
     }
 
     /**
@@ -97,7 +36,12 @@ class RequestPaymentResponse implements ResponseInterface
      */
     public function getMoneySource()
     {
-        return $this->moneySource;
+        $moneySource = null;
+        if ($this->checkAndReturn(self::MONEY_SOURCE) != null) {
+            $moneySource = new ProcessPaymentMoneySource($this->params[self::MONEY_SOURCE]);
+        }
+
+        return $moneySource;
     }
 
     /**
@@ -107,17 +51,25 @@ class RequestPaymentResponse implements ResponseInterface
      */
     public function getRequestId()
     {
-        return $this->requestId;
+        return $this->checkAndReturn(self::REQUEST_ID);
     }
 
     /**
-     * @return string возвращает текст описания платежа (контракт).
-     * Присутствует только при успешном выполнении метода requestPayment.
+     * @return string|null
      */
     public function getContract()
     {
-        return $this->contract;
+        return $this->checkAndReturn(self::CONTRACT);
     }
+
+    /**
+     * @return float|null
+     */
+    public function getContractAmount()
+    {
+        return $this->checkAndReturn(self::CONTRACT_AMOUNT);
+    }
+
 
     /**
      * @return string возвращает текущий остаток на счете пользователя.
@@ -125,14 +77,54 @@ class RequestPaymentResponse implements ResponseInterface
      */
     public function getBalance()
     {
-        return $this->balance;
+        return $this->checkAndReturn(self::BALANCE);
     }
 
     /**
-     * {@inheritDoc}
+     * @return string|null
      */
-    public function isSuccess()
+    public function getRecipientAccountStatus()
     {
-        return $this->error === null;
+        return $this->checkAndReturn(self::RECIPIENT_ACCOUNT_STATUS);
+    }
+
+    /**
+     * @return boolean|null
+     */
+    public function isRecipientIdentified()
+    {
+        return $this->checkAndReturn(self::RECIPIENT_IDENTIFIED);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getRecipientAccountType()
+    {
+        return $this->checkAndReturn(self::RECIPIENT_ACCOUNT_TYPE);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProtectionCode()
+    {
+        return $this->checkAndReturn(self::PROTECTION_CODE);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAccountUnblockUri()
+    {
+        return $this->checkAndReturn(self::ACCOUNT_UNBLOCK_URI);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getExtActionUri()
+    {
+        return $this->checkAndReturn(self::EXT_ACTION_URI);
     }
 }
