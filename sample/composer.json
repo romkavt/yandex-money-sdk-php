@@ -4,6 +4,7 @@
     "homepage": "https://github.com/yandex-money/yandex-money-sdk-php",
 
     "require": {
+        "yandex-money/yandex-money-sdk-php": "dev-paction",
         "silex/silex": "~1.2",
         "twig/twig": ">=1.8,<2.0-dev"
     }
