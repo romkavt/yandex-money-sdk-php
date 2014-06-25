@@ -5,7 +5,8 @@
  * Date: 5/17/14
  * Time: 11:58 AM
  */
-require_once __DIR__ . '/../../vendor/autoload.php';
+
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 use YandexMoney\YandexMoney;
 
@@ -42,7 +43,7 @@ class YandexMoneyTest extends PHPUnit_Framework_TestCase {
     }
 
     public function testGetNotificationReceiver() {
-        $notificationReceiver = YandexMoney::getNotificationReceiver(NOTIFICATION_SECRET);
+        $notificationReceiver = YandexMoney::getNotificationReceiver("NOTIFICATION_SECRET");
 
         $this->assertNotNull($notificationReceiver);
         $this->assertInstanceOf('YandexMoney\Utils\NotificationReceiver', $notificationReceiver);
