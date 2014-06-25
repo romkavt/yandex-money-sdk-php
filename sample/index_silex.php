@@ -1,8 +1,14 @@
 <?php
+/**
+ * Authors: Eugene Avrukevich <eugene.avrukevich@gmail.com>
+ * Date: 6/2/14
+ * Time: 9:12 PM
+ */
+
 ini_set('display_errors', 1);
 
 require_once __DIR__ . '/../sample/consts.php';
-date_default_timezone_set("Europe/Moscow"); 
+date_default_timezone_set("Europe/Moscow");
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,9 +38,6 @@ $app->register(
     )
 );
 
-/**
- * app route
- */
 $app->get(
     '/',
     function () use ($app) {
@@ -69,9 +72,6 @@ $app->get(
     }
 );
 
-/**
- * app route
- */
 $app->get(
     '/get-token',
     function (Request $request) use ($app) {
@@ -94,8 +94,8 @@ $app->get(
         $result = "Empty result";
         if ($oAuthTokenResponse != null) {
             if ($oAuthTokenResponse->isSuccess()) {
-                $app['session']->set('token', $oAuthTokenResponse->getAccessToken());
                 $result = $oAuthTokenResponse->getAccessToken();
+                $app['session']->set('token', $oAuthTokenResponse->getAccessToken());
             } else {
                 $result = $oAuthTokenResponse->getError();
             }
@@ -112,14 +112,11 @@ $app->get(
     }
 );
 
-/**
- *  for testing
- */
 $app->get(
     '/operation-history',
     function (Request $request) use ($app) {
 
-        $token = $request->query->get('token');
+        $token = $app['session']->get('token');
 
         $operationHistoryRequest = new OperationHistoryRequest();
         $operationHistoryRequest->setStartRecord(0);
@@ -142,14 +139,11 @@ $app->get(
     }
 );
 
-/**
- *  for testing
- */
 $app->get(
     '/operation-details',
     function (Request $request) use ($app) {
 
-        $token = $request->query->get('token');
+        $token = $app['session']->get('token');
         $operationId = $request->query->get('operation_id');
 
         $apiFacade = YandexMoney::getApiFacade();
@@ -166,14 +160,12 @@ $app->get(
     }
 );
 
-/**
- *  for testing
- */
+
 $app->get(
     '/account-info',
     function (Request $request) use ($app) {
 
-        $token = $request->query->get('token');
+        $token = $app['session']->get('token');
 
         $apiFacade = YandexMoney::getApiFacade();
         $apiFacade->setLogFile(__DIR__ . '/ym.log');
@@ -189,14 +181,11 @@ $app->get(
     }
 );
 
-/**
- *  for testing
- */
 $app->get(
     '/request-payment',
     function (Request $request) use ($app) {
 
-        $token = $request->query->get('token');
+        $token = $app['session']->get('token');
 
         $params = array();
         $params["pattern_id"] = "337";
@@ -223,14 +212,11 @@ $app->get(
     }
 );
 
-/**
- *  for testing
- */
 $app->get(
     '/process-payment',
     function (Request $request) use ($app) {
 
-        $token = $request->query->get('token');
+        $token = $app['session']->get('token');
 
         $params = array();
         $params["pattern_id"] = "337";
@@ -264,14 +250,11 @@ $app->get(
     }
 );
 
-/**
- *  for testing
- */
 $app->get(
     '/request-payment-error',
     function (Request $request) use ($app) {
 
-        $token = $request->query->get('token');
+        $token = $app['session']->get('token');
 
         $params = array();
         $params["pattern_id"] = "337";
@@ -298,14 +281,11 @@ $app->get(
     }
 );
 
-/**
- *  for testing
- */
 $app->get(
     '/process-payment-error',
     function (Request $request) use ($app) {
 
-        $token = $request->query->get('token');
+        $token = $app['session']->get('token');
 
         $params = array();
         $params["pattern_id"] = "337";
@@ -339,9 +319,6 @@ $app->get(
     }
 );
 
-/**
- *  app route
- */
 $app->get(
     '/p2p-payment',
     function (Request $request) use ($app) {
@@ -386,9 +363,6 @@ $app->get(
     }
 );
 
-/**
- *  app route
- */
 $app->get(
     '/shop-payment',
     function (Request $request) use ($app) {
@@ -436,9 +410,6 @@ $app->get(
     }
 );
 
-/**
- *  app route
- */
 $app->get(
     '/incoming-transfer-accept',
     function (Request $request) use ($app) {
@@ -464,9 +435,6 @@ $app->get(
     }
 );
 
-/**
- *  app route
- */
 $app->get(
     '/incoming-transfer-reject',
     function (Request $request) use ($app) {
@@ -492,9 +460,6 @@ $app->get(
     }
 );
 
-/**
- *  app route
- */
 $app->get(
     '/instance-id',
     function (Request $request) use ($app) {
@@ -514,9 +479,6 @@ $app->get(
 );
 
 
-/**
- *  app route
- */
 $app->get(
     '/request-external-payment',
     function (Request $request) use ($app) {
@@ -566,9 +528,6 @@ $app->get(
     }
 );
 
-/**
- *  app route
- */
 $app->get(
     '/revoke-token',
     function (Request $request) use ($app) {
