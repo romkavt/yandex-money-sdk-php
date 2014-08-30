@@ -64,7 +64,7 @@ class RightsConfigurator
         if(empty($this->rightsString)) {
             $this->rightsString = Rights::ACCOUNT_INFO . " " . Rights::OPERATION_HISTORY;
         }
-        return $this->rightsString;
+        return trim($this->rightsString);
     }
 
     /**
