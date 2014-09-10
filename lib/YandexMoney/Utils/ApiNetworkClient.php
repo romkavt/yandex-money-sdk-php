@@ -14,7 +14,7 @@ class ApiNetworkClient
     /**
      *
      */
-    const CERTIFICATE_PATH = '/../../Data/ca-certificate.crt';
+    const CERTIFICATE_PATH = '/../../data/ca-certificate.crt';
 
     /**
      * @var string
