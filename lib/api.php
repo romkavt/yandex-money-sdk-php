@@ -11,27 +11,29 @@ class API {
 	const MONEY_URL = "https://money.yandex.ru";
 	const SP_MONEY_URL = "https://sp-money.yandex.ru";
 
-	function sendRequest($url, $params=array()) {
+	function sendRequest($url, $options=array()) {
+		$this->checkToken();
 		$full_url= self::MONEY_URL . $url;
 		$result = \Requests::post($full_url, array(
 			"Authorization" => sprintf("Bearer %s", $this->access_token),
-			), $params);
+			), $options);
 		return json_decode($result->body);
 	}
-	function CheckToken() {
+	function checkToken() {
 		if($this->access_token == NULL) {
 			throw Exception("obtain access_token first");
 		}
 	}
 	function accountInfo() {
-		$this->CheckToken();
 		return $this->sendRequest("/api/account-info");
 	}
 	function operationHistory($options=NULL) {
-
+		return $this->sendRequest("/api/operation-history", $options);
 	}
-	function operation_details($operation_id) {
-
+	function operationDetails($operation_id) {
+		return $this->sendRequest("/api/operation-details",
+			array("operation_id" => $operation_id)
+		);
 	}
 	function requestPayment($options) {
 
