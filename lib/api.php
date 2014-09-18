@@ -21,13 +21,13 @@ class API {
             ), $options);
         switch ($result->status_code) {
             case 400:
-                throw FormatError(); 
+                throw new Exceptions\FormatError; 
                 break;
             case 401:
-                throw TokenError(); 
+                throw new Exceptions\TokenError; 
                 break;
             case 403:
-                throw ScopeError(); 
+                throw new Exceptions\ScopeError; 
                 break;
         }
         return json_decode($result->body);

@@ -41,4 +41,7 @@ class PaymentTest extends BaseTest {
         $response = $this->api->requestPayment($options);
         $this->assertObjectHasAttribute("status", $response);
     }
+    function testProcessPayment() {
+
+    }
 }
