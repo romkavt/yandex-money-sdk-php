@@ -1,7 +1,7 @@
 <?php 
 namespace YandexMoney;
 
-require_once "lib/exceptions.php";
+require_once __DIR__ . "/exceptions.php";
 
 class API {
 

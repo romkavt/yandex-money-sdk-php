@@ -1,7 +1,7 @@
 <?php 
 
-require_once "tests/constants.php";
-require_once "lib/api.php";
+require_once __DIR__ . "/constants.php";
+require_once __DIR__ . "/../lib/api.php";
 
 abstract class BaseTest extends PHPUnit_Framework_TestCase {
     public $api;
