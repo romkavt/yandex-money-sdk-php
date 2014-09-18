@@ -13,6 +13,19 @@ abstract class BaseTest extends PHPUnit_Framework_TestCase {
 
 }
 
+class TokenUrlTest extends PHPUnit_Framework_TestCase {
+    function testTokenBuilder() {
+        $url = \YandexMoney\API::buildObtainTokenUrl(
+            CLIENT_ID,
+            "http://localhost:8000",
+            CLIENT_SECRET,
+            array("account-info operation-history operation-details")
+            );
+        // TODO: check url
+    }
+
+} 
+
 class AccountTest extends BaseTest {
     function testAccountInfo() {
         $result = $this->api->accountInfo();
@@ -25,23 +38,42 @@ class AccountTest extends BaseTest {
             "records" => 1,
         );
         $result = $this->api->operationHistory($options);
+        // var_dump($result);
         $this->assertObjectHasAttribute("operations", $result);
+    }
+    function testOperationDetailsError() {
+        $result = $this->api->operationDetails("12345");
+        $this->assertEquals($result->error, "illegal_param_operation_id");
     }
 }
 
 class PaymentTest extends BaseTest {
-    function testRequestPaymant() {
-        $options = array(
+    function setUp() {
+        $this->options = array(
             "pattern_id" => "phone-topup",
             "phone-number" => "79233630564",
-            "amount" => 1,
+            "amount" => 2,
             "test_payment" => true,
             "test_result" => "success"
         );
-        $response = $this->api->requestPayment($options);
-        $this->assertObjectHasAttribute("status", $response);
+        parent::setUp();
+    }
+    function makeRequestPayment() {
+        $response = $this->api->requestPayment($this->options);
+        $this->assertEquals($response->status, "success");
+        return $response;
+    }
+    function testRequestPaymant() {
+        $this->makeRequestPayment();
     }
     function testProcessPayment() {
-
+        $requestResult = $this->makeRequestPayment();
+        $processResult = $this->api->processPayment(array(
+            "request_id" => $requestResult->request_id,
+            "test_payment" => true,
+            "test_result" => "success"
+        ));
+        var_dump($processResult);
+        $this->assertEquals($processResult->status, "success");
     }
 }

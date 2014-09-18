@@ -70,18 +70,15 @@ class API {
 
     }
 
-    function obtainToken($client_secret=NULL) {
-        $url = self::MONEY_URL . "/oauth/token";
+    public static function buildObtainTokenUrl($client_id, $redirect_uri,
+            $client_secret=NULL, $scope) {
         $data = array(
-            'code' => $this->code,
-            'client_id' => $this->client_id,
-            'grant_type' => "authorization_code",
-            "redirect_url" => $this->redirect_url
-            );
-        if($client_secret != NULL)
-            $data['client_secret'] = $client_secret;
-        echo $url . "\n";
-        $response = \Requests::post("https://money.yandex.ru/oauth/token",
-            array(), $data);
+            "client_id" => $client_id,
+            "response_type" => "code",
+            "redirect_uri" => $redirect_uri,
+            "scope" => implode(" ", $scope),
+        );
+        $params = http_build_query($data);
+        return sprintf("%s/oauth/authorize/?%s", self::SP_MONEY_URL, $params);
     }
 }
