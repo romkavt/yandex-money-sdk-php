@@ -4,15 +4,13 @@ namespace YandexMoney;
 require_once "lib/exceptions.php";
 
 class API {
-    public $code;
-    public $client_id;
-    public $redirect_url;
-
-    public $access_token = NULL;
 
     const MONEY_URL = "https://money.yandex.ru";
     const SP_MONEY_URL = "https://sp-money.yandex.ru";
 
+    function __construct($access_token) {
+        $this->access_token = $access_token;
+    }
     function sendRequest($url, $options=array()) {
         $this->checkToken();
         $full_url= self::MONEY_URL . $url;

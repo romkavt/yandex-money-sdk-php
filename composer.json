@@ -1,8 +1,9 @@
 {
+    "name": "yandex-money/yandex-money-sdk-php-simplified",
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },
     "require": {
-	    "rmccue/requests": ">=1.0"
+        "rmccue/requests": ">=1.0"
     }
 }

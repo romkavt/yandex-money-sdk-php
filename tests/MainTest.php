@@ -7,8 +7,7 @@ abstract class BaseTest extends PHPUnit_Framework_TestCase {
     public $api;
 
     function setUp() {
-        $this->api = new \YandexMoney\API;
-        $this->api->access_token = ACCESS_TOKEN;
+        $this->api = new \YandexMoney\API(ACCESS_TOKEN);
     }
 
 }
@@ -21,7 +20,6 @@ class TokenUrlTest extends PHPUnit_Framework_TestCase {
             CLIENT_SECRET,
             array("account-info operation-history operation-details")
             );
-        // TODO: check url
     }
 
 } 
@@ -73,7 +71,6 @@ class PaymentTest extends BaseTest {
             "test_payment" => true,
             "test_result" => "success"
         ));
-        var_dump($processResult);
         $this->assertEquals($processResult->status, "success");
     }
 }
