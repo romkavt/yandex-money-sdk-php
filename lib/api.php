@@ -11,12 +11,7 @@ class API {
     function __construct($access_token) {
         $this->access_token = $access_token;
     }
-    function sendRequest($url, $options=array()) {
-        $this->checkToken();
-        $full_url= self::MONEY_URL . $url;
-        $result = \Requests::post($full_url, array(
-            "Authorization" => sprintf("Bearer %s", $this->access_token),
-            ), $options);
+    private static function processResult($result) {
         switch ($result->status_code) {
             case 400:
                 throw new Exceptions\FormatError; 
@@ -29,6 +24,14 @@ class API {
                 break;
         }
         return json_decode($result->body);
+    }
+    function sendRequest($url, $options=array()) {
+        $this->checkToken();
+        $full_url= self::MONEY_URL . $url;
+        $result = \Requests::post($full_url, array(
+            "Authorization" => sprintf("Bearer %s", $this->access_token),
+            ), $options);
+        return self::processResult($result);
     }
     function checkToken() {
         if($this->access_token == NULL) {
@@ -70,16 +73,21 @@ class API {
 
     public static function buildObtainTokenUrl($client_id, $redirect_uri,
             $client_secret=NULL, $scope) {
-        // $data = array(
-        //     "client_id" => $client_id,
-        //     "response_type" => "code",
-        //     "redirect_uri" => $redirect_uri,
-        //     "scope" => implode(" ", $scope),
-        // );
         $params = sprintf(
             "client_id=%s&response_type=%s&redirect_uri=%s&scope=%s",
             $client_id, "code", $redirect_uri, implode(" ", $scope)
             );
-        return sprintf("%s/oauth/authorize?%s", self::SP_MONEY_URL, $params);
+        return sprintf("%s/oauth/authoriz?%s", self::SP_MONEY_URL, $params);
+    }
+    public static function getAccessToken($client_id, $code, $redirect_uri) {
+        $full_url = SP_MONEY_URL . "/oauth/token";
+        $result = \Requests::post($full_url, array(), array(
+            "code" => $code,
+            "client_id" => $client_id,
+            "grant_type" => "authorization_code",
+            "redirect_uri" => $redirect_uri
+        ));
+        return self::processResult($result);
+
     }
 }
