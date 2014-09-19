@@ -80,7 +80,7 @@ class API {
         return sprintf("%s/oauth/authorize?%s", self::SP_MONEY_URL, $params);
     }
     public static function getAccessToken($client_id, $code, $redirect_uri) {
-        $full_url = SP_MONEY_URL . "/oauth/token";
+        $full_url = self::SP_MONEY_URL . "/oauth/token";
         $result = \Requests::post($full_url, array(), array(
             "code" => $code,
             "client_id" => $client_id,
