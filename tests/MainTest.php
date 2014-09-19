@@ -50,11 +50,12 @@ class AccountTest extends BaseTest {
 class PaymentTest extends BaseTest {
     function setUp() {
         $this->options = array(
-            "pattern_id" => "phone-topup",
-            "phone-number" => "79233630564",
-            "amount" => 2,
-            "test_payment" => true,
-            "test_result" => "success"
+            "pattern_id" => "p2p",
+            "to" => "410011161616877",
+            "amount_due" => "0.02",
+            "comment" => "test payment comment from yandex-money-php",
+            "message" => "test payment message from yandex-money-php",
+            "label" => "testPayment"
         );
         parent::setUp();
     }

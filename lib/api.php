@@ -35,7 +35,7 @@ class API {
     }
     function checkToken() {
         if($this->access_token == NULL) {
-            throw Exception("obtain access_token first");
+            throw new \Exception("obtain access_token first");
         }
     }
     function accountInfo() {
@@ -79,13 +79,15 @@ class API {
             );
         return sprintf("%s/oauth/authorize?%s", self::SP_MONEY_URL, $params);
     }
-    public static function getAccessToken($client_id, $code, $redirect_uri) {
+    public static function getAccessToken($client_id, $code, $redirect_uri,
+            $client_secret=NULL) {
         $full_url = self::SP_MONEY_URL . "/oauth/token";
         $result = \Requests::post($full_url, array(), array(
             "code" => $code,
             "client_id" => $client_id,
             "grant_type" => "authorization_code",
-            "redirect_uri" => $redirect_uri
+            "redirect_uri" => $redirect_uri,
+            "client_secret" => $client_secret
         ));
         return self::processResult($result);
 
