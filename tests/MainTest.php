@@ -20,6 +20,8 @@ class TokenUrlTest extends PHPUnit_Framework_TestCase {
             CLIENT_SECRET,
             array("account-info operation-history operation-details")
             );
+        // TODO: check url
+        // var_dump($url);
     }
 
 } 

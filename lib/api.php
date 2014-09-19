@@ -70,13 +70,16 @@ class API {
 
     public static function buildObtainTokenUrl($client_id, $redirect_uri,
             $client_secret=NULL, $scope) {
-        $data = array(
-            "client_id" => $client_id,
-            "response_type" => "code",
-            "redirect_uri" => $redirect_uri,
-            "scope" => implode(" ", $scope),
-        );
-        $params = http_build_query($data);
+        // $data = array(
+        //     "client_id" => $client_id,
+        //     "response_type" => "code",
+        //     "redirect_uri" => $redirect_uri,
+        //     "scope" => implode(" ", $scope),
+        // );
+        $params = sprintf(
+            "client_id=%s&response_type=%s&redirect_uri=%s&scope=%s",
+            $client_id, "code", $redirect_uri, implode(" ", $scope)
+            );
         return sprintf("%s/oauth/authorize/?%s", self::SP_MONEY_URL, $params);
     }
 }
