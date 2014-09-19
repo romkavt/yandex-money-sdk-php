@@ -77,7 +77,7 @@ class API {
             "client_id=%s&response_type=%s&redirect_uri=%s&scope=%s",
             $client_id, "code", $redirect_uri, implode(" ", $scope)
             );
-        return sprintf("%s/oauth/authoriz?%s", self::SP_MONEY_URL, $params);
+        return sprintf("%s/oauth/authorize?%s", self::SP_MONEY_URL, $params);
     }
     public static function getAccessToken($client_id, $code, $redirect_uri) {
         $full_url = SP_MONEY_URL . "/oauth/token";
