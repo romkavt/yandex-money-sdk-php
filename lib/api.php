@@ -25,13 +25,22 @@ class API {
         }
         return json_decode($result->body);
     }
-    function sendRequest($url, $options=array()) {
-        $this->checkToken();
+    public static function sendRequest($url, $options=array(), $access_token=NULL) {
         $full_url= self::MONEY_URL . $url;
-        $result = \Requests::post($full_url, array(
-            "Authorization" => sprintf("Bearer %s", $this->access_token),
-            ), $options);
+        if($access_token != NULL) {
+            $headers = array(
+                "Authorization" => sprintf("Bearer %s", $access_token),
+            );
+        } 
+        else {
+            $headers = array();
+        }
+        $result = \Requests::post($full_url, $headers, $options);
         return self::processResult($result);
+    }
+    function sendAuthenticatedRequest($url, $options=array()) {
+        $this->checkToken();
+        return self::sendRequest($url, $options, $this->access_token);
     }
     function checkToken() {
         if($this->access_token == NULL) {
@@ -39,36 +48,46 @@ class API {
         }
     }
     function accountInfo() {
-        return $this->sendRequest("/api/account-info");
+        return $this->sendAuthenticatedRequest("/api/account-info");
     }
     function operationHistory($options=NULL) {
-        return $this->sendRequest("/api/operation-history", $options);
+        return $this->sendAuthenticatedRequest("/api/operation-history", $options);
     }
     function operationDetails($operation_id) {
-        return $this->sendRequest("/api/operation-details",
+        return $this->sendAuthenticatedRequest("/api/operation-details",
             array("operation_id" => $operation_id)
         );
     }
     function requestPayment($options) {
-        return $this->sendRequest("/api/request-payment", $options);
+        return $this->sendAuthenticatedRequest("/api/request-payment", $options);
     }
     function processPayment($options) {
-        return $this->sendRequest("/api/process-payment", $options);
+        return $this->sendAuthenticatedRequest("/api/process-payment", $options);
     }
-    function getInstanceId() {
-
+    public static function getInstanceId($client_id) {
+        return $this->sendRequest("/api/instance-id",
+            array("client_id" => $client_id));
     }
     function incomingTransferAccept($operation_id, $protection_code=NULL) {
-
+        return $this->sendAuthenticatedRequest("/api/incoming-transfer-accept",
+            array(
+                "operation_id" => $operation_id,
+                "protection_code" => $protection_code
+            ));
     }
     function incomingTransferReject($operation_id) {
-
+        return $this->sendAuthenticatedRequest("/api/incoming-transfer-reject",
+            array(
+                "operation_id" => $operation_id,
+            ));
     }
-    function request_external_payment($payment_options) {
-
+    function requestExternalPayment($payment_options) {
+        return self::sendRequest("/api/request-external-payment",
+            $payment_options);
     }
-    function process_external_payment($payment_options) {
-
+    function processExternalPayment($payment_options) {
+        return self::sendRequest("/api/process-external-payment",
+            $payment_options);
     }
 
     public static function buildObtainTokenUrl($client_id, $redirect_uri,
