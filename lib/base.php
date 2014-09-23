@@ -19,7 +19,7 @@ class BaseAPI {
         $result = \Requests::post($full_url, $headers, $options);
         return self::processResult($result);
     }
-    private static function processResult($result) {
+    protected static function processResult($result) {
         switch ($result->status_code) {
             case 400:
                 throw new Exceptions\FormatError; 
