@@ -1,9 +1,15 @@
 {
     "name": "yandex-money/yandex-money-sdk-php-simplified",
+    "description": "Yandex.Money API SDK for PHP",
+    "keywords": ["yandex", "money", "php", "sdk", "payment", "yandex.money"],
+    "type": "library",
+    "license": "MIT",
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
     },
     "require": {
-        "rmccue/requests": ">=1.0"
+        "rmccue/requests": ">=1.0",
+        "php": ">=5.3.0",
+    },
     }
 }

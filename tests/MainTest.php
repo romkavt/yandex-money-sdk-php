@@ -55,7 +55,9 @@ class PaymentTest extends BaseTest {
             "amount_due" => "0.02",
             "comment" => "test payment comment from yandex-money-php",
             "message" => "test payment message from yandex-money-php",
-            "label" => "testPayment"
+            "label" => "testPayment",
+            "test_payment" => true,
+            "test_result" => "success"
         );
         parent::setUp();
     }

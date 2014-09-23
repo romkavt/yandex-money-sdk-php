@@ -17,8 +17,8 @@
 
 Using Yandex.Money API requires following steps
 
-1. Calling `API::buildObtainTokenUrl` and pointing user browser to resulted url. Where `$client_id`, `$redirect_uri`, `$client_secret` are
-parameters that you get when [register](https://sp-money.yandex.ru/myservices/new.xml) your app in Yandex.Money API.
+1. Call `API::buildObtainTokenUrl` and point user browser to resulted url. Where `$client_id`, `$redirect_uri`, `$client_secret` are
+parameters that you get, when [register](https://sp-money.yandex.ru/myservices/new.xml) your app in Yandex.Money API.
 
 ```php
 $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri,
@@ -28,7 +28,7 @@ $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri,
 2. After that, user fills Yandex.Money form and Yandex.Money service redirects browser
 to `$redirect_uri` on your server with `code` GET param.
 
-3. You should immediately exchange `$code` to `$access_token` using `getAccessToken`
+3. You should immediately exchange `$code` with `$access_token` using `getAccessToken`
 ```php
 $access_token = API::getAccessToken($client_id, $code, $redirect_uri,
             $client_secret=NULL)
