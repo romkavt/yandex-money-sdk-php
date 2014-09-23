@@ -1,42 +1,12 @@
 <?php 
 namespace YandexMoney;
 
-require_once __DIR__ . "/exceptions.php";
+require_once __DIR__ . "/base.php";
 
-class API {
-
-    const MONEY_URL = "https://money.yandex.ru";
-    const SP_MONEY_URL = "https://sp-money.yandex.ru";
+class API extends BaseAPI {
 
     function __construct($access_token) {
         $this->access_token = $access_token;
-    }
-    private static function processResult($result) {
-        switch ($result->status_code) {
-            case 400:
-                throw new Exceptions\FormatError; 
-                break;
-            case 401:
-                throw new Exceptions\TokenError; 
-                break;
-            case 403:
-                throw new Exceptions\ScopeError; 
-                break;
-        }
-        return json_decode($result->body);
-    }
-    public static function sendRequest($url, $options=array(), $access_token=NULL) {
-        $full_url= self::MONEY_URL . $url;
-        if($access_token != NULL) {
-            $headers = array(
-                "Authorization" => sprintf("Bearer %s", $access_token),
-            );
-        } 
-        else {
-            $headers = array();
-        }
-        $result = \Requests::post($full_url, $headers, $options);
-        return self::processResult($result);
     }
     function sendAuthenticatedRequest($url, $options=array()) {
         $this->checkToken();
@@ -64,10 +34,6 @@ class API {
     function processPayment($options) {
         return $this->sendAuthenticatedRequest("/api/process-payment", $options);
     }
-    public static function getInstanceId($client_id) {
-        return $this->sendRequest("/api/instance-id",
-            array("client_id" => $client_id));
-    }
     function incomingTransferAccept($operation_id, $protection_code=NULL) {
         return $this->sendAuthenticatedRequest("/api/incoming-transfer-accept",
             array(
@@ -81,15 +47,6 @@ class API {
                 "operation_id" => $operation_id,
             ));
     }
-    function requestExternalPayment($payment_options) {
-        return self::sendRequest("/api/request-external-payment",
-            $payment_options);
-    }
-    function processExternalPayment($payment_options) {
-        return self::sendRequest("/api/process-external-payment",
-            $payment_options);
-    }
-
     public static function buildObtainTokenUrl($client_id, $redirect_uri,
             $client_secret=NULL, $scope) {
         $params = sprintf(
