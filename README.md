@@ -13,7 +13,7 @@
 
 ## Getting started
 
-### Workflow for authenticated payments
+### Payments from the Yandex.Money wallet
 
 Using Yandex.Money API requires following steps
 
@@ -21,8 +21,7 @@ Using Yandex.Money API requires following steps
 parameters that you get, when [register](https://sp-money.yandex.ru/myservices/new.xml) your app in Yandex.Money API.
 
 ```php
-$auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri,
-    $client_secret=NULL, $scope)
+$auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope)
 ```
 
 2. After that, user fills Yandex.Money form and Yandex.Money service redirects browser
@@ -68,7 +67,7 @@ $process_payment = $api->processPayment(array(
 ));
 ```
 
-### Workflow for non-authenticated payments
+### Payments from bank cards without authorization
 
 1. Fetch instantce-id(ussually only once for every client. You can store
 result in DB).
@@ -120,7 +119,15 @@ $result = $external_payment->process($process_options);
 2. If you register app and fill `CLIENT_SECRET` entry then you should
 provide `$client_secret` explicitly where `$client_secret=NULL`
 
+## Running tests
 
+1. Clone this repo.
+2. Install composer
+3. Run `composer install`
+4. Make sure `phpunit` executable is present in your `$PATH`
+5. Create `tests/constants.php` with `CLIENT_ID`, `CLIENT_SECRET` and `ACCESS_TOKEN`
+constants. 
+6. Run tests `phpunit --bootstrap vendor/autoload.php tests/`
 
 
 
