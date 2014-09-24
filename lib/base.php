@@ -1,6 +1,7 @@
 <?php 
 namespace YandexMoney;
-require_once __DIR__ . "/base.php";
+
+require_once __DIR__ . "/exceptions.php";
 
 class BaseAPI {
     const MONEY_URL = "https://money.yandex.ru";

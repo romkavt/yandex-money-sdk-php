@@ -17,7 +17,6 @@ class TokenUrlTest extends PHPUnit_Framework_TestCase {
         $url = \YandexMoney\API::buildObtainTokenUrl(
             CLIENT_ID,
             "http://localhost:8000",
-            CLIENT_SECRET,
             array("account-info operation-history operation-details")
             );
         // TODO: check url
@@ -63,19 +62,29 @@ class PaymentTest extends BaseTest {
     }
     function makeRequestPayment() {
         $response = $this->api->requestPayment($this->options);
-        $this->assertEquals($response->status, "success");
-        return $response;
+        if($response->status == "success") {
+            return $response;
+        }
+        else {
+            $this->assertEquals($response->error, "not_enough_funds");
+            return NULL;
+        }
     }
     function testRequestPaymant() {
         $this->makeRequestPayment();
     }
     function testProcessPayment() {
         $requestResult = $this->makeRequestPayment();
-        $processResult = $this->api->processPayment(array(
-            "request_id" => $requestResult->request_id,
-            "test_payment" => true,
-            "test_result" => "success"
-        ));
-        $this->assertEquals($processResult->status, "success");
+        if($requestResult === NULL) { // no money in wallet
+            return;
+        }
+        else {
+            $processResult = $this->api->processPayment(array(
+                "request_id" => $requestResult->request_id,
+                "test_payment" => true,
+                "test_result" => "success"
+            ));
+            $this->assertEquals($processResult->status, "success");
+        }
     }
 }

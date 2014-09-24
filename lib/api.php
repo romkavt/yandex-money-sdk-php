@@ -48,7 +48,7 @@ class API extends BaseAPI {
             ));
     }
     public static function buildObtainTokenUrl($client_id, $redirect_uri,
-            $client_secret=NULL, $scope) {
+        $scope) {
         $params = sprintf(
             "client_id=%s&response_type=%s&redirect_uri=%s&scope=%s",
             $client_id, "code", $redirect_uri, implode(" ", $scope)
