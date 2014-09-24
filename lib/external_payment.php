@@ -3,7 +3,7 @@ namespace YandexMoney;
 
 require_once __DIR__ . "/base.php";
 
-class ExtenrnalPayment extends BaseAPI {
+class ExternalPayment extends BaseAPI {
     function __construct($instance_id) {
         $this->instance_id = $instance_id;
     }

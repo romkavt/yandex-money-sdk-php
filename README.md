@@ -1,4 +1,4 @@
-# Simplified PHP Yandex.Money API SDK
+# PHP Yandex.Money API SDK
 
 ## Requirements
 
@@ -12,6 +12,21 @@
 2. [sample app](https://github.com/raymank26/yandex-money-php-simplified-sample)
 
 ## Getting started
+
+### Installation
+
+1. Add `"yandex-money/yandex-money-sdk-php": "3.0.*"` to `composer.json` of your application.
+2. Paste following code
+
+```php
+// For payments from the Yandex.Money wallet
+require_once 'vendor/yandex-money/yandex-money-sdk-php/lib/api.php';
+use \YandexMoney\API;
+
+// For payments from bank cards without authorization
+require_once 'vendor/yandex-money/yandex-money-sdk-php/lib/external_payment.php';
+use \YandexMoney\ExternalPayment;
+```
 
 ### Payments from the Yandex.Money wallet
 
