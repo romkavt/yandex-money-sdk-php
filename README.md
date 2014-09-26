@@ -15,17 +15,15 @@
 
 ### Installation
 
-1. Add `"yandex-money/yandex-money-sdk-php": "3.0.*"` to `composer.json` of your application.
-2. Paste following code
+1. Add `"yandex-money/yandex-money-sdk-php": "3.0.*"` to `composer.json` of your application. or clone repo to your project.
+2. If you are using composer - simply use `require_once 'vendor/autoload.php';` otherwise paste following code
 
 ```php
 // For payments from the Yandex.Money wallet
-require_once 'vendor/yandex-money/yandex-money-sdk-php/lib/api.php';
-use \YandexMoney\API;
+require_once '/path/to/cloned/repo/lib/api.php';
 
 // For payments from bank cards without authorization
-require_once 'vendor/yandex-money/yandex-money-sdk-php/lib/external_payment.php';
-use \YandexMoney\ExternalPayment;
+require_once '/path/to/cloned/repo/lib/external_payment.php';
 ```
 
 ### Payments from the Yandex.Money wallet
@@ -52,6 +50,9 @@ to anybody.
 
 4. Now you can use Yandex.Money API
 ```php
+
+use \YandexMoney\API;
+
 $api = new API($access_token);
 
 // get account info
@@ -88,6 +89,9 @@ $process_payment = $api->processPayment(array(
 result in DB).
 
 ```php
+
+use \YandexMoney\ExternalPayment;
+
 $response = ExternalPayment::getInstanceId($client_id);
 if($reponse->status == "success") {
     $instance_id = $response->instance_id;
