@@ -22,8 +22,22 @@ class TokenUrlTest extends PHPUnit_Framework_TestCase {
         // TODO: check url
         // var_dump($url);
     }
-
 } 
+
+class TokenTest extends BaseTest {
+    function setUp() {
+        parent::setUp();
+        $this->token_response = $this->api->getAuxToken(array("account-info"));
+    }
+    function testAuxToken() {
+        $this->assertObjectHasAttribute("aux_token", $this->token_response);
+    }
+    function testRevokeToken() {
+        $this->assertObjectHasAttribute("aux_token", $this->token_response);
+        \YandexMoney\API::revokeToken($this->token_response->aux_token);
+    }
+
+}
 
 class AccountTest extends BaseTest {
     function testAccountInfo() {

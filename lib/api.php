@@ -20,6 +20,11 @@ class API extends BaseAPI {
     function accountInfo() {
         return $this->sendAuthenticatedRequest("/api/account-info");
     }
+    function getAuxToken($scope) {
+        return $this->sendAuthenticatedRequest("/api/token-aux", array(
+            "scope" => implode(" ", $scope)
+        ));
+    }
     function operationHistory($options=NULL) {
         return $this->sendAuthenticatedRequest("/api/operation-history", $options);
     }
@@ -66,6 +71,10 @@ class API extends BaseAPI {
             "client_secret" => $client_secret
         ));
         return self::processResult($result);
-
+    }
+    public static function revokeToken($token, $revoke_all=false) {
+        return self::sendRequest("/api/revoke", array(
+            "revoke-all" => $revoke_all,
+        ), $token);
     }
 }
