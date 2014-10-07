@@ -12,6 +12,7 @@ class BaseAPI {
         if($access_token != NULL) {
             $headers = array(
                 "Authorization" => sprintf("Bearer %s", $access_token),
+                "User-Agent" => "Yandex.Money.SDK/PHP"
             );
         } 
         else {

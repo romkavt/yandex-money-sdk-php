@@ -1,3 +1,4 @@
+
 # PHP Yandex.Money API SDK
 
 ## Requirements
@@ -8,127 +9,126 @@
 
 ## Links
 
-1. Yandex.Money API page: [Ru](http://api.yandex.ru/money/), [En](http://api.yandex.com/money/)
-2. [sample app](https://github.com/raymank26/yandex-money-php-simplified-sample)
+1. Yandex.Money API page: [Ru](http://api.yandex.ru/money/),
+[En](http://api.yandex.com/money/)
+2. [sample app](https://github.com/yandex-money/yandex-money-sdk-php-sample)
 
 ## Getting started
 
 ### Installation
 
-1. Add `"yandex-money/yandex-money-sdk-php": "3.0.*"` to `composer.json` of your application. or clone repo to your project.
+1. Add `"yandex-money/yandex-money-sdk-php": "3.0.*"` to `composer.json` of your application. Or clone repo to your project.
 2. If you are using composer - simply use `require_once 'vendor/autoload.php';` otherwise paste following code
+    ```php
+    // For payments from the Yandex.Money wallet
+    require_once '/path/to/cloned/repo/lib/api.php';
 
-```php
-// For payments from the Yandex.Money wallet
-require_once '/path/to/cloned/repo/lib/api.php';
-
-// For payments from bank cards without authorization
-require_once '/path/to/cloned/repo/lib/external_payment.php';
-```
+    // For payments from bank cards without authorization
+    require_once '/path/to/cloned/repo/lib/external_payment.php';
+    ```
 
 ### Payments from the Yandex.Money wallet
 
 Using Yandex.Money API requires following steps
 
-1. Call `API::buildObtainTokenUrl` and point user browser to resulted url. Where `$client_id`, `$redirect_uri`, `$client_secret` are
-parameters that you get, when [register](https://sp-money.yandex.ru/myservices/new.xml) your app in Yandex.Money API.
+1. Obtain token URL and redirect user's browser to Yandex.Money service.
+Note: `client_id`, `redirect_uri`, `client_secret` are constants that you get,
+when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Money API.
 
-```php
-$auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope)
-```
+    ```php
+    $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope, $client_secret)
+    ```
 
-2. After that, user fills Yandex.Money form and Yandex.Money service redirects browser
-to `$redirect_uri` on your server with `code` GET param.
+2. After that, user fills Yandex.Money HTML form and user is redirected back to
+`REDIRECT_URI?code=CODE`.
 
-3. You should immediately exchange `$code` with `$access_token` using `getAccessToken`
-```php
-$access_token = API::getAccessToken($client_id, $code, $redirect_uri,
-            $client_secret=NULL)
-```
-Feel free to save `$access_token` in your database. But don't show `$access_token`
-to anybody.
+3. You should immediately exchange `CODE` with `ACCESS_TOKEN`.
 
-4. Now you can use Yandex.Money API
-```php
+    ```php
+    $access_token = API::getAccessToken($client_id, $code, $redirect_uri,
+                $client_secret=NULL)
+    ```
 
-use \YandexMoney\API;
+4. Now you can use Yandex.Money API.
 
-$api = new API($access_token);
+    ```php
+    use \YandexMoney\API;
 
-// get account info
-$acount_info = $api->accountInfo();
+    $api = new API($access_token);
 
-// check status 
+    // get account info
+    $acount_info = $api->accountInfo();
 
-// get operation history with last 3 records
-$operation_history = $api->operationHistory(array("records"=>3));
+    // check status 
 
-// check status 
+    // get operation history with last 3 records
+    $operation_history = $api->operationHistory(array("records"=>3));
 
-// make request payment
-$request_payment = $api->requestPayment(array(
-    "pattern_id" => "p2p",
-    "to" => $money_wallet,
-    "amount_due" => $amount_due,
-    "comment" => $comment,
-    "message" => $message,
-    "label" => $label,
-));
+    // check status 
 
-// check status 
+    // make request payment
+    $request_payment = $api->requestPayment(array(
+        "pattern_id" => "p2p",
+        "to" => $money_wallet,
+        "amount_due" => $amount_due,
+        "comment" => $comment,
+        "message" => $message,
+        "label" => $label,
+    ));
 
-// call process payment to finish payment
-$process_payment = $api->processPayment(array(
-    "request_id" => $request_payment->request_id,
-));
-```
+    // check status 
+
+    // call process payment to finish payment
+    $process_payment = $api->processPayment(array(
+        "request_id" => $request_payment->request_id,
+    ));
+    ```
 
 ### Payments from bank cards without authorization
 
 1. Fetch instantce-id(ussually only once for every client. You can store
 result in DB).
 
-```php
+    ```php
+    use \YandexMoney\ExternalPayment;
 
-use \YandexMoney\ExternalPayment;
-
-$response = ExternalPayment::getInstanceId($client_id);
-if($reponse->status == "success") {
-    $instance_id = $response->instance_id;
-}
-else {
-    // throw exception with $reponse->error message
-}
-```
+    $response = ExternalPayment::getInstanceId($client_id);
+    if($reponse->status == "success") {
+        $instance_id = $response->instance_id;
+    }
+    else {
+        // throw exception with $reponse->error message
+    }
+    ```
 
 2. Make request payment
 
-```php
-// make instance
-$external_payment = ExternalPayment($instance_id);
+    ```php
+    // make instance
+    $external_payment = ExternalPayment($instance_id);
 
-$payment_options = array(
-    // pattern_id, etc..
-);
-$response = $external_payment->request($payment_options);
-if($response->status == "success") {
-    $request_id = $response->request_id;
-}
-else {
-    // throw exception with $response->message
-}
-```
+    $payment_options = array(
+        // pattern_id, etc..
+    );
+    $response = $external_payment->request($payment_options);
+    if($response->status == "success") {
+        $request_id = $response->request_id;
+    }
+    else {
+        // throw exception with $response->message
+    }
+    ```
 
 3. Process the request with process-payment. 
 
-```php
-$process_options = array(
-    "request_id" => $request_id
-    // other params..
-);
-$result = $external_payment->process($process_options);
-// process $result according to docs
-```
+    ```php
+    $process_options = array(
+        "request_id" => $request_id
+        // other params..
+    );
+    $result = $external_payment->process($process_options);
+    // process $result according to docs
+    ```
 
 ## Side notes
 
@@ -147,6 +147,3 @@ provide `$client_secret` explicitly where `$client_secret=NULL`
 5. Create `tests/constants.php` with `CLIENT_ID`, `CLIENT_SECRET` and `ACCESS_TOKEN`
 constants. 
 6. Run tests `phpunit --bootstrap vendor/autoload.php tests/`
-
-
-
