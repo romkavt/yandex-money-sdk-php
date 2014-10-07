@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/yandex-money/yandex-money-sdk-php.svg?branch=master)](https://travis-ci.org/yandex-money/yandex-money-sdk-php)
 
 # PHP Yandex.Money API SDK
 
