@@ -69,7 +69,7 @@ class PaymentTest extends BaseTest {
             "comment" => "test payment comment from yandex-money-php",
             "message" => "test payment message from yandex-money-php",
             "label" => "testPayment",
-            "test_payment" => true,
+            "test_payment" => "true",
             "test_result" => "success"
         );
         parent::setUp();
@@ -95,7 +95,7 @@ class PaymentTest extends BaseTest {
         else {
             $processResult = $this->api->processPayment(array(
                 "request_id" => $requestResult->request_id,
-                "test_payment" => true,
+                "test_payment" => "true",
                 "test_result" => "success"
             ));
             $this->assertEquals($processResult->status, "success");
