@@ -138,6 +138,16 @@ result in DB).
     * I/O error(see [requests](https://github.com/rmccue/Requests))
 2. If you register app and fill `CLIENT_SECRET` entry then you should
 provide `$client_secret` explicitly where `$client_secret=NULL`
+3. You should wrap all passed boolean values in quotes(because php converts
+them to numbers otherwise). For example:
+
+```php
+API($access_token).requestPayment(array(
+    test_payment => "true",
+    // other params
+));
+```
+
 
 ## Running tests
 
