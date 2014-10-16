@@ -4,9 +4,7 @@
 
 ## Requirements
 
-1. PHP 5.3 or above
-2. composer
-3. rmccue/requests
+PHP 5.3 or above
 
 ## Links
 
