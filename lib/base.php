@@ -8,7 +8,12 @@ class BaseAPI {
     const SP_MONEY_URL = "https://sp-money.yandex.ru";
     
     public static function sendRequest($url, $options=array(), $access_token=NULL) {
-        $full_url= self::MONEY_URL . $url;
+        if(strpos($url, "https") === false) {
+            $full_url= self::MONEY_URL . $url;
+        }
+        else {
+            $full_url = $url;
+        }
 
         $curl = curl_init($full_url);
         if($access_token !== NULL) {

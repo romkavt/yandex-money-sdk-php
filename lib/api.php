@@ -63,14 +63,13 @@ class API extends BaseAPI {
     public static function getAccessToken($client_id, $code, $redirect_uri,
             $client_secret=NULL) {
         $full_url = self::SP_MONEY_URL . "/oauth/token";
-        $result = \Requests::post($full_url, array(), array(
+        return self::sendRequest($full_url, array(
             "code" => $code,
             "client_id" => $client_id,
             "grant_type" => "authorization_code",
             "redirect_uri" => $redirect_uri,
             "client_secret" => $client_secret
         ));
-        return self::processResult($result);
     }
     public static function revokeToken($token, $revoke_all=false) {
         return self::sendRequest("/api/revoke", array(

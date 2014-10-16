@@ -22,6 +22,11 @@ class TokenUrlTest extends PHPUnit_Framework_TestCase {
         // TODO: check url
         // var_dump($url);
     }
+    function testTokenExchange() {
+        $response = \YandexMoney\API::getAccessToken(CLIENT_ID, "SOME CODE",
+            "http://localhost", "client_secret");
+        $this->assertEquals($response->error, "unauthorized_client");
+    }
 } 
 
 class TokenTest extends BaseTest {
