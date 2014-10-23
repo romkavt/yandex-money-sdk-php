@@ -35,7 +35,7 @@ Note: `client_id`, `redirect_uri`, `client_secret` are constants that you get,
 when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Money API.
 
     ```php
-    $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope, $client_secret)
+    $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope)
     ```
 
 2. After that, user fills Yandex.Money HTML form and user is redirected back to
