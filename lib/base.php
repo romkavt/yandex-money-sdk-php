@@ -3,13 +3,16 @@ namespace YandexMoney;
 
 require_once __DIR__ . "/exceptions.php";
 
+class Config {
+    static $MONEY_URL = "https://money.yandex.ru";
+    static $SP_MONEY_URL = "https://sp-money.yandex.ru";
+}
+
 class BaseAPI {
-    const MONEY_URL = "https://money.yandex.ru";
-    const SP_MONEY_URL = "https://sp-money.yandex.ru";
     
     public static function sendRequest($url, $options=array(), $access_token=NULL) {
         if(strpos($url, "https") === false) {
-            $full_url= self::MONEY_URL . $url;
+            $full_url= Config::$MONEY_URL . $url;
         }
         else {
             $full_url = $url;
