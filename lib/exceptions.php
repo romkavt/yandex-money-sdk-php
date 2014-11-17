@@ -26,3 +26,9 @@ class TokenError extends APIException {
         parent::__construct("Token is expired or incorrect", 401);
     }
 }
+
+class ServerError extends APIException {
+    public function __construct($status_code) {
+        parent::__construct("Server error", $status_code);
+    }
+}

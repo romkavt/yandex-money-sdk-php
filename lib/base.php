@@ -40,7 +40,6 @@ class BaseAPI {
         $result = new \StdClass();
         $result->status_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         $result->body = $body;
-
         curl_close ($curl);
 
         return self::processResult($result);
@@ -56,7 +55,13 @@ class BaseAPI {
             case 403:
                 throw new Exceptions\ScopeError; 
                 break;
+            default:
+                if($result->status_code > 500) {
+                    throw new Exceptions\ServerError($result->status_code);
+                }
+                else {
+                    return json_decode($result->body);
+                }
         }
-        return json_decode($result->body);
     }
 }
