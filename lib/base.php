@@ -29,7 +29,6 @@ class BaseAPI {
         $query = http_build_query($options);
         curl_setopt ($curl, CURLOPT_POSTFIELDS, $query);
         curl_setopt ($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($curl, CURLOPT_HEADER, 0);
         //curl_setopt($curl, CURLOPT_VERBOSE, 1);
         curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, true);
