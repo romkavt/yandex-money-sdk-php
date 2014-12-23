@@ -92,7 +92,7 @@ result in DB).
     use \YandexMoney\ExternalPayment;
 
     $response = ExternalPayment::getInstanceId($client_id);
-    if($reponse->status == "success") {
+    if($response->status == "success") {
         $instance_id = $response->instance_id;
     }
     else {
