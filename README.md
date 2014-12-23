@@ -96,7 +96,7 @@ result in DB).
         $instance_id = $response->instance_id;
     }
     else {
-        // throw exception with $reponse->error message
+        // throw exception with $response->error message
     }
     ```
 
