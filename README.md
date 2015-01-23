@@ -35,6 +35,8 @@ Note: `client_id`, `redirect_uri`, `client_secret` are constants that you get,
 when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Money API.
 
     ```php
+    use \YandexMoney\API;
+
     $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope)
     ```
 
@@ -44,15 +46,16 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
 3. You should immediately exchange `CODE` with `ACCESS_TOKEN`.
 
     ```php
-    $access_token = API::getAccessToken($client_id, $code, $redirect_uri,
-                $client_secret=NULL)
+    $access_token_response = API::getAccessToken($client_id, $code, $redirect_uri, $client_secret=NULL)
+    if(property_exists($access_token_response, "error")) {
+        // process error
+    }
+    $access_token = $access_token_response->access_token
     ```
 
 4. Now you can use Yandex.Money API.
 
     ```php
-    use \YandexMoney\API;
-
     $api = new API($access_token);
 
     // get account info
