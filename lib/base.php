@@ -55,7 +55,7 @@ class BaseAPI {
                 throw new Exceptions\ScopeError; 
                 break;
             default:
-                if($result->status_code > 500) {
+                if($result->status_code >= 500) {
                     throw new Exceptions\ServerError($result->status_code);
                 }
                 else {
