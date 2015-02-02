@@ -3,6 +3,9 @@ namespace YandexMoney;
 
 require_once __DIR__ . "/base.php";
 
+/**
+ * The Yandex.Money wallet API
+ */
 class API extends BaseAPI {
 
     function __construct($access_token) {
