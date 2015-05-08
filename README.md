@@ -40,7 +40,7 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
     ```php
     use \YandexMoney\API;
 
-    $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope)
+    $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope);
     ```
 
 2. After that, user fills Yandex.Money HTML form and user is redirected back to
