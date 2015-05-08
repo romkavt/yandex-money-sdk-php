@@ -1,3 +1,5 @@
+
+
 [![Build Status](https://travis-ci.org/yandex-money/yandex-money-sdk-php.svg?branch=master)](https://travis-ci.org/yandex-money/yandex-money-sdk-php)
 
 # PHP Yandex.Money API SDK
@@ -5,6 +7,7 @@
 ## Requirements
 
 PHP 5.3 or above
+
 
 ## Links
 
@@ -46,11 +49,11 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
 3. You should immediately exchange `CODE` with `ACCESS_TOKEN`.
 
     ```php
-    $access_token_response = API::getAccessToken($client_id, $code, $redirect_uri, $client_secret=NULL)
+    $access_token_response = API::getAccessToken($client_id, $code, $redirect_uri, $client_secret=NULL);
     if(property_exists($access_token_response, "error")) {
         // process error
     }
-    $access_token = $access_token_response->access_token
+    $access_token = $access_token_response->access_token;
     ```
 
 4. Now you can use Yandex.Money API.
