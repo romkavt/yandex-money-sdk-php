@@ -33,7 +33,6 @@ class BaseAPI {
         //curl_setopt($curl, CURLOPT_VERBOSE, 1);
         curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt ($curl, CURLOPT_SSL_VERIFYHOST, 2);
-        curl_setopt($curl, CURLOPT_CAINFO, __DIR__ . "/cacert.pem");
         $body = curl_exec ($curl);
 
         $result = new \StdClass();
