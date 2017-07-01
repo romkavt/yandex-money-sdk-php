@@ -14,7 +14,7 @@ class ExternalPayment extends BaseAPI {
     /**
      * Registers an instance of an application
      *
-     * @see http://api.yandex.com/money/doc/dg/reference/instance-id.xml
+     * @see https://tech.yandex.com/money/doc/dg/reference/instance-id-docpage/
      * @see https://tech.yandex.ru/money/doc/dg/reference/instance-id-docpage/
      * @param string $client_id The client_id that was assigned to the application.
      * @throws Exceptions/ServerError If status code >= 500
@@ -28,7 +28,7 @@ class ExternalPayment extends BaseAPI {
     /**
      * Requests an external payment.
      *
-     * @see http://api.yandex.com/money/doc/dg/reference/request-external-payment.xml
+     * @see https://tech.yandex.com/money/doc/dg/reference/request-external-payment-docpage/
      * @see https://tech.yandex.ru/money/doc/dg/reference/request-external-payment-docpage/
      * @param array[] $payment_options Key-value parameters collection
      * @throws Exceptions/ServerError If status code >= 500
@@ -41,10 +41,10 @@ class ExternalPayment extends BaseAPI {
     }
 
     /**
-     * Requests an external payment.
+     * Processes an external payment.
      *
-     * @see http://api.yandex.com/money/doc/dg/reference/request-external-payment.xml
-     * @see https://tech.yandex.ru/money/doc/dg/reference/request-external-payment-docpage/
+     * @see https://tech.yandex.com/money/doc/dg/reference/process-external-payment-docpage/
+     * @see https://tech.yandex.ru/money/doc/dg/reference/process-external-payment-docpage/
      * @param array[] $payment_options Key-value parameters collection
      * @throws Exceptions/ServerError If status code >= 500
      * @return response object
