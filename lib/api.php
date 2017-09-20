@@ -174,7 +174,7 @@ class API extends BaseAPI {
      * the redirect_uri parameter specified in the application registration
      * data. Any additional parameters required for the application can beadded
      * at the end of the string. 
-     * @param string $scope A string of requested permissions(joined list of
+     * @param string[] $scope A string of requested permissions(joined list of
      * strings)
      * @return response object
      */
