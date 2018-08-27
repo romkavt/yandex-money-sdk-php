@@ -184,7 +184,7 @@ class API extends BaseAPI {
             "client_id=%s&response_type=%s&redirect_uri=%s&scope=%s",
             $client_id, "code", $redirect_uri, implode(" ", $scope)
             );
-        return sprintf("%s/oauth/authorize?%s", Config::$SP_MONEY_URL, $params);
+        return sprintf("%s/oauth/authorize?%s", Config::$MONEY_URL, $params);
     }
 
     /**
@@ -205,7 +205,7 @@ class API extends BaseAPI {
      */
     public static function getAccessToken($client_id, $code, $redirect_uri,
             $client_secret=NULL) {
-        $full_url = Config::$SP_MONEY_URL . "/oauth/token";
+        $full_url = Config::$MONEY_URL . "/oauth/token";
         return self::sendRequest($full_url, array(
             "code" => $code,
             "client_id" => $client_id,
