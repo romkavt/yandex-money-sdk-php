@@ -1,15 +1,14 @@
-<?php 
+<?php
 namespace YandexMoney;
 
 require_once __DIR__ . "/exceptions.php";
 
 class Config {
     static $MONEY_URL = "https://money.yandex.ru";
-    static $SP_MONEY_URL = "https://sp-money.yandex.ru";
 }
 
 class BaseAPI {
-    
+
     public static function sendRequest($url, $options=array(), $access_token=NULL) {
         if(strpos($url, "https") === false) {
             $full_url= Config::$MONEY_URL . $url;
@@ -32,6 +31,7 @@ class BaseAPI {
         curl_setopt($curl, CURLOPT_HEADER, 0);
         //curl_setopt($curl, CURLOPT_VERBOSE, 1);
         curl_setopt ($curl, CURLOPT_SSL_VERIFYPEER, true);
+        curl_setopt ($curl, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt ($curl, CURLOPT_SSL_VERIFYHOST, 2);
         $body = curl_exec ($curl);
 
@@ -45,13 +45,13 @@ class BaseAPI {
     protected static function processResult($result) {
         switch ($result->status_code) {
             case 400:
-                throw new Exceptions\FormatError; 
+                throw new Exceptions\FormatError;
                 break;
             case 401:
-                throw new Exceptions\TokenError; 
+                throw new Exceptions\TokenError;
                 break;
             case 403:
-                throw new Exceptions\ScopeError; 
+                throw new Exceptions\ScopeError;
                 break;
             default:
                 if($result->status_code >= 500) {
