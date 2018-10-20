@@ -16,7 +16,7 @@ class API extends BaseAPI {
         return self::sendRequest($url, $options, $this->access_token);
     }
     function checkToken() {
-        if($this->access_token == NULL) {
+        if(empty($this->access_token) || !is_string($this->access_token)) {
             throw new \Exception("obtain access_token first");
         }
     }
