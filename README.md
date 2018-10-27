@@ -11,16 +11,27 @@ PHP 5.3 or above
 
 ## Links
 
-1. Yandex.Money API page: [Ru](http://api.yandex.ru/money/),
-[En](http://api.yandex.com/money/)
+1. Yandex.Money API page: [in Russian](http://api.yandex.ru/money/),
+[in English](http://api.yandex.com/money/)
 2. [sample app](https://github.com/yandex-money/yandex-money-sdk-php-sample)
 
 ## Getting started
 
 ### Installation
 
-1. Add `"yandex-money/yandex-money-sdk-php": "3.0.*"` to `composer.json` of your application. Or clone repo to your project.
-2. If you are using composer - simply use `require_once 'vendor/autoload.php';` otherwise paste following code
+#### With Composer
+
+1. Add `"yandex-money/yandex-money-sdk-php": "3.0.*"` to `composer.json` of your application.
+    
+       composer require yandex-money/yandex-money-sdk-php:~3.0
+
+2. Simply use the usual `require_once 'vendor/autoload.php';`
+    
+#### Manual installation
+
+1. Clone this repo into your project or [download a recent release](https://github.com/yandex-money/yandex-money-sdk-php/releases).
+    
+2. Paste following code
     ```php
     // For payments from the Yandex.Money wallet
     require_once '/path/to/cloned/repo/lib/api.php';
@@ -35,7 +46,7 @@ Using Yandex.Money API requires following steps
 
 1. Obtain token URL and redirect user's browser to Yandex.Money service.
 Note: `client_id`, `redirect_uri`, `client_secret` are constants that you get,
-when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Money API.
+when [register an app in Yandex.Money API](https://sp-money.yandex.ru/myservices/new.xml).
 
     ```php
     use \YandexMoney\API;
@@ -43,10 +54,10 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
     $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope);
     ```
 
-2. After that, user fills Yandex.Money HTML form and user is redirected back to
+2. After that, a user fills Yandex.Money HTML form and the user is redirected back to
 `REDIRECT_URI?code=CODE`.
 
-3. You should immediately exchange `CODE` with `ACCESS_TOKEN`.
+3. You should immediately exchange `CODE` to `ACCESS_TOKEN`.
 
     ```php
     $access_token_response = API::getAccessToken($client_id, $code, $redirect_uri, $client_secret=NULL);
@@ -91,8 +102,8 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
 
 ### Payments from bank cards without authorization
 
-1. Fetch instantce-id(ussually only once for every client. You can store
-result in DB).
+1. Fetch an instance-id. (You usually do that only once for every client. You can store
+result in the database.)
 
     ```php
     use \YandexMoney\ExternalPayment;
@@ -106,7 +117,7 @@ result in DB).
     }
     ```
 
-2. Make request payment
+2. Make payment request.
 
     ```php
     // make instance
