@@ -11,8 +11,8 @@ PHP 5.3 or above
 
 ## Links
 
-1. Yandex.Money API page: [Ru](http://api.yandex.ru/money/),
-[En](http://api.yandex.com/money/)
+1. Yoomoney API page: [Ru](https://yoomoney.ru/docs/wallet),
+[En](https://yoomoney.ru/docs/wallet?lang=en)
 2. [sample app](https://github.com/yandex-money/yandex-money-sdk-php-sample)
 
 ## Getting started
@@ -22,20 +22,20 @@ PHP 5.3 or above
 1. Add `"yandex-money/yandex-money-sdk-php": "3.0.*"` to `composer.json` of your application. Or clone repo to your project.
 2. If you are using composer - simply use `require_once 'vendor/autoload.php';` otherwise paste following code
     ```php
-    // For payments from the Yandex.Money wallet
+    // For payments from the Yoomoney wallet
     require_once '/path/to/cloned/repo/lib/api.php';
 
     // For payments from bank cards without authorization
     require_once '/path/to/cloned/repo/lib/external_payment.php';
     ```
 
-### Payments from the Yandex.Money wallet
+### Payments from the Yoomoney wallet
 
-Using Yandex.Money API requires following steps
+Using Yoomoney API requires following steps
 
-1. Obtain token URL and redirect user's browser to Yandex.Money service.
+1. Obtain token URL and redirect user's browser to Yoomoney service.
 Note: `client_id`, `redirect_uri`, `client_secret` are constants that you get,
-when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Money API.
+when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yoomoney API.
 
     ```php
     use \YandexMoney\API;
@@ -43,7 +43,7 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
     $auth_url = API::buildObtainTokenUrl($client_id, $redirect_uri, $scope);
     ```
 
-2. After that, user fills Yandex.Money HTML form and user is redirected back to
+2. After that, user fills Yoomoney HTML form and user is redirected back to
 `REDIRECT_URI?code=CODE`.
 
 3. You should immediately exchange `CODE` with `ACCESS_TOKEN`.
@@ -56,7 +56,7 @@ when [register](https://sp-money.yandex.ru/myservices/new.xml) app in Yandex.Mon
     $access_token = $access_token_response->access_token;
     ```
 
-4. Now you can use Yandex.Money API.
+4. Now you can use Yoomoney API.
 
     ```php
     $api = new API($access_token);
